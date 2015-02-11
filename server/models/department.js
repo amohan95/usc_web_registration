@@ -1,4 +1,6 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
+var request = require('request');
+var util = require('util');
 
 var DepartmentSchema = new mongoose.Schema({
 	department_code: {
@@ -7,7 +9,7 @@ var DepartmentSchema = new mongoose.Schema({
 	},
 	description: String,
 	school: {
-		type: ObjectId,
+		type: mongoose.Schema.ObjectId,
 		ref: 'SchoolSchema'
 	}
 });

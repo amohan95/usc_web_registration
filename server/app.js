@@ -23,6 +23,7 @@ app.use(function(req, res, next) {
 app.use('/add_section', require('./routes/add_section'));
 app.use('/remove_section', require('./routes/remove_section'));
 app.use('/schedule_sections', require('./routes/schedule_sections'));
+app.use('/test', require('./routes/test'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
