@@ -42,8 +42,8 @@ router.get('/department', function(req, res, next) {
 router.get('/course', function(req, res, next) {
 	var t = new Term({term_code: '20151'});
 	t.retrieve(function() {
-		var c = new Course({effective_term: t, course_id: 2814});
-		c.retrieve(function() {
+		var c = new Course({course_id: 2814});
+		c.retrieve(t, function() {
 			res.send(c);
 		});
 	});

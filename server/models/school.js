@@ -12,7 +12,7 @@ var SchoolSchema = new mongoose.Schema({
 	description: String,
 	departments: [{
 		type: mongoose.Schema.ObjectId,
-		ref: 'DepartmentSchema'
+		ref: 'Department'
 	}]
 });
 

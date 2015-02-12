@@ -17,9 +17,20 @@ var TermSchema = new mongoose.Schema({
 });
 
 TermSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/terms/%s';
+
+TermSchema.statics.get_or_retrieve_by_code = function get_or_retrieve_by_code(code, callback) {
+  Term.findOne({term_code: code}, function(err, term) {
+    if (term) {
+      callback(term);
+    } else {
+      term = new Term({term_code: code});
+      term.retrieve(function(){ callback(term) });
+    }
+  });
+};
+
 TermSchema.methods.retrieve = function retrieve(callback) {
   var self = this;
-  console.log(util.format(Term.RETRIEVE_URL, this.term_code));
   request({
     url: util.format(Term.RETRIEVE_URL, this.term_code),
     json: true
@@ -32,7 +43,7 @@ TermSchema.methods.retrieve = function retrieve(callback) {
     self.early_reg_end_date = Date.parse(body[0].EARLY_REG_END_DATE);
     self.normal_reg_end_date = Date.parse(body[0].NORMAL_REG_END_DATE);
     self.commencement_date = Date.parse(body[0].COMMENCEMENT_DATE);
-    self.save(callback());
+    self.save(callback);
   });
 };
 

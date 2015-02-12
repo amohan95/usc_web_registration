@@ -19,19 +19,20 @@ var CourseSchema = new mongoose.Schema({
 	diversity: Boolean,
 	effective_term: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'TermSchema'
+		ref: 'Term'
 	},
 	sections: [{
 		type: mongoose.Schema.ObjectId,
-		ref: 'SectionSchema'
+		ref: 'Section'
 	}]
 });
 
 CourseSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/courses/%s/%s';
-CourseSchema.methods.retrieve = function retrieve(callback) {
+CourseSchema.methods.retrieve = function retrieve(term, callback) {
+	this.effective_term = term;
 	var self = this;
 	request({
-		url: util.format(Course.RETRIEVE_URL, this.effective_term.term_code, this.course_id.toString()),
+		url: util.format(Course.RETRIEVE_URL, term.term_code, this.course_id.toString()),
 		json: true
 	}, function (error, response, body) {
 		self.course_id = body.COURSE_ID;
@@ -42,31 +43,26 @@ CourseSchema.methods.retrieve = function retrieve(callback) {
 		self.total_max_units = body.TOTAL_MAX_UNITS;
 		self.description = body.DESCRIPTION;
 		self.diversity = body.DIVERSITY_FLAG == 'Y';
-		var load_sections = function() {
-			async.forEach(body.V_SOC_SECTION, function(section, itr_callback) {
-				Section.findOne({section_id: section.SECTION_ID}, function(err, sec) {
-					if (sec == null) {
-						sec = new Section();
-					}
-					var done = function() {
-						self.sections.push(sec);
-						itr_callback();
-					}
-					sec.populateFromJSON(section, done, self);
+		var load_sections = function(term) {
+			self.term = term;
+			self.save(function() {
+				async.forEach(body.V_SOC_SECTION, function(section, itr_callback) {
+					Section.findOne({section_id: section.SECTION_ID}, function(err, sec) {
+						if (sec == null) {
+							sec = new Section();
+						}
+						var done = function() {
+							self.sections.push(sec);
+							itr_callback();
+						}
+						sec.populateFromJSON(section, done, self);
+					});
+				}, function() {
+					self.save(callback);
 				});
-			}, function() {
-				self.save(callback());
 			});
 		}
-		Term.findOne({term_code: body.EFFECTIVE_TERM_CODE}, function(err, term) {
-			if (term) {
-				self.term = term;
-				load_sections();
-			} else {
-				self.term = new Term({term_code: body.EFFECTIVE_TERM_CODE});
-				self.term.retrieve(load_sections());
-			}
-		});
+		Term.get_or_retrieve_by_code(body.EFFECTIVE_TERM_CODE, load_sections);
 	});
 };
 

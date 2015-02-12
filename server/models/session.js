@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var request = require('request');
 var util = require('util');
+var async = require('async');
 var Term = require('./term').Term;
 
 var SessionSchema = new mongoose.Schema({
@@ -10,7 +11,7 @@ var SessionSchema = new mongoose.Schema({
 	},
 	term: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'TermSchema'
+		ref: 'Term'
 	},
 	session_code: String,
 	class_begin_date: Date,
@@ -33,7 +34,7 @@ SessionSchema.methods.retrieve = function retrieve(callback) {
 	});
 };
 
-SessionSchema.methods.retrieveWithoutId = function retrieveWithoutId(callback) {
+SessionSchema.methods.retrieveWithoutId = function retrieveWithoutId(term, callback) {
 	if (this.session_code) {
 		var self = this;
 		request({
@@ -41,17 +42,20 @@ SessionSchema.methods.retrieveWithoutId = function retrieveWithoutId(callback) {
 			json: true
 		}, function (error, response, body) {
 			async.forEach(body, function(session, itr_callback) {
-				if (session.TERM_CODE == self.term.term_code && session.RNR_SESSION_CODE == self.session_code) {
-
+				if (session.TERM_CODE == term && session.RNR_SESSION_CODE == self.session_code) {
+					self.populateFromJSON(session, itr_callback);
 				} else {
 					itr_callback();
 				}
+			}, function() {
+				callback();
 			});
 		});
 	}
 }
 
-SessionSchema.methods.populateFromJSON = function populateFromJSON(json, callback, term) {
+SessionSchema.methods.populateFromJSON = function populateFromJSON(json, callback) {
+	var self = this;
 	self.session_id = json.RNR_SESSION_ID
 	self.session_code = json.RNR_SESSION_CODE;
 	self.class_begin_date = Date.parse(json.CLASS_BEGIN_DATE);
@@ -61,20 +65,11 @@ SessionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	self.final_exam_end_date = Date.parse(json.FINAL_EXAM_END_DATE);
 	self.class_end_date = Date.parse(json.CLASS_END_DATE);
 	self.stop_date = Date.parse(json.STOP_DATE);
-	if (term == null) {
-		Term.findOne({term_code: json.TERM_CODE}, function(err, t) {
-			if (t) {
-				self.term = t;
-				self.save(callback());
-			} else {
-				self.term = new Term({term_code: json.TERM_CODE});
-				self.term.retrieve(self.save(callback()));
-			}
-		});
-	} else {
+	var term_loaded = function(term) {
 		self.term = term;
-		self.save(callback());
-	}
+		self.save(callback);
+	};
+	Term.get_or_retrieve_by_code(json.TERM_CODE, term_loaded);
 }
 
 var Session = mongoose.model('Session', SessionSchema);

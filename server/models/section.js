@@ -8,18 +8,18 @@ var Session = require('./session').Session;
 var SectionSchema = new mongoose.Schema({
 	term: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'TermSchema'
+		ref: 'Term'
 	},
 	course: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'CourseSchema'
+		ref: 'Course'
 	},
 	name: String,
 	section_id: Number,
 	section_code: String,
 	session: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'SessionSchema'
+		ref: 'Session'
 	},
 	units: Number,
 	type: String,
@@ -49,38 +49,33 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	this.location = json.LOCATION;
 	this.add_date = Date.parse(json.ADD_DATE);
 	this.cancel_date = Date.parse(json.CANCEL_DATE);
-	this.publish = json.PUBLISH_FLAH == 'Y';
+	this.publish = json.PUBLISH_FLAG == 'Y';
 	var self = this;
 	var load_session = function load_session() {
-		self.session = new Session();
-		self.session.term = self.term;
-		self.session.session_code = json.SESSION;
-		self.session.retrieveWithoutId(self.save(callback));
+		session = new Session();
+		session.session_code = json.SESSION;
+	  session.retrieveWithoutId(json.TERM_CODE, function() {
+			self.session = session;
+			self.save(callback);
+		});
 	};
 	var load_course = function load_course() {
 		if (course == null) {
-			Course.findOne({course_id: json.COURSE_ID}, function(err, course) {
+			Course.findOne({course_id: json.COURSE_ID}, function(err, c) {
 				if (course) {
-					self.course = course;
+					self.course = c;
 					load_session();
 				} else {
 					self.course = new Course({course_id: json.COURSE_ID});
-					self.course.retrieve(load_session());
+					self.course.retrieve(load_session);
 				}
 			});
 		} else {
+			self.course = course;
 			load_session();
 		}
 	};
-	Term.findOne({term_code: json.TERM_CODE}, function(err, term) {
-		if (term) {
-			self.term = term;
-			load_course();
-		} else {
-			self.term = new Term({term_code: json.TERM_CODE});
-			self.term.retrieve(load_course());
-		}
-	});
+	Term.get_or_retrieve_by_code(json.TERM_CODE, load_course);
 }
 var Section = mongoose.model('Section', SectionSchema);
 
