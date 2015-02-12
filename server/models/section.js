@@ -15,6 +15,7 @@ var SectionSchema = new mongoose.Schema({
 		ref: 'CourseSchema'
 	},
 	name: String,
+	section_id: Number,
 	section_code: String,
 	session: {
 		type: mongoose.Schema.ObjectId,

@@ -1,12 +1,14 @@
-var DB_ADDR = 'mongodb://localhost/user_courses';
-
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
- 
-var db = new require('./models/database_model.js')(DB_ADDR);
+var config = require('./config').Config;
+
+require('mongoose').connect(config.uristring);
+
+var dbModel = require('./models/database_model.js');
+var db = new dbModel();
 
 var app = express();
 
@@ -20,9 +22,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/add_section', require('./routes/add_section'));
-app.use('/remove_section', require('./routes/remove_section'));
-app.use('/schedule_sections', require('./routes/schedule_sections'));
+app.use('/storage', require('./routes/user_storage'));
 app.use('/test', require('./routes/test'));
 
 // catch 404 and forward to error handler
@@ -32,7 +32,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-var server = app.listen(8000, function () {
+var server = app.listen(config.port, function () {
   var host = server.address().address
   var port = server.address().port
 
