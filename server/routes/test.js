@@ -9,43 +9,36 @@ var Section = require('../models/section').Section;
 
 router.get('/term', function(req, res, next) {
 	var t = new Term();
-	t.term_code = '20151';
-	t.retrieve(function() {
+	t.retrieve('20151', function() {
 		res.send(t);
 	});
 });
 
 router.get('/session', function(req, res, next) {
 	var s = new Session();
-	s.session_id = 27;
-	s.retrieve(function() {
+	s.retrieve(27, function() {
 		res.send(s);
 	});
 });
 
 router.get('/school', function(req, res, next) {
 	var s = new School();
-	s.school_code = 'LAS';
-	s.retrieve(function() {
+	s.retrieve('ENGR', function() {
 		res.send(s);
 	});
 });
 
 router.get('/department', function(req, res, next) {
 	var d = new Department();
-	d.department_code = 'CSCI';
-	d.retrieve(function() {
+	d.retrieve('CSCI', function() {
 		res.send(d);
 	});
 });
 
 router.get('/course', function(req, res, next) {
-	var t = new Term({term_code: '20151'});
-	t.retrieve(function() {
-		var c = new Course({course_id: 2814});
-		c.retrieve(t, function() {
-			res.send(c);
-		});
+	var c = new Course();
+	c.retrieve('20151', 2814, function() {
+		res.send(c);
 	});
 });
 
