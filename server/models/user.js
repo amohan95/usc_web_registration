@@ -10,11 +10,11 @@ var UserSchema = new mongoose.Schema({
   },
   scheduled_sections: [{
     type: mongoose.Schema.ObjectId,
-    ref: 'SectionSchema'
+    ref: 'Section'
   }],
   registered_sections: [{
     type: mongoose.Schema.ObjectId,
-    ref: 'SectionSchema'
+    ref: 'Section'
   }]
 });
 

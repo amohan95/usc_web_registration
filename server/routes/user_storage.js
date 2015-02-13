@@ -20,13 +20,13 @@ router.post('/unschedule_section', function(req, res, next) {
 });
 
 router.post('/register_sections', function(req, res, next) {
-  req.db.registerSections(req.username, req.section_id, function(data) {
+  req.db.registerSections(req.username, req.section_ids, function(data) {
     res.send(data);
   });
 });
 
 router.post('/unregister_section', function(req, res, next) {
-  req.db.unregisterSections(req.username, req.section_id, function(data) {
+  req.db.unregisterSections(req.username, req.section_ids, function(data) {
     res.send(data);
   });
 });

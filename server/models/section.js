@@ -35,6 +35,17 @@ var SectionSchema = new mongoose.Schema({
 	publish: Boolean
 });
 
+SectionSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/sections/%s';
+SectionSchema.methods.retrieve = function retrieve(callback) {
+	var self = this;
+	request({
+		url: util.format(Section.RETRIEVE_URL, this.section_id.toString()),
+		json: true
+	}, function(error, response, body) {
+		self.populateFromJSON(body[0], callback, null);
+	});
+}
+
 SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callback, course) {
 	this.section_id = json.SECTION_ID;
 	this.section_code = json.SECTION;
@@ -52,7 +63,7 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	this.publish = json.PUBLISH_FLAG == 'Y';
 	var self = this;
 	var load_session = function load_session() {
-		session = new Session();
+		var session = new Session();
 		session.session_code = json.SESSION;
 	  session.retrieveWithoutId(json.TERM_CODE, function() {
 			self.session = session;
@@ -71,12 +82,13 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 				}
 			});
 		} else {
-			self.course = course;
-			load_session();
+				self.course = course;
+				load_session();
 		}
-	};
+	});
 	Term.get_or_retrieve_by_code(json.TERM_CODE, load_course);
 }
+
 var Section = mongoose.model('Section', SectionSchema);
 
 module.exports = {

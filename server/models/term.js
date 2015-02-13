@@ -30,6 +30,7 @@ TermSchema.statics.get_or_retrieve_by_code = function get_or_retrieve_by_code(co
 };
 
 TermSchema.methods.retrieve = function retrieve(callback) {
+  console.log(callback);
   var self = this;
   request({
     url: util.format(Term.RETRIEVE_URL, this.term_code),

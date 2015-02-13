@@ -4,6 +4,7 @@ var util = require('util');
 var async = require('async');
 var Term = require('./term').Term;
 var Section = require('./section').Section;
+console.log('Section: ' + Section);
 
 var CourseSchema = new mongoose.Schema({
 	course_id: {
@@ -17,6 +18,7 @@ var CourseSchema = new mongoose.Schema({
 	total_max_units: Number,
 	description: String,
 	diversity: Boolean,
+	term_code: Number,
 	effective_term: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'Term'

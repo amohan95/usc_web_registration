@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var request = require('request');
+var async = require('async');
 var util = require('util');
 var async = require('async');
 var Term = require('./term').Term;

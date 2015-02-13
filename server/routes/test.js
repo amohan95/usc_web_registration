@@ -49,4 +49,11 @@ router.get('/course', function(req, res, next) {
 	});
 });
 
+router.get('/section', function(req, res, next) {
+	var s = new Section({section_id: 6780});
+	s.retrieve(function() {
+		res.send(s);
+	});
+});
+
 module.exports = router;
