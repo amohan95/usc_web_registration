@@ -75,8 +75,9 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 			load_session();
 		}
 	};
-	Term.get_or_retrieve_by_code(json.TERM_CODE, load_course);
+	Term.getOrRetrieveByCode(json.TERM_CODE, load_course);
 }
+
 var Section = mongoose.model('Section', SectionSchema);
 
 module.exports = {

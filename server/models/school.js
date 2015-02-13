@@ -17,10 +17,10 @@ var SchoolSchema = new mongoose.Schema({
 });
 
 SchoolSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/schools/%s';
-SchoolSchema.methods.retrieve = function retrieve(callback) {
+SchoolSchema.methods.retrieve = function retrieve(school_code, callback) {
 	var self = this;
 	request({
-		url: util.format(School.RETRIEVE_URL, this.school_code),
+		url: util.format(School.RETRIEVE_URL, school_code),
 		json: true
 	}, function (error, response, body) {
 		self.school_code = body[0].SOC_SCHOOL_CODE;

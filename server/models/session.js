@@ -24,10 +24,10 @@ var SessionSchema = new mongoose.Schema({
 });
 
 SessionSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/sessions/%s';
-SessionSchema.methods.retrieve = function retrieve(callback) {
+SessionSchema.methods.retrieve = function retrieve(session_id, callback) {
 	var self = this;
 	request({
-		url: util.format(Session.RETRIEVE_URL, this.session_id.toString()),
+		url: util.format(Session.RETRIEVE_URL, session_id.toString()),
 		json: true
 	}, function (error, response, body) {
 		self.populateFromJSON(body[0], callback);
@@ -69,7 +69,7 @@ SessionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 		self.term = term;
 		self.save(callback);
 	};
-	Term.get_or_retrieve_by_code(json.TERM_CODE, term_loaded);
+	Term.getOrRetrieveByCode(json.TERM_CODE, term_loaded);
 }
 
 var Session = mongoose.model('Session', SessionSchema);

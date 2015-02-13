@@ -3,7 +3,6 @@ var request = require('request');
 var util = require('util');
 var async = require('async');
 var Term = require('./term').Term;
-var Section = require('./section').Section;
 
 var CourseSchema = new mongoose.Schema({
 	course_id: {
@@ -28,11 +27,11 @@ var CourseSchema = new mongoose.Schema({
 });
 
 CourseSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/courses/%s/%s';
-CourseSchema.methods.retrieve = function retrieve(term, callback) {
-	this.effective_term = term;
+CourseSchema.methods.retrieve = function retrieve(term_code, course_id, callback) {
+	var Section = require('./section').Section;
 	var self = this;
 	request({
-		url: util.format(Course.RETRIEVE_URL, term.term_code, this.course_id.toString()),
+		url: util.format(Course.RETRIEVE_URL, term_code, course_id.toString()),
 		json: true
 	}, function (error, response, body) {
 		self.course_id = body.COURSE_ID;
@@ -43,8 +42,9 @@ CourseSchema.methods.retrieve = function retrieve(term, callback) {
 		self.total_max_units = body.TOTAL_MAX_UNITS;
 		self.description = body.DESCRIPTION;
 		self.diversity = body.DIVERSITY_FLAG == 'Y';
+		self.sections = [];
 		var load_sections = function(term) {
-			self.term = term;
+			self.effective_term = term;
 			self.save(function() {
 				async.forEach(body.V_SOC_SECTION, function(section, itr_callback) {
 					Section.findOne({section_id: section.SECTION_ID}, function(err, sec) {
@@ -62,7 +62,7 @@ CourseSchema.methods.retrieve = function retrieve(term, callback) {
 				});
 			});
 		}
-		Term.get_or_retrieve_by_code(body.EFFECTIVE_TERM_CODE, load_sections);
+		Term.getOrRetrieveByCode(body.EFFECTIVE_TERM_CODE, load_sections);
 	});
 };
 
