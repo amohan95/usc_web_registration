@@ -63,7 +63,7 @@ CourseSchema.methods.retrieve = function retrieve(term_code, course_id, callback
 				});
 			});
 		}
-		Term.getOrRetrieveByCode(body.EFFECTIVE_TERM_CODE, load_sections);
+		Term.getOrRetrieveByCode(term_code, load_sections);
 	});
 };
 

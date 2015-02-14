@@ -15,7 +15,10 @@ var SectionSchema = new mongoose.Schema({
 		ref: 'Course'
 	},
 	name: String,
-	section_id: Number,
+	section_id: {
+		type: Number,
+		unique: true
+	},
 	section_code: String,
 	session: {
 		type: mongoose.Schema.ObjectId,
@@ -68,6 +71,9 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	  session.retrieveWithoutId(json.TERM_CODE, function() {
 			self.session = session;
 			self.save(callback);
+			self.save(function(err, foo, num) {
+				if(err) console.log('ERR: ' + err);
+			});
 		});
 	};
 	var load_course = function load_course() {
@@ -77,8 +83,9 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 					self.course = c;
 					load_session();
 				} else {
-					self.course = new Course({course_id: json.COURSE_ID});
-					self.course.retrieve(load_session);
+					course = new Course();
+					self.course = course;
+					course.retrieve(json.TERM_CODE, json.COURSE_ID, load_session);
 				}
 			});
 		} else {
