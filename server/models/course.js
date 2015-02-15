@@ -49,14 +49,18 @@ CourseSchema.methods.retrieve = function retrieve(term_code, course_id, callback
 			self.save(function() {
 				async.forEach(body.V_SOC_SECTION, function(section, itr_callback) {
 					Section.findOne({section_id: section.SECTION_ID}, function(err, sec) {
-						if (sec == null) {
-							sec = new Section();
-						}
 						var done = function() {
 							self.sections.push(sec);
 							itr_callback();
 						}
-						sec.populateFromJSON(section, done, self);
+						if (sec == null) {
+							sec = new Section();
+							sec.populateFromJSON(section, done, self);
+						}
+						else {
+							self.sections.push(sec);
+							itr_callback();
+						}
 					});
 				}, function() {
 					self.save(callback);

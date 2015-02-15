@@ -61,8 +61,8 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	this.number_seats = json.SEATS;
 	this.instructor = json.INSTRUCTOR;
 	this.location = json.LOCATION;
-	this.add_date = Date.parse(json.ADD_DATE);
-	this.cancel_date = Date.parse(json.CANCEL_DATE);
+	this.add_date = Date.parse(json.ADD_DATE) || null;
+	this.cancel_date = Date.parse(json.CANCEL_DATE) || null;
 	this.publish = json.PUBLISH_FLAG == 'Y';
 	var self = this;
 	var load_session = function load_session() {
@@ -71,12 +71,10 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	  session.retrieveWithoutId(json.TERM_CODE, function() {
 			self.session = session;
 			self.save(callback);
-			self.save(function(err, foo, num) {
-				if(err) console.log('ERR: ' + err);
-			});
 		});
 	};
-	var load_course = function load_course() {
+	var load_course = function load_course(term) {
+		self.term = term;
 		if (course == null) {
 			Course.findOne({course_id: json.COURSE_ID}, function(err, c) {
 				if (course) {
@@ -85,7 +83,7 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 				} else {
 					course = new Course();
 					self.course = course;
-					course.retrieve(json.TERM_CODE, json.COURSE_ID, load_session);
+					self.save(course.retrieve(json.TERM_CODE, json.COURSE_ID, load_session));
 				}
 			});
 		} else {
