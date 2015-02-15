@@ -7,9 +7,6 @@ var config = require('./config').Config;
 
 require('mongoose').connect(config.uristring);
 
-var dbModel = require('./models/database_model.js');
-var db = new dbModel();
-
 var app = express();
 
 app.use(logger('dev'));
@@ -17,12 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(function(req, res, next) {
-  req.db = db;
-  next();
-});
-
 app.use('/storage', require('./routes/user_storage'));
+app.use('/search', require('./routes/search'));
 app.use('/test', require('./routes/test'));
 
 // catch 404 and forward to error handler
