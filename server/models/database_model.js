@@ -19,13 +19,11 @@ DatabaseModel.prototype.getUserSections = function getUserSections(username, ter
       user.save(function(err, u) {
         if(err) {
           callback({success: false});
-        }
-        else {
+        } else {
           getSections(user);
         }
       });
-    }
-    else {
+    } else {
       getSections(user);
     }
   });
@@ -34,21 +32,48 @@ DatabaseModel.prototype.getUserSections = function getUserSections(username, ter
 DatabaseModel.prototype.scheduleSection = function(username, section_id, callback) {
   Section.findOne({section_id: section_id}, function(err, section) {
     User.findOne({username: username}, function(e, user) {
+      if(user === null) {
+        callback({success: false});
+        return;
+      }
+      var $ = require('jquery-deferred');
       var addSection = function(section) {
-        user.scheduled_sections.forEach(function(sec_id, index, arr) {
-          if(sec_id.toString() === section._id.toString()) {
-            callback({success: false});
-            return;
+        var defSched = $.Deferred();
+        var defReg = $.Deferred();
+        var checkScheduled = function() {
+          if(!user.scheduled_sections.length) {
+            defSched.resolve();
           }
-        });
-        user.registered_sections.forEach(function(sec_id, index, arr) {
-          if(sec_id.toString() === section._id.toString()) {
-            callback({success: false});
-            return;
+          user.scheduled_sections.forEach(function(sec_id, index, arr) {
+            if(sec_id.toString() === section._id.toString()) {
+              defSched.reject();
+            }
+            if(index === arr.length - 1) {
+              defSched.resolve();
+            }
+          });
+          return defSched.promise();
+        }
+        var checkRegistered = function() {
+          if(!user.registered_sections.length) {
+            defReg.resolve();
           }
+          user.registered_sections.forEach(function(sec_id, index, arr) {
+            if(sec_id.toString() === section._id.toString()) {
+              defReg.reject();
+            }
+            if(index === arr.length - 1) {
+              defReg.resolve();
+            }
+          });
+          return defReg.promise();
+        }
+        $.when(checkScheduled(section), checkRegistered(section)).then(function() {
+          user.scheduled_sections.push(section);
+          user.save(callback({success: true}));
+        }, function() {
+          callback({success: false});
         });
-        user.scheduled_sections.push(section);
-        user.save(callback({success: true}));
       }
       if(section == null) {
         section = new Section({section_id: section_id});

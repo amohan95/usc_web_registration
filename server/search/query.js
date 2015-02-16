@@ -1,14 +1,15 @@
 var mongoose = require('mongoose');
+var $ = require('jquery-deferred');
 var Section = require('../models/section').Section;
 var Course = require('../models/course').Course;
 var Term = require('../models/term').Term;
 var User = require('../models/user').User;
 
-var params = ['course_code', 'course_title', 'description', 'instructor', 'section_code', 'section_id'];
+var params = ['course_code', 'course_title', 'description', 'instructor', 'section_id'];
 
 function Query() { }
 
-Query.prototype.executeQuery = function(query_string, parameters, callback) {
+Query.prototype.executeQuery = function(query_string, term, parameters, callback) {
   var queries = {};
   var addQuery = function(param) {
     switch(param) {
@@ -52,46 +53,66 @@ Query.prototype.executeQuery = function(query_string, parameters, callback) {
         queries.sections.or({section_code: new RegExp('^' + query_string, 'i')});
         break;
       }
-      case 'section_id': {
-        var re = new RegExp('^\d*');
-        if(re.test(query_string)) {
-          if(!queries.sections) {
-            queries.sections = Section.find();
-          }
-          queries.sections.or({section_id: new RegExp('^\d' + query_string + '*')}); 
-        }
-        break;
-      }
     }
   }
-  if(parameters.none === true) {
-    params.forEach(function(param, index, arr) {
-      addQuery(param);
-    });
-  } else {
-    for(var param in parameters) {
-      if(parameters.hasOwnProperty(param) && parameters.param === true) {
+  var def = $.Deferred();
+  if(typeof(parameters.default) !== undefined && parameters.default === true) {
+    var allParams = function() {
+      params.forEach(function(param, index, arr) {
         addQuery(param);
-      }
+      });
+      def.resolve();
+      return def.promise();
     }
+    allParams().then(this.executeSearch(queries, parameters.term, callback));    
+  } else {
+    var selectParams = function() {
+      for(var param in parameters) {
+        if(parameters.hasOwnProperty(param) && parameters.param === true) {
+          addQuery(param);
+        }
+      }
+      def.resolve();
+      return def.promise();
+    }
+    selectParams().then(this.executeSearch(queries, term, callback));
   }
-  this.executeSearch(queries, callback);
 }
 
-Query.prototype.executeSearch = function(queries, callback) {
-  var courses = [];
-  var sections = [];
-  queries.courses.exec(function(err, docs) {
-    docs.forEach(function(course) {
-      courses.push(course);
-    });
+Query.prototype.executeSearch = function(queries, term, callback) {
+  var coursesDef = $.Deferred();
+  var sectionsDef = $.Deferred();
+  var coursesQuery = function() {
+    var courses = [];
+    if(typeof(queries.courses) === undefined) {
+      coursesDef.resolve(courses);
+    } else {
+      queries.courses.populate('effective_term').exec(function(err, docs) {
+        docs.forEach(function(course) {
+          if(course.effective_term.term_code === term) courses.push(course);
+        });
+        coursesDef.resolve(courses);
+      });
+    }
+    return coursesDef.promise();
+  }
+  var sectionsQuery = function() {
+    var sections = [];
+    if(typeof(queries.sections) === undefined) {
+      sectionsDef.resolve(sections);
+    } else {
+      queries.sections.populate('term').exec(function(err, docs) {
+        docs.forEach(function(section) {
+          if(section.term === term) sections.push(section);
+        });
+        sectionsDef.resolve(sections);
+      });
+    }
+    return sectionsDef.promise();
+  }
+  $.when(coursesQuery(), sectionsQuery()).done(function(courses, sections) {
+    callback({courses: courses, sections: sections})
   });
-  queries.sections.exec(function(err, docs) {
-    docs.forEach(function(section) {
-      sections.push(section);
-    });
-  })
-  callback({courses: courses, sections: sections});
 }
 
 module.exports = {
