@@ -38,7 +38,47 @@ var SectionSchema = new mongoose.Schema({
 	publish: Boolean
 });
 
+SectionSchema.statics.getNumericalTime = function(time_string) {
+	var s = time_string.split(':');
+	return parseInt(s[0]) + Math.round(parseInt(s[1]) / 30) / 2;
+};
+
+SectionSchema.methods.getNumericalStart = function() {
+	return Section.getNumericalTime(this.begin_time);
+};
+
+SectionSchema.methods.getNumericalEnd = function() {
+	return Section.getNumericalTime(this.end_time);
+};
+
+SectionSchema.methods.conflictsWith = function(blocked) {
+	for (var d = 0; d < this.day.length; ++d) {
+		if (blocked.hasOwnProperty(this.day[d])) {
+			var end = this.getNumericalEnd();
+			for (var t = this.getNumericalStart(); t < end; t += 0.5) {
+				if (blocked[this.day[d]].hasOwnProperty(t)) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+SectionSchema.methods.setConflict = function(blocked) {
+	for (var d = 0; d < this.day.length; ++d) {
+		if (!blocked.hasOwnProperty(this.day[d])) {
+			blocked[this.day[d]] = {};
+		}
+		var end = this.getNumericalEnd();
+		for (var t = this.getNumericalStart(); t < end; t += 0.5) {
+			blocked[this.day[d]][t] = true;
+		}
+	}
+}
+
 SectionSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/sections/%s';
+
 SectionSchema.methods.retrieve = function retrieve(callback) {
 	var self = this;
 	request({
@@ -47,16 +87,17 @@ SectionSchema.methods.retrieve = function retrieve(callback) {
 	}, function(error, response, body) {
 		self.populateFromJSON(body[0], callback, null);
 	});
-}
+};
 
 SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callback, course) {
 	this.section_id = json.SECTION_ID;
 	this.section_code = json.SECTION;
+	this.name = json.NAME;
 	this.units = json.UNIT_CODE;
 	this.type = json.TYPE;
 	this.begin_time = json.BEGIN_TIME;
 	this.end_time = json.END_TIME;
-	this.day = json.DAY;
+	this.day = json.DAY || '';
 	this.number_registered = json.REGISTERED;
 	this.number_seats = json.SEATS;
 	this.instructor = json.INSTRUCTOR;
@@ -92,7 +133,7 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 		}
 	};
 	Term.getOrRetrieveByCode(json.TERM_CODE, load_course);
-}
+};
 
 var Section = mongoose.model('Section', SectionSchema);
 
