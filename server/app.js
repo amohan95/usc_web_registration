@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var config = require('./config').Config;
 
 require('mongoose').connect(config.uristring);
@@ -16,6 +17,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(session({
+  secret: 'tomthegoatbrady',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use(function(req, res, next) {
   req.db = db;
@@ -24,7 +30,7 @@ app.use(function(req, res, next) {
 
 app.use('/storage', require('./routes/user_storage'));
 app.use('/test', require('./routes/test'));
-
+app.use('/auto_schedule', require('./routes/auto_schedule'));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -45,7 +51,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.send({
-      success: false, 
+      success: false,
       message: err.message,
       error: err
     });
