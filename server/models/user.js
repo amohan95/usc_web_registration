@@ -11,7 +11,7 @@ var UserSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
-  scheduled_sections: [{ 
+  scheduled_sections: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Section'
   }],
@@ -21,6 +21,15 @@ var UserSchema = new mongoose.Schema({
   }]
 });
 
+UserSchema.methods.getBlockedTimes = function(callback) {
+  this.populate('registered_sections', function(err, self) {
+    var blocked = {};
+    self.scheduled_sections.forEach(function(section) {
+      section.setConflict(blocked);
+    });
+    callback(blocked);
+  });
+}
 UserSchema.statics.getUserCourseData = function(user, term_code, callback) {
   var scheduled = [];
   var registered = [];

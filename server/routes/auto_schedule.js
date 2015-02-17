@@ -43,20 +43,23 @@ router.post('/remove_excluded_section', function(req, res, next) {
 
 router.get('/build_combinations', function(req, res, next) {
 	var as = new AutoSchedule();
-  as.include = req.session.include;
-  as.exclude = req.session.exclude;
+	as.include = req.session.include || {};
+	as.exclude = req.session.exclude || {};
 	Course.find({
-    'course_id': { $in: req.session.courses}
+		'course_id': { $in: req.session.courses}
 	}, function(err, courses){
 		courses.forEach(function(course) {
 			as.addCourse(course);
 		});
 		as.buildGraph(function() {
-			var combinations = as.buildCombinations({});
-			req.session.auto_schedule = as;
-			res.send({
-				courses: as.courses,
-				combinations: combinations
+			User.findOne({_id: req.session.user_id}, function(err, user) {
+				user.getBlockedTimes(function(blocked) {
+					var combinations = as.buildCombinations(blocked);
+					res.send({
+						courses: as.courses,
+						combinations: combinations
+					});
+				})
 			});
 		});
 	});
