@@ -3,53 +3,59 @@ var router = express.Router();
 var dbModel = require('../models/database_model.js');
 var db = new dbModel();
 
-var TEST_USER = 'Ananth';
-var TEST_SECTION = 6780;
-
-
-router.get('/get_user_sections', function(req, res, next) {
-  db.getUserSections(TEST_USER, '20143', function(data) {
-    res.send(data);
-  });
-  // db.getUserSections(req.username, req.term, function(data) {
-  //   res.send(data);
-  // });
+router.post('/get_user_sections', function(req, res, next) {
+  var body = req.body;
+  if(body.username === undefined || body.term === undefined) {
+    res.send({success: false});
+  } else {
+    db.getUserSections(body.username, body.term, function(data) {
+      res.send(data);
+    });
+  }
 });
 
-router.get('/schedule_section', function(req, res, next) {
-  db.scheduleSection(TEST_USER, TEST_SECTION, function(data) {
-    res.send(data);
-  });
-  // db.scheduleSection(req.username, req.section_id, function(data) {
-  //   res.send(data);
-  // });
+router.post('/schedule_section', function(req, res, next) {
+  var body = req.body;
+  if(body.username === undefined || body.section_id === undefined) {
+    res.send({success: false});
+  } else {
+    db.scheduleSection(body.username, body.section_id, function(data) {
+      res.send(data);
+    });
+  }
 });
 
-router.get('/unschedule_section', function(req, res, next) {
-  db.unscheduleSection(TEST_USER, TEST_SECTION, function(data) {
-    res.send(data);
-  });
-  // db.unscheduleSection(req.username, req.section_id, function(data) {
-  //   res.send(data);
-  // });
+router.post('/unschedule_section', function(req, res, next) {
+  var body = req.body;
+  if(body.username === undefined || body.section_id === undefined) {
+    res.send({success: false});
+  } else {
+    db.unscheduleSection(body.username, body.section_id, function(data) {
+      res.send(data);
+    });
+  }
 });
 
-router.get('/register_sections', function(req, res, next) {
-  db.registerSections(TEST_USER, [TEST_SECTION], function(data) {
-    res.send(data);
-  });
-  // db.registerSections(req.username, req.section_ids, function(data) {
-  //   res.send(data);
-  // });
+router.post('/register_sections', function(req, res, next) {
+  var body = req.body;
+  if(body.username === undefined || body.section_ids === undefined) {
+    res.send({success: false});
+  } else {
+    db.registerSections(body.username, body.section_ids, function(data) {
+      res.send(data);
+    });
+  }
 });
 
-router.get('/unregister_sections', function(req, res, next) {
-  db.unregisterSections(TEST_USER, [TEST_SECTION], function(data) {
-    res.send(data);
-  });
-  // db.unregisterSections(req.username, req.section_ids, function(data) {
-  //   res.send(data);
-  // });
+router.post('/unregister_sections', function(req, res, next) {
+  var body = req.body;
+  if(body.username === undefined || body.section_ids === undefined) {
+    res.send({success: false});
+  } else {
+    db.unregisterSections(body.username, body.section_ids, function(data) {
+      res.send(data);
+    });
+  }
 });
 
 module.exports = router;

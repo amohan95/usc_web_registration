@@ -56,7 +56,7 @@ Query.prototype.executeQuery = function(query_string, term, parameters, callback
     }
   }
   var def = $.Deferred();
-  if(typeof(parameters.default) !== undefined && parameters.default === true) {
+  if(typeof(parameters.default) !== undefined && parameters.default) {
     var allParams = function() {
       params.forEach(function(param, index, arr) {
         addQuery(param);
@@ -64,11 +64,11 @@ Query.prototype.executeQuery = function(query_string, term, parameters, callback
       def.resolve();
       return def.promise();
     }
-    allParams().then(this.executeSearch(queries, parameters.term, callback));    
+    allParams().then(this.executeSearch(queries, term, callback));    
   } else {
     var selectParams = function() {
       for(var param in parameters) {
-        if(parameters.hasOwnProperty(param) && parameters.param === true) {
+        if(parameters.hasOwnProperty(param) && parameters[param]) {
           addQuery(param);
         }
       }
@@ -84,7 +84,7 @@ Query.prototype.executeSearch = function(queries, term, callback) {
   var sectionsDef = $.Deferred();
   var coursesQuery = function() {
     var courses = [];
-    if(typeof(queries.courses) === undefined) {
+    if(queries.courses === undefined) {
       coursesDef.resolve(courses);
     } else {
       queries.courses.populate('effective_term').exec(function(err, docs) {
@@ -98,7 +98,7 @@ Query.prototype.executeSearch = function(queries, term, callback) {
   }
   var sectionsQuery = function() {
     var sections = [];
-    if(typeof(queries.sections) === undefined) {
+    if(queries.sections === undefined) {
       sectionsDef.resolve(sections);
     } else {
       queries.sections.populate('term').exec(function(err, docs) {
