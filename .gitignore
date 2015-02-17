@@ -30,3 +30,5 @@ node_modules
 # Cordova Platforms and Plugins
 platforms/
 plugins/
+
+client/.sass-cache
