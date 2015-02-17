@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/storage', require('./routes/user_storage'));
-app.use('/search', require('./routes/search'));
+app.use('/search', require('./routes/execute_query'));
 app.use('/test', require('./routes/test'));
 
 // catch 404 and forward to error handler

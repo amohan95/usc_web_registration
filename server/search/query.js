@@ -5,7 +5,7 @@ var Course = require('../models/course').Course;
 var Term = require('../models/term').Term;
 var User = require('../models/user').User;
 
-var params = ['course_code', 'course_title', 'description', 'instructor', 'section_id'];
+var params = ['course_code', 'course_title', 'description', 'instructor', 'section_code'];
 
 function Query() { }
 

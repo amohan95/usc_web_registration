@@ -26,7 +26,3 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
-
-# Cordova Platforms and Plugins
-platforms/
-plugins/

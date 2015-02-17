@@ -78,8 +78,7 @@ DatabaseModel.prototype.scheduleSection = function(username, section_id, callbac
       if(section == null) {
         section = new Section({section_id: section_id});
         section.retrieve(addSection(section));
-      }
-      else {
+      } else {
         section.retrieve(addSection(section));
       }
     });
