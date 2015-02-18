@@ -31,12 +31,12 @@
   </head>
   <body>
     <header class="app-bar promote-layer">
-      <div class="app-bar-container">
+      <div id="top" class="app-bar-container">
         <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
-        <h1 class="logo">USC <strong>Web Registration</strong></h1>
+        <h1 id="top-text" class="logo">USC <strong>Web Registration</strong></h1>
         <section class="app-bar-actions">
         <!-- Put App Bar Buttons Here -->
-        <button><i class="icon icon-question"></i></button>
+        <button class="search"><img src="images/icons/m_glass.png" alt="Search"></button>
         </section>
       </div>
     </header>
@@ -51,11 +51,24 @@
     </nav>
 
     <main>
-      <h1 id="hello">Hello!</h1>
-      <p>Welcome to Web Starter Kit.</p>
-
-      <h2 id="get-started">Get Started.</h2>
-      <p>Read how to <a href="http://developers.google.com/web/starter-kit">Get Started</a> or check out the <a href="styleguide.html">Style Guide</a>.</p>
+      <div id="calendar">
+        <div id="days">
+        </div>
+        <p class="time">8am</p>
+        <p class="time">9am</p>
+        <p class="time">10am</p>
+        <p class="time">11am</p>
+        <p class="time">12pm</p>
+        <p class="time">1pm</p>
+        <p class="time">2pm</p>
+        <p class="time">3pm</p>
+        <p class="time">4pm</p>
+        <p class="time">5pm</p>
+        <p class="time">6pm</p>
+        <p class="time">7pm</p>
+        <p class="time">8pm</p>
+        <p class="time">9pm</p>
+      </div>
     </main>
 
     <!-- build:js scripts/main.min.js -->

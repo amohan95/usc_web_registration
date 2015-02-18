@@ -3258,6 +3258,42 @@ main {
 
   body {
     overflow-y: scroll; } }
+
+    #top {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+  #top-text {
+    font-size: 20px;
+    text-align: center;
+  }
+  #calendar {
+    height: 80%;
+    width: 90%;
+    margin: 20px auto;
+  }
+  .time {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    height: 7%;
+    width: 10%;
+    text-align: right;
+  }
+  #days {
+    float: right;
+    width: 90%;
+    height: 100%;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    width: 88%;
+    padding-left: 2%;
+  }
+  main {
+    width: 100%;
+    height: 100%;
+  }
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
