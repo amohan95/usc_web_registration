@@ -87,9 +87,11 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     if(queries.courses === undefined) {
       coursesDef.resolve(courses);
     } else {
-      queries.courses.populate('effective_term').exec(function(err, docs) {
+      queries.courses.populate('effective_term', 'term_code').exec(function(err, docs) {;
         docs.forEach(function(course) {
-          if(course.effective_term.term_code === term) courses.push(course);
+          if(course.effective_term !== null && course.effective_term.term_code === term) {
+            courses.push(course);
+          }
         });
         coursesDef.resolve(courses);
       });
@@ -101,9 +103,9 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     if(queries.sections === undefined) {
       sectionsDef.resolve(sections);
     } else {
-      queries.sections.populate('term').exec(function(err, docs) {
+      queries.sections.populate('term', 'term_code').exec(function(err, docs) {
         docs.forEach(function(section) {
-          if(section.term === term) sections.push(section);
+          if(section.term !== null && section.term.term_code === term) sections.push(section);
         });
         sectionsDef.resolve(sections);
       });
