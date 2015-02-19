@@ -3075,16 +3075,19 @@ body {
   background-color: #f9f9f9; }
 
 #top {
-  padding-top: 5px;
   margin-bottom: 0; }
+
+#top button {
+  padding-top: 5px; }
 
 #top-text {
   font-size: 20px;
-  text-align: center; }
+  text-align: center;
+  padding-top: 5px; }
 
 #calendar {
   height: 80%;
-  width: 90%;
+  width: 100%;
   margin: 20px auto; }
 
 .time {
@@ -3097,11 +3100,9 @@ body {
   margin-top: 0; }
 
 #days {
-  float: right;
   width: 90%;
   height: 100%;
-  width: 88%;
-  padding-left: 1%; }
+  margin: 30px auto; }
 
 #cal-table {
   width: 100%;
@@ -3116,9 +3117,14 @@ body {
   border: 1px solid black; }
 
 #cal-table td {
-  width: 20%;
+  width: 15%;
   padding: 0;
   display: table-cell; }
+
+#cal-table th {
+  width: 15%;
+  display: table-cell;
+  padding: 0; }
 
 #cal-table td::before {
   background-color: white;
