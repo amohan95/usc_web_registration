@@ -28,6 +28,18 @@ var CourseSchema = new mongoose.Schema({
 });
 
 CourseSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/courses/%s/%s';
+
+CourseSchema.statics.getOrRetrieveByCodeAndId = function getOrRetrieveByCodeAndId(term_code, course_id, callback) {
+	Course.findOne({course_id: course_id}, function(err, course) {
+		if (course) {
+			callback(course);
+		} else {
+			course = new Course();
+			course.retrieve(term_code, course_id, function(){ callback(course) });
+		}
+	});
+};
+
 CourseSchema.methods.retrieve = function retrieve(term_code, course_id, callback) {
 	var Section = require('./section').Section;
 	var self = this;
