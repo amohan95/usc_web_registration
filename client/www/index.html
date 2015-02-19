@@ -27,11 +27,11 @@
     -->
 
     <!-- Page styles -->
-    <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <header class="app-bar promote-layer">
+    <div data-role="header" class="app-bar promote-layer">
       <div id="top" class="app-bar-container">
         <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
         <h1 id="top-text" class="logo">USC <strong>Web Registration</strong></h1>
@@ -40,12 +40,14 @@
         <button class="search"><img src="images/icons/m_glass.png" alt="Search"></button>
         </section>
       </div>
-    </header>
+    </div>
     <nav class="navdrawer-container promote-layer">
       <h4>Menu</h4>
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#auto-schedule">Auto Schedule</a></li>
+        <li><a href="#">Export to Google Calendar</a></li>
+        <li><a href="#">Logout</a></li>
       </ul>
     </nav>
     <main>
