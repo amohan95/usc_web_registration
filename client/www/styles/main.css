@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*
  * Web Starter Kit
  *
@@ -16,11 +15,7 @@
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
-html,
-button,
-input,
-select,
-textarea {
+html, button, input, select, textarea {
   color: #222; }
 
 body {
@@ -119,8 +114,7 @@ textarea[contenteditable] {
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
  */
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
   clip: auto;
   height: auto;
   margin: 0;
@@ -138,8 +132,7 @@ textarea[contenteditable] {
  * Clearfix helper
  * Used to contain floats: h5bp.com/q
  */
-.clearfix::before,
-.clearfix::after {
+.clearfix::before, .clearfix::after {
   content: "";
   display: table; }
 
@@ -151,10 +144,6 @@ textarea[contenteditable] {
    Theses examples override the primary ('mobile first') styles.
    Modify as content requires.
    ========================================================================== */
-@media only screen and (min-width: 800px) {
-  /* Style adjustments for viewports that meet the condition */ }
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
-  /* Style adjustments for viewports that meet the condition */ }
 /*
  * Visual Style Guide styles
  * Remove if you prefer to use a CSS library, like Bootstrap
@@ -199,27 +188,14 @@ body {
  * Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox.
  * Correct `block` display not defined for `main` in IE 11.
  */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-main,
-nav,
-section,
-summary {
+article, aside, details, figcaption, figure, footer, header, main, nav, section, summary {
   display: block; }
 
 /**
  * 1. Correct `inline-block` display not defined in IE 8/9.
  * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
  */
-audio,
-canvas,
-progress,
-video {
+audio, canvas, progress, video {
   display: inline-block;
   /* 1 */
   vertical-align: baseline;
@@ -237,8 +213,7 @@ audio:not([controls]) {
  * Address `[hidden]` styling not present in IE 8/9/10.
  * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
  */
-[hidden],
-template {
+[hidden], template {
   display: none; }
 
 /* Links
@@ -252,8 +227,7 @@ a {
 /**
  * Improve readability when focused and also mouse hovered in all browsers.
  */
-a:active,
-a:hover {
+a:active, a:hover {
   outline: 0; }
 
 /* Text-level semantics
@@ -267,8 +241,7 @@ abbr[title] {
 /**
  * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
  */
-b,
-strong {
+b, strong {
   font-weight: bold; }
 
 /**
@@ -287,8 +260,7 @@ mark {
 /**
  * Prevent `sub` and `sup` affecting `line-height` in all browsers.
  */
-sub,
-sup {
+sub, sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
@@ -339,10 +311,7 @@ pre {
 /**
  * Address odd `em`-unit font size rendering in all browsers.
  */
-code,
-kbd,
-pre,
-samp {
+code, kbd, pre, samp {
   font-family: monospace, monospace;
   font-size: 1em; }
 
@@ -358,11 +327,7 @@ samp {
  * 2. Correct font properties not being inherited.
  * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
  */
-button,
-input,
-optgroup,
-select,
-textarea {
+button, input, optgroup, select, textarea {
   color: inherit;
   /* 1 */
   font: inherit;
@@ -382,8 +347,7 @@ button {
  * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
  * Correct `select` style inheritance in Firefox.
  */
-button,
-select {
+button, select {
   text-transform: none; }
 
 /**
@@ -393,10 +357,7 @@ select {
  * 3. Improve usability and consistency of cursor style between image-type
  *    `input` and others.
  */
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
   -webkit-appearance: button;
   /* 2 */
   cursor: pointer;
@@ -405,15 +366,13 @@ input[type="submit"] {
 /**
  * Re-set default cursor for disabled elements.
  */
-button[disabled],
-html input[disabled] {
+button[disabled], html input[disabled] {
   cursor: default; }
 
 /**
  * Remove inner padding and border in Firefox 4+.
  */
-button::-moz-focus-inner,
-input::-moz-focus-inner {
+button::-moz-focus-inner, input::-moz-focus-inner {
   border: 0;
   padding: 0; }
 
@@ -431,8 +390,7 @@ input {
  * 1. Address box sizing set to `content-box` in IE 8/9/10.
  * 2. Remove excess padding in IE 8/9/10.
  */
-input[type="checkbox"],
-input[type="radio"] {
+input[type="checkbox"], input[type="radio"] {
   box-sizing: border-box;
   /* 1 */
   padding: 0;
@@ -443,8 +401,7 @@ input[type="radio"] {
  * `font-size` values of the `input`, it causes the cursor style of the
  * decrement button to change from `default` to `text`.
  */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
   height: auto; }
 
 /**
@@ -465,8 +422,7 @@ input[type="search"] {
  * Safari (but not Chrome) clips the cancel button when the search input has
  * padding (and `textfield` appearance).
  */
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
 /**
@@ -501,8 +457,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-td,
-th {
+td, th {
   padding: 0; }
 
 /* Blockquote
@@ -515,14 +470,10 @@ blockquote {
 * Global
 *
 **/
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box; }
 
-html,
-body,
-button {
+html, body, button {
   -moz-osx-font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased; }
@@ -530,7 +481,7 @@ button {
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
   font-weight: 300;
   color: #404040;
@@ -598,17 +549,17 @@ pre {
     padding-left: 5%;
     padding-right: 5%;
     margin-left: auto;
-    margin-right: auto; } }
-  @media only screen and (min-width: 620px) and (min-width: 620px) {
-    .container-medium {
-      padding-left: 4.8%;
-      padding-right: 4.8%;
-      max-width: 688px; } }
-  @media only screen and (min-width: 620px) and (min-width: 800px) {
-    .container-medium {
-      padding-left: 4.4%;
-      padding-right: 4.4%;
-      max-width: 864px; } }
+    margin-right: auto; }
+    @media only screen and (min-width: 620px) {
+      .container-medium {
+        padding-left: 4.8%;
+        padding-right: 4.8%;
+        max-width: 688px; } }
+    @media only screen and (min-width: 800px) {
+      .container-medium {
+        padding-left: 4.4%;
+        padding-right: 4.4%;
+        max-width: 864px; } } }
 
 @media only screen and (max-width: 619px) {
   .container-small {
@@ -617,17 +568,17 @@ pre {
     padding-left: 5%;
     padding-right: 5%;
     margin-left: auto;
-    margin-right: auto; } }
-  @media only screen and (max-width: 619px) and (min-width: 620px) {
-    .container-small {
-      padding-left: 4.8%;
-      padding-right: 4.8%;
-      max-width: 688px; } }
-  @media only screen and (max-width: 619px) and (min-width: 800px) {
-    .container-small {
-      padding-left: 4.4%;
-      padding-right: 4.4%;
-      max-width: 864px; } }
+    margin-right: auto; }
+    @media only screen and (min-width: 620px) {
+      .container-small {
+        padding-left: 4.8%;
+        padding-right: 4.8%;
+        max-width: 688px; } }
+    @media only screen and (min-width: 800px) {
+      .container-small {
+        padding-left: 4.4%;
+        padding-right: 4.4%;
+        max-width: 864px; } } }
 
 @media only screen and (min-width: 800px) {
   .content {
@@ -638,9 +589,10 @@ pre {
 @font-face {
   font-family: icons;
   src: url(../images/icons/icons.eot);
-  src: url(../images/icons/icons.eot?#iefix) format("embedded-opentype"), url(../images/icons/icons.woff2) format("woff2"), url(../images/icons/icons.woff) format("woff"), url(../images/icons/icons.ttf) format("truetype"), url(../images/icons/icons.svg?#icons) format("svg");
+  src: url(../images/icons/icons.eot?#iefix) format('embedded-opentype'), url(../images/icons/icons.woff2) format('woff2'), url(../images/icons/icons.woff) format('woff'), url(../images/icons/icons.ttf) format('truetype'), url(../images/icons/icons.svg?#icons) format('svg');
   font-weight: normal;
   font-style: normal; }
+
 .icon {
   font-family: 'icons';
   display: inline-block;
@@ -757,8 +709,7 @@ pre {
     width: 100%;
     right: 0;
     left: 0; }
-  .highlight-module ul,
-  .highlight-module ol {
+  .highlight-module ul, .highlight-module ol {
     padding-left: 0; }
 
 .highlight-module__container {
@@ -788,7 +739,7 @@ pre {
         position: absolute;
         top: 106px;
         right: 45px;
-        font-family: "icons";
+        font-family: 'icons';
         font-size: 130px;
         line-height: 1px;
         text-align: center;
@@ -813,7 +764,7 @@ pre {
       min-height: 208px; } }
 
 .highlight-module__title {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 68px;
   font-weight: 300;
   line-height: 1.1471em;
@@ -823,7 +774,7 @@ pre {
   padding-top: 26px; }
   @media only screen and (min-width: 800px) {
     .highlight-module__title {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 110px;
       font-weight: 300;
       line-height: 1.19em;
@@ -832,22 +783,22 @@ pre {
       padding-bottom: 0; } }
   @media only screen and (min-width: 800px) {
     .highlight-module__title {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 42px;
       font-weight: 300;
       line-height: 1.2381em;
       /* 52px */
-      padding-top: 0.6190em;
-      padding-bottom: 0; } }
-  @media only screen and (min-width: 800px) and (min-width: 800px) {
-    .highlight-module__title {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
-      font-size: 68px;
-      font-weight: 300;
-      line-height: 1.1471em;
-      /* 78px */
-      padding-top: 0.3824em;
-      padding-bottom: 0; } }
+      padding-top: 0.619em;
+      padding-bottom: 0; }
+      @media only screen and (min-width: 800px) {
+        .highlight-module__title {
+          font-family: 'Roboto Condensed', Helvetica, sans-serif;
+          font-size: 68px;
+          font-weight: 300;
+          line-height: 1.1471em;
+          /* 78px */
+          padding-top: 0.3824em;
+          padding-bottom: 0; } } }
 
 .highlight-module__cta {
   display: block; }
@@ -933,18 +884,18 @@ pre {
   .highlight-module--inline .highlight-module__title {
     font-size: 20px;
     font-weight: 300;
-    line-height: 1.3000em;
+    line-height: 1.3em;
     /* 26px */
-    padding-top: 1.3000em;
+    padding-top: 1.3em;
     padding-bottom: 0; }
     @media only screen and (min-width: 800px) {
       .highlight-module--inline .highlight-module__title {
-        font-family: "Roboto Condensed", Helvetica, sans-serif;
+        font-family: 'Roboto Condensed', Helvetica, sans-serif;
         font-size: 26px;
         font-weight: 300;
-        line-height: 1.0000em;
+        line-height: 1em;
         /* 26px */
-        padding-top: 1.0000em;
+        padding-top: 1em;
         padding-bottom: 0; } }
   .highlight-module--inline.highlight-module--remember .highlight-module__title, .highlight-module--inline.highlight-module--remember li::before {
     color: #09829a; }
@@ -1193,8 +1144,8 @@ div.highlight > pre > code .il, code .highlight .il {
     .editorial-header .container {
       position: relative; }
       .editorial-header .container::before {
-        content: "";
-        font-family: "icons";
+        content: '\e003';
+        font-family: 'icons';
         font-size: 1000px;
         line-height: 0;
         display: block;
@@ -1207,28 +1158,28 @@ div.highlight > pre > code .il, code .highlight .il {
 .editorial-header__excerpt {
   font-size: 20px;
   font-weight: 300;
-  line-height: 1.3000em;
+  line-height: 1.3em;
   /* 26px */
-  padding-top: 1.3000em;
+  padding-top: 1.3em;
   padding-bottom: 0;
-  font-family: "Roboto Condensed", Helvetica, sans-serif; }
+  font-family: 'Roboto Condensed', Helvetica, sans-serif; }
 
 .editorial-header .tag {
   padding-top: 52px; }
 
 .editorial-header__subtitle {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 42px;
   font-weight: 300;
   line-height: 1.2381em;
   /* 52px */
-  padding-top: 0.6190em;
+  padding-top: 0.619em;
   padding-bottom: 0;
   padding-top: 0;
   color: #3372df; }
   @media only screen and (min-width: 800px) {
     .editorial-header__subtitle {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 68px;
       font-weight: 300;
       line-height: 1.1471em;
@@ -1249,7 +1200,7 @@ div.highlight > pre > code .il, code .highlight .il {
         padding-top: 0; } }
 
 .editorial-header__toc-title {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 13px;
   padding-bottom: 13px !important;
@@ -1292,22 +1243,22 @@ div.highlight > pre > code .il, code .highlight .il {
   display: block; }
 
 .related-guides__title {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 26px;
   font-weight: 300;
-  line-height: 1.0000em;
+  line-height: 1em;
   /* 26px */
-  padding-top: 1.0000em;
+  padding-top: 1em;
   padding-bottom: 0;
   padding-top: 0; }
   @media only screen and (min-width: 800px) {
     .related-guides__title {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 42px;
       font-weight: 300;
       line-height: 1.2381em;
       /* 52px */
-      padding-top: 0.6190em;
+      padding-top: 0.619em;
       padding-bottom: 0; } }
   @media only screen and (min-width: 620px) {
     .related-guides__title {
@@ -1331,11 +1282,11 @@ div.highlight > pre > code .il, code .highlight .il {
 .in-this-guide__title {
   font-size: 20px;
   font-weight: 300;
-  line-height: 1.3000em;
+  line-height: 1.3em;
   /* 26px */
-  padding-top: 1.3000em;
+  padding-top: 1.3em;
   padding-bottom: 0;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   margin-bottom: 26px; }
 
 /**
@@ -1350,7 +1301,7 @@ div.highlight > pre > code .il, code .highlight .il {
 
 .articles-count {
   color: #3372df;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-weight: 400; }
 
 .article-section__icon {
@@ -1447,11 +1398,11 @@ div.highlight > pre > code .il, code .highlight .il {
 **/
 .quote__content {
   position: relative;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
-  padding-top: 1.6250em;
+  padding-top: 1.625em;
   padding-bottom: 0;
   padding-top: 104px;
   padding-left: 26px; }
@@ -1459,9 +1410,9 @@ div.highlight > pre > code .il, code .highlight .il {
     .quote__content {
       font-size: 20px;
       font-weight: 300;
-      line-height: 1.3000em;
+      line-height: 1.3em;
       /* 26px */
-      padding-top: 1.3000em;
+      padding-top: 1.3em;
       padding-bottom: 0; } }
   @media only screen and (min-width: 620px) {
     .quote__content {
@@ -1477,7 +1428,7 @@ div.highlight > pre > code .il, code .highlight .il {
     content: open-quote;
     display: block;
     position: absolute;
-    font-family: "Roboto Condensed", Helvetica, sans-serif;
+    font-family: 'Roboto Condensed', Helvetica, sans-serif;
     font-weight: 700;
     color: #f0f0f0;
     top: 90px;
@@ -1513,7 +1464,7 @@ div.highlight > pre > code .il, code .highlight .il {
   .article-nav-link::before {
     position: absolute;
     top: 21px;
-    font-family: "Roboto Condensed", Helvetica, sans-serif;
+    font-family: 'Roboto Condensed', Helvetica, sans-serif;
     font-size: 20px;
     font-weight: 400; }
     @media only screen and (min-width: 620px) {
@@ -1532,14 +1483,14 @@ div.highlight > pre > code .il, code .highlight .il {
 .article-nav-link--prev {
   text-align: right; }
   .article-nav-link--prev::before {
-    font-family: "icons";
+    font-family: 'icons';
     left: 32px; }
   @media only screen and (min-width: 620px) {
     .article-nav-link--prev p {
       padding-left: 52px; } }
 
 .article-nav-link--next::before {
-  font-family: "icons";
+  font-family: 'icons';
   right: 32px; }
 @media only screen and (min-width: 620px) {
   .article-nav-link--next p {
@@ -1548,19 +1499,19 @@ div.highlight > pre > code .il, code .highlight .il {
 .article-nav-count {
   font-size: 20px;
   font-weight: 300;
-  line-height: 1.3000em;
+  line-height: 1.3em;
   /* 26px */
-  padding-top: 1.3000em;
+  padding-top: 1.3em;
   padding-bottom: 0;
   font-weight: 700; }
   @media only screen and (min-width: 800px) {
     .article-nav-count {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 26px;
       font-weight: 300;
-      line-height: 1.0000em;
+      line-height: 1em;
       /* 26px */
-      padding-top: 1.0000em;
+      padding-top: 1em;
       padding-bottom: 0; } }
   @media only screen and (min-width: 620px) {
     .article-nav-count {
@@ -1590,9 +1541,9 @@ div.highlight > pre > code .il, code .highlight .il {
     .did-you-know__symbol {
       padding-bottom: 26px; } }
   .did-you-know__symbol::after {
-    content: "";
+    content: '\e014';
     color: #3372df;
-    font-family: "icons";
+    font-family: 'icons';
     font-size: 300px;
     top: 150px;
     left: 30%;
@@ -1619,11 +1570,11 @@ div.highlight > pre > code .il, code .highlight .il {
 **/
 .toc__title {
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
-  padding-top: 1.6250em;
+  padding-top: 1.625em;
   padding-bottom: 0;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   padding-bottom: 13px;
   margin-bottom: 12px;
   border-bottom: 1px solid #e0e0e0; }
@@ -1631,9 +1582,9 @@ div.highlight > pre > code .il, code .highlight .il {
     .toc__title {
       font-size: 20px;
       font-weight: 300;
-      line-height: 1.3000em;
+      line-height: 1.3em;
       /* 26px */
-      padding-top: 1.3000em;
+      padding-top: 1.3em;
       padding-bottom: 0; } }
   @media only screen and (min-width: 620px) {
     .toc__title {
@@ -1675,7 +1626,7 @@ div.highlight > pre > code .il, code .highlight .il {
   @media only screen and (min-width: 620px) {
     .next-lessons::before {
       content: attr(data-current-lesson);
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 16px;
       font-weight: 400;
       line-height: 1;
@@ -1695,8 +1646,8 @@ div.highlight > pre > code .il, code .highlight .il {
       right: 230px; } }
   @media only screen and (min-width: 620px) {
     .next-lessons::after {
-      content: "";
-      font-family: "icons";
+      content: '\e00e';
+      font-family: 'icons';
       font-size: 150px;
       right: 40px;
       top: 185px; } }
@@ -1715,117 +1666,91 @@ div.highlight > pre > code .il, code .highlight .il {
     float: left;
     margin-right: 4.5%;
     width: 30.3%; }
-
   .g-medium--push-1 {
     margin-left: 34.8%; }
-
   .g-medium--pull-1 {
     margin-right: 34.8%; }
-
   .g-medium--2 {
     float: left;
     margin-right: 4.5%;
     width: 65.1%; }
-
   .g-medium--push-2 {
     margin-left: 69.6%; }
-
   .g-medium--pull-2 {
     margin-right: 69.6%; }
-
   .g-medium--3 {
     float: left;
     margin-right: 4.5%;
     width: 99.9%;
     margin-right: 0; }
-
   .g-medium--full {
     float: left;
     margin-right: 4.5%;
     margin-right: 0;
     width: 100%; }
-
   .g--third {
     float: left;
     margin-right: 4.5%;
     width: 30.3%; }
-
-  .g--half,
-  .g-medium--half {
+  .g--half, .g-medium--half {
     float: left;
     margin-right: 4.5%;
     width: 47.75%; }
-
   .g-medium--last {
     margin-right: 0; }
-
   .g-medium--last + .g-medium--half {
     clear: left; }
-
   .g--pull-half {
     margin-right: 52.25%; } }
+
 @media only screen and (min-width: 800px) {
   .g-wide--1 {
     float: left;
     margin-right: 3.7%;
     width: 22.2%; }
-
   .g-wide--push-1 {
     margin-left: 25.9%; }
-
   .g-wide--pull-1 {
     margin-right: 25.9%; }
-
   .g-wide--2 {
     float: left;
     margin-right: 3.7%;
     width: 48.1%; }
-
   .g-wide--push-2 {
     margin-left: 51.8%; }
-
   .g-wide--pull-2 {
     margin-right: 51.8%; }
-
   .g-wide--3 {
     float: left;
     margin-right: 3.7%;
     width: 74%; }
-
   .g-wide--push-3 {
     margin-left: 77.7%; }
-
   .g-wide--pull-3 {
     margin-right: 77.7%; }
-
   .g-wide--4 {
     float: left;
     margin-right: 3.7%;
     width: 99.9%;
     margin-right: 0; }
-
   .g-wide--last {
     margin-right: 0; }
-
   .g-wide--full {
     float: left;
     margin-right: 3.7%;
     margin-right: 0;
     width: 100%; }
-
   .g--third {
     float: left;
     margin-right: 3.7%;
     width: 30.8%; }
-
-  .g--half,
-  .g-wide--half {
+  .g--half, .g-wide--half {
     float: left;
     margin-right: 3.7%;
     width: 48.15%; }
-
   .g--pull-half {
     margin-right: 51.85%; } }
+
 .g--last {
   margin-right: 0; }
 
@@ -1879,93 +1804,81 @@ div.highlight > pre > code .il, code .highlight .il {
 h1, h2, h3, h4, h5, p {
   margin: 0; }
 
-.small,
-small {
+.small, small {
   font-size: 13px;
-  line-height: 2.0000em;
+  line-height: 2em;
   /* 26px */
-  padding-top: 2.0000em;
+  padding-top: 2em;
   padding-bottom: 0; }
 
-.base,
-p,
-ul,
-ol {
+.base, p, ul, ol {
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
-  padding-top: 1.6250em;
+  padding-top: 1.625em;
   padding-bottom: 0; }
 
-.medium,
-h4 {
+.medium, h4 {
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
-  padding-top: 1.6250em;
+  padding-top: 1.625em;
   padding-bottom: 0; }
   @media only screen and (min-width: 800px) {
-    .medium,
-    h4 {
+    .medium, h4 {
       font-size: 20px;
       font-weight: 300;
-      line-height: 1.3000em;
+      line-height: 1.3em;
       /* 26px */
-      padding-top: 1.3000em;
+      padding-top: 1.3em;
       padding-bottom: 0; } }
 
-.large,
-h3 {
+.large, h3 {
   font-size: 20px;
   font-weight: 300;
-  line-height: 1.3000em;
+  line-height: 1.3em;
   /* 26px */
-  padding-top: 1.3000em;
+  padding-top: 1.3em;
   padding-bottom: 0; }
   @media only screen and (min-width: 800px) {
-    .large,
-    h3 {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+    .large, h3 {
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 26px;
       font-weight: 300;
-      line-height: 1.0000em;
+      line-height: 1em;
       /* 26px */
-      padding-top: 1.0000em;
+      padding-top: 1em;
       padding-bottom: 0; } }
 
-.xlarge,
-h2 {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+.xlarge, h2 {
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 26px;
   font-weight: 300;
-  line-height: 1.0000em;
+  line-height: 1em;
   /* 26px */
-  padding-top: 1.0000em;
+  padding-top: 1em;
   padding-bottom: 0; }
   @media only screen and (min-width: 800px) {
-    .xlarge,
-    h2 {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+    .xlarge, h2 {
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 42px;
       font-weight: 300;
       line-height: 1.2381em;
       /* 52px */
-      padding-top: 0.6190em;
+      padding-top: 0.619em;
       padding-bottom: 0; } }
 
-.xxlarge,
-h1 {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+.xxlarge, h1 {
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 42px;
   font-weight: 300;
   line-height: 1.2381em;
   /* 52px */
-  padding-top: 0.6190em;
+  padding-top: 0.619em;
   padding-bottom: 0; }
   @media only screen and (min-width: 800px) {
-    .xxlarge,
-    h1 {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+    .xxlarge, h1 {
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 68px;
       font-weight: 300;
       line-height: 1.1471em;
@@ -1974,7 +1887,7 @@ h1 {
       padding-bottom: 0; } }
 
 .huge {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-size: 68px;
   font-weight: 300;
   line-height: 1.1471em;
@@ -1983,7 +1896,7 @@ h1 {
   padding-bottom: 0; }
   @media only screen and (min-width: 800px) {
     .huge {
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 110px;
       font-weight: 300;
       line-height: 1.19em;
@@ -2006,7 +1919,7 @@ li > p {
   margin-top: 13px;
   min-height: 26px;
   text-align: center;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   font-weight: 600;
   text-decoration: none;
   outline: 0;
@@ -2038,20 +1951,18 @@ li > p {
 * List
 *
 **/
-ul,
-ol {
+ul, ol {
   list-style: none;
   margin: 0; }
   @media only screen and (max-width: 619px) {
-    ul,
-    ol {
+    ul, ol {
       padding-left: 0; } }
 
 ul li {
   position: relative;
   padding-left: 16px; }
   ul li::before {
-    font-family: "icons";
+    font-family: 'icons';
     font-size: 13px;
     display: block;
     font-weight: 400;
@@ -2069,7 +1980,7 @@ ol {
     padding-left: 32px; }
     ol > li::before {
       counter-increment: list;
-      content: "0" counter(list);
+      content: '0' counter(list);
       color: inherit;
       font-weight: 400;
       display: inline-block;
@@ -2078,8 +1989,7 @@ ol {
     ol > li:nth-child(10n) ~ li::before, ol > li:nth-child(10n)::before {
       content: counter(list); }
 
-ul ol,
-ol ul {
+ul ol, ol ul {
   padding-top: 0; }
 
 /*==========  LIST LINKS  ==========*/
@@ -2088,7 +1998,7 @@ ul.list-links li::before {
 ul.list-links a {
   font-weight: 400; }
   ul.list-links a::before {
-    font-family: "icons";
+    font-family: 'icons';
     font-size: 13px;
     display: block;
     font-weight: 400;
@@ -2100,11 +2010,11 @@ ul.list-links a {
     font-size: 4px; }
 ul.list-links.list-links--primary a {
   font-weight: 400;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   line-height: 1;
   text-decoration: none; }
   ul.list-links.list-links--primary a::before {
-    font-family: "icons";
+    font-family: 'icons';
     font-size: 13px;
     display: block;
     font-weight: 400;
@@ -2120,7 +2030,7 @@ ol.list-links li a {
   font-weight: 300; }
   ol.list-links li a::before {
     counter-increment: list;
-    content: "0" counter(list);
+    content: '0' counter(list);
     color: inherit;
     font-weight: 400;
     display: inline-block;
@@ -2133,9 +2043,9 @@ ol.list-links.list-links--secondary a::before {
 
 .list-links--secondary {
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
-  padding-top: 1.6250em;
+  padding-top: 1.625em;
   padding-bottom: 0;
   padding-left: 0; }
   .list-links--secondary li {
@@ -2146,9 +2056,9 @@ ol.list-links.list-links--secondary a::before {
   padding-left: 0; }
   .list-anchor li {
     font-size: 16px;
-    line-height: 1.6250em;
+    line-height: 1.625em;
     /* 26px */
-    padding-top: 1.6250em;
+    padding-top: 1.625em;
     padding-bottom: 0;
     padding-top: 0;
     padding-left: 0; }
@@ -2159,7 +2069,7 @@ ol.list-links.list-links--secondary a::before {
     display: inline-block;
     padding-left: 16px; }
     .list-anchor a::before {
-      font-family: "icons";
+      font-family: 'icons';
       font-size: 13px;
       display: block;
       font-weight: 400;
@@ -2174,9 +2084,9 @@ ol.list-links.list-links--secondary a::before {
 @media only screen and (min-width: 620px) {
   .list-small li {
     font-size: 13px;
-    line-height: 2.0000em;
+    line-height: 2em;
     /* 26px */
-    padding-top: 2.0000em;
+    padding-top: 2em;
     padding-bottom: 0;
     padding-top: 0; } }
 
@@ -2239,7 +2149,7 @@ ol.list-links.list-links--secondary a::before {
 
 /*==========  RELATED GUIDES LIST  ==========*/
 .related-guides-list {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   padding-top: 0;
   padding-left: 0; }
   @media only screen and (min-width: 620px) {
@@ -2277,8 +2187,7 @@ ol.list-links.list-links--secondary a::before {
   padding-left: 0; }
   .list-lessons a {
     color: #ffffff; }
-  .list-lessons .current,
-  .list-lessons .current a {
+  .list-lessons .current, .list-lessons .current a {
     text-decoration: none;
     cursor: default; }
   .list-lessons .current .icon {
@@ -2321,7 +2230,7 @@ a:hover {
   text-decoration: none; }
 
 .cta--primary {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   color: #3372df;
   font-weight: 400;
   display: inline-block;
@@ -2332,13 +2241,13 @@ a:hover {
   .cta--primary::before {
     display: inline-block;
     padding-right: 10px;
-    font-family: "icons";
+    font-family: 'icons';
     line-height: 25px;
     font-size: 13px;
-    content: ""; }
+    content: '\e005'; }
 
 .cta--secondary {
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   color: #3372df;
   font-weight: 400;
   display: inline-block;
@@ -2360,19 +2269,19 @@ table {
   table th {
     text-align: center;
     display: none;
-    font-family: "Roboto Condensed", Helvetica, sans-serif;
+    font-family: 'Roboto Condensed', Helvetica, sans-serif;
     font-size: 16px;
-    line-height: 1.6250em;
+    line-height: 1.625em;
     /* 26px */
-    padding-top: 1.6250em;
+    padding-top: 1.625em;
     padding-bottom: 0; }
     @media only screen and (min-width: 800px) {
       table th {
         font-size: 20px;
         font-weight: 300;
-        line-height: 1.3000em;
+        line-height: 1.3em;
         /* 26px */
-        padding-top: 1.3000em;
+        padding-top: 1.3em;
         padding-bottom: 0; } }
   @media only screen and (min-width: 620px) {
     table tr {
@@ -2395,7 +2304,7 @@ table {
       bottom: 0;
       width: 100px;
       max-height: 100%;
-      font-family: "Roboto Condensed", Helvetica, sans-serif;
+      font-family: 'Roboto Condensed', Helvetica, sans-serif;
       font-size: 16px;
       font-weight: 400;
       padding-left: 13px;
@@ -2403,13 +2312,11 @@ table {
       @media only screen and (min-width: 620px) {
         table td::before {
           display: none; } }
-  table th,
-  table td {
+  table th, table td {
     position: relative;
     padding-left: 140px; }
     @media only screen and (min-width: 620px) {
-      table th,
-      table td {
+      table th, table td {
         display: table-cell; } }
   @media only screen and (min-width: 620px) {
     table th {
@@ -2440,8 +2347,7 @@ td:last-child::after {
     .table-2 col {
       width: 432px; } }
 @media only screen and (min-width: 620px) {
-  .table-2 th:first-child,
-  .table-2 td:first-child {
+  .table-2 th:first-child, .table-2 td:first-child {
     border-right: 2px solid #ffffff; } }
 
 .table-3 col {
@@ -2450,8 +2356,7 @@ td:last-child::after {
     .table-3 col {
       width: 288px; } }
 @media only screen and (min-width: 620px) {
-  .table-3 th:nth-child(2),
-  .table-3 td:nth-child(2) {
+  .table-3 th:nth-child(2), .table-3 td:nth-child(2) {
     border-left: 2px solid #ffffff;
     border-right: 2px solid #ffffff; } }
 
@@ -2461,9 +2366,7 @@ td:last-child::after {
     .table-4 col {
       width: 216px; } }
 @media only screen and (min-width: 620px) {
-  .table-4 th:nth-child(2), .table-4 th:nth-child(3),
-  .table-4 td:nth-child(2),
-  .table-4 td:nth-child(3) {
+  .table-4 th:nth-child(2), .table-4 th:nth-child(3), .table-4 td:nth-child(2), .table-4 td:nth-child(3) {
     border-left: 2px solid #ffffff;
     border-right: 2px solid #ffffff; } }
 
@@ -2472,9 +2375,7 @@ td:last-child::after {
 * Media - imgs/videos
 *
 **/
-img,
-video,
-object {
+img, video, object {
   max-width: 100%; }
 
 .content img {
@@ -2496,17 +2397,17 @@ object {
 
 .breadcrumbs p {
   font-size: 13px;
-  line-height: 2.0000em;
+  line-height: 2em;
   /* 26px */
-  padding-top: 2.0000em;
+  padding-top: 2em;
   padding-bottom: 0;
   padding-top: 26px; }
 
 .breadcrumbs__link {
   font-size: 13px;
-  line-height: 2.0000em;
+  line-height: 2em;
   /* 26px */
-  padding-top: 2.0000em;
+  padding-top: 2em;
   padding-bottom: 0;
   color: black;
   font-weight: 400;
@@ -2526,9 +2427,9 @@ object {
 
 .subsection-number {
   font-size: 16px;
-  line-height: 1.6250em;
+  line-height: 1.625em;
   /* 26px */
-  padding-top: 1.6250em;
+  padding-top: 1.625em;
   padding-bottom: 0;
   padding-top: 0;
   display: block; }
@@ -2625,8 +2526,7 @@ object {
 * Icon Circle
 *
 **/
-.icon-circle,
-.icon-circle--large {
+.icon-circle, .icon-circle--large {
   height: 0;
   width: 0;
   background: rgba(0, 0, 0, 0.54);
@@ -2636,10 +2536,7 @@ object {
   font-size: 0;
   padding: 22px;
   margin: 4px auto; }
-  .icon-circle i,
-  .icon-circle span,
-  .icon-circle--large i,
-  .icon-circle--large span {
+  .icon-circle i, .icon-circle span, .icon-circle--large i, .icon-circle--large span {
     position: absolute;
     line-height: 0px;
     top: 50%;
@@ -2648,14 +2545,12 @@ object {
     text-align: center;
     color: #ffffff;
     font-size: 26px; }
-  .icon-circle span,
-  .icon-circle--large span {
-    font-family: "Roboto Condensed", Helvetica, sans-serif;
+  .icon-circle span, .icon-circle--large span {
+    font-family: 'Roboto Condensed', Helvetica, sans-serif;
     font-size: 26px;
     font-weight: 700; }
     @media only screen and (min-width: 620px) {
-      .icon-circle span,
-      .icon-circle--large span {
+      .icon-circle span, .icon-circle--large span {
         font-size: 42px; } }
 
 .icon-circle--large {
@@ -2751,17 +2646,13 @@ object {
 .theme--performance .themed--hover-secondary:hover {
   color: #c4add2; }
 
-.article--multi-device-layouts .article-container h1, .article--multi-device-layouts
-.article-container h2 {
+.article--multi-device-layouts .article-container h1, .article--multi-device-layouts .article-container h2 {
   color: #297ea9; }
-.article--introduction-to-media .article-container h1, .article--introduction-to-media
-.article-container h2 {
+.article--introduction-to-media .article-container h1, .article--introduction-to-media .article-container h2 {
   color: #cf423a; }
-.article--user-input .article-container h1, .article--user-input
-.article-container h2 {
+.article--user-input .article-container h1, .article--user-input .article-container h2 {
   color: #2c8566; }
-.article--performance .article-container h1, .article--performance
-.article-container h2 {
+.article--performance .article-container h1, .article--performance .article-container h2 {
   color: #7b5294; }
 
 .nav-theme--multi-device-layouts .themed--hover:hover {
@@ -2810,8 +2701,7 @@ object {
     position: relative; }
 .page--styleguide .styleguide__breadcrumb .breadcrumbs {
   display: block; }
-.page--styleguide .styleguide__lists ul,
-.page--styleguide .styleguide__lists ol {
+.page--styleguide .styleguide__lists ul, .page--styleguide .styleguide__lists ol {
   margin-bottom: 26px; }
 .page--styleguide .styleguide__inverted-block {
   background: #e8e8e8;
@@ -2831,9 +2721,9 @@ object {
   min-height: 156px; }
   .demo [class*="g-"]::before, .demo [class*="g-"]::after {
     font-size: 13px;
-    line-height: 2.0000em;
+    line-height: 2em;
     /* 26px */
-    padding-top: 2.0000em;
+    padding-top: 2em;
     padding-bottom: 0;
     display: block;
     margin: 0 10px; }
@@ -2983,11 +2873,11 @@ object {
 /*==========  TAG  ==========*/
 .tag {
   font-size: 13px;
-  line-height: 2.0000em;
+  line-height: 2em;
   /* 26px */
-  padding-top: 2.0000em;
+  padding-top: 2em;
   padding-bottom: 0;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family: 'Roboto Condensed', Helvetica, sans-serif;
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
@@ -2998,8 +2888,7 @@ object {
     content: '# ';
     display: inline-block; }
 
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -3038,8 +2927,7 @@ body.open {
   flex-direction: row;
   margin: 0 auto; }
 
-.app-bar.open,
-.app-bar.open ~ main {
+.app-bar.open, .app-bar.open ~ main {
   -webkit-transform: translate(250px, 0);
   transform: translate(250px, 0); }
 
@@ -3109,10 +2997,7 @@ body.open {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden; }
 
-.base,
-p,
-ul,
-ol {
+.base, p, ul, ol {
   font-size: 19px; }
 
 .navdrawer-container {
@@ -3132,14 +3017,11 @@ ol {
   -webkit-transform: translate(0, 0);
   transform: translate(0, 0); }
 
-.app-bar,
-.navdrawer-container.opened,
-main {
+.app-bar, .navdrawer-container.opened, main {
   -webkit-transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out; }
 
-.navdrawer-container h4,
-.navdrawer-container ul li a {
+.navdrawer-container h4, .navdrawer-container ul li a {
   height: 60px;
   padding: 17px 20px;
   line-height: 1.4; }
@@ -3184,18 +3066,67 @@ main {
   margin: 0 auto;
   /* Height of the header */
   padding: 60px 16px 16px 16px;
-  min-height: 100%; }
+  min-height: 100%;
+  width: 100%;
+  height: 100%; }
+
+#top {
+  margin-top: 5px;
+  margin-bottom: 0; }
+
+#top-text {
+  font-size: 20px;
+  text-align: center; }
+
+#calendar {
+  height: 80%;
+  width: 90%;
+  margin: 20px auto; }
+
+.time {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  height: 7%;
+  width: 10%;
+  text-align: right;
+  margin-top: 0; }
+
+#days {
+  float: right;
+  width: 90%;
+  height: 100%;
+  width: 88%;
+  padding-left: 1%; }
+
+#cal-table {
+  width: 100%;
+  height: 100%;
+  margin: 0; }
+
+#cal-table tr {
+  height: 7%; }
+
+#cal-table table, tr, td {
+  background-color: white;
+  border: 1px solid black; }
+
+#cal-table td {
+  width: 20%;
+  padding: 0;
+  display: table-cell; }
+
+#cal-table td::before {
+  background-color: white;
+  content: none; }
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
   .app-bar {
     position: relative; }
-
-  .app-bar.open,
-  .app-bar.open ~ main {
+  .app-bar.open, .app-bar.open ~ main {
     -webkit-transform: translate(0px, 0);
     transform: translate(0px, 0); }
-
   .app-bar-container {
     display: block;
     height: 130px;
@@ -3203,27 +3134,22 @@ main {
     padding: 0 16px;
     box-sizing: border-box;
     background-color: #4285f4; }
-
   .app-bar .logo {
     float: left;
     margin: 0;
     padding: 0;
     line-height: 130px;
     font-size: 46px; }
-
   .app-bar-actions {
     float: right; }
-
   .app-bar::after {
     content: ' ';
     display: block;
     height: 0;
     overflow: hidden;
     clear: both; }
-
   button.menu {
     display: none; }
-
   .navdrawer-container {
     position: relative;
     width: 100%;
@@ -3234,10 +3160,8 @@ main {
     -webkit-transition: none;
     transition: none;
     overflow-y: auto; }
-
   .navdrawer-container h4 {
     display: none; }
-
   .navdrawer-container ul {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -3247,86 +3171,53 @@ main {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row; }
-
   .navdrawer-container ul li {
     border: none; }
-
   main {
     max-width: 864px;
     padding-top: 0;
     min-height: initial; }
-
   body {
     overflow-y: scroll; } }
 
-    #top {
-    margin-top: 5px;
-    margin-bottom: 0;
-  }
-  #top-text {
-    font-size: 20px;
-    text-align: center;
-  }
-  #calendar {
-    height: 80%;
-    width: 90%;
-    margin: 20px auto;
-  }
-  .time {
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-    height: 7%;
-    width: 10%;
-    text-align: right;
-  }
-  #days {
-    float: right;
-    width: 90%;
-    height: 100%;
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    width: 88%;
-    padding-left: 2%;
-  }
-  main {
-    width: 100%;
-    height: 100%;
-  }
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 300;
   src: url(/fonts/RobotoCondensed-Light.eot);
-  src: local("Roboto Condensed Light"), local("RobotoCondensed-Light"), url(/fonts/RobotoCondensed-Light.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-Light.woff) format("woff"); }
+  src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url(/fonts/RobotoCondensed-Light.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Light.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 400;
   src: url(/fonts/RobotoCondensed-Regular.eot);
-  src: local("Roboto Condensed Regular"), local("RobotoCondensed-Regular"), url(/fonts/RobotoCondensed-Regular.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-Regular.woff) format("woff"); }
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(/fonts/RobotoCondensed-Regular.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Regular.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 700;
   src: url(/fonts/RobotoCondensed-Bold.eot);
-  src: local("Roboto Condensed Regular"), local("RobotoCondensed-Bold"), url(/fonts/RobotoCondensed-Bold.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-Bold.woff) format("woff"); }
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Bold'), url(/fonts/RobotoCondensed-Bold.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Bold.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 300;
   src: url(/fonts/RobotoCondensed-LightItalic.eot);
-  src: local("Roboto Condensed Light Italic"), local("RobotoCondensed-LightItalic"), url(/fonts/RobotoCondensed-LightItalic.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-LightItalic.woff) format("woff"); }
+  src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url(/fonts/RobotoCondensed-LightItalic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-LightItalic.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 400;
   src: url(/fonts/RobotoCondensed-Italic.eot);
-  src: local("Roboto Condensed Italic"), local("RobotoCondensed-Italic"), url(/fonts/RobotoCondensed-Italic.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-Italic.woff) format("woff"); }
+  src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url(/fonts/RobotoCondensed-Italic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Italic.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 700;
   src: url(/fonts/RobotoCondensed-BoldItalic.eot);
-  src: local("Roboto Condensed Bold Italic"), local("RobotoCondensed-BoldItalic"), url(/fonts/RobotoCondensed-BoldItalic.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-BoldItalic.woff) format("woff"); }
+  src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url(/fonts/RobotoCondensed-BoldItalic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-BoldItalic.woff) format('woff'); }
