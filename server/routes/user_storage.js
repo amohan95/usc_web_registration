@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var dbModel = require('../models/database_model.js');
-var db = new dbModel();
+var db = new (require('../models/database_model.js').DatabaseModel)();
 
 router.post('/get_user_sections', function(req, res, next) {
   var body = req.body;
