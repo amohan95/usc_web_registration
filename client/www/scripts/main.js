@@ -16,35 +16,37 @@
  *  limitations under the License
  *
  */
-(function () {
-  'use strict';
 
-  var querySelector = document.querySelector.bind(document);
+var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 
-  var navdrawerContainer = querySelector('.navdrawer-container');
-  var body = document.body;
-  var appbarElement = querySelector('.app-bar');
-  var menuBtn = querySelector('.menu');
-  var main = querySelector('main');
-
-  function closeMenu() {
-    body.classList.remove('open');
-    appbarElement.classList.remove('open');
-    navdrawerContainer.classList.remove('open');
-  }
-
-  function toggleMenu() {
-    body.classList.toggle('open');
-    appbarElement.classList.toggle('open');
-    navdrawerContainer.classList.toggle('open');
-    navdrawerContainer.classList.add('opened');
-  }
-
-  main.addEventListener('click', closeMenu);
-  menuBtn.addEventListener('click', toggleMenu);
-  navdrawerContainer.addEventListener('click', function (event) {
+$(document).on('pagecontainercreate', function() {
+  var closeMenu = function() {
+    $('body').removeClass('open');
+    $('.app-bar').removeClass('open');
+    $('.navdrawer-container').removeClass('open');
+  };
+  $('main').off('click').click(closeMenu);
+  $('.menu').off('click').click(function() {
+    $('body').toggleClass('open');
+    $('.app-bar').toggleClass('open');
+    $('.navdrawer-container').toggleClass('open');
+    $('.navdrawer-container').addClass('opened');
+  });
+  $('.navdrawer-container').off('click').click(function(event) {
     if (event.target.nodeName === 'A' || event.target.nodeName === 'LI') {
       closeMenu();
     }
   });
-})();
+});
+
+$(document).on('pagecreate', '#home', function() {
+  $.ajax({
+    type: 'POST',
+    url: REMOTE_URL + '/storage/get_user_sections/',
+    data: {username: 'Ananth', term: '20151'},
+    dataType: 'json',
+    success: function(data) {
+      console.log(data);
+    }
+  });
+});

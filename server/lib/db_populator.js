@@ -21,7 +21,7 @@ DatabasePopulator.prototype.populateTerm = function(term_code, callback) {
           if(!course) {
             ++count;
             course = new Course();
-            course.populateFromJSON(b, term_code, function() {
+            course.populateFromJSON(course_json, term_code, function() {
               itr_callback();
             });
           } else {
