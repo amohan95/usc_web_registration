@@ -122,4 +122,6 @@ DatabaseModel.prototype.unregisterSections = function(username, section_ids, cal
   });
 }
 
-module.exports = DatabaseModel;
+module.exports = {
+  DatabaseModel: DatabaseModel
+};
