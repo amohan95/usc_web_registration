@@ -91,4 +91,13 @@ router.get('/autoschedule', function(req, res, next) {
 	});
 });
 
+router.get('/populate_db', function(req, res, next) {
+	var populator = new (require('../lib/db_populator').DatabasePopulator)();
+	var body = req.query;
+	populator.populateTerm(body.term, function(data) {
+		res.send(data);
+	});
+	console.log(populating);
+});
+
 module.exports = router;

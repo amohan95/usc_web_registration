@@ -24,7 +24,7 @@ TermSchema.statics.getOrRetrieveByCode = function getOrRetrieveByCode(term_code,
       callback(term);
     } else {
       term = new Term();
-      term.retrieve(term_code, function(){ callback(term) });
+      term.retrieve(term_code, function() { callback(term) });
     }
   });
 };
