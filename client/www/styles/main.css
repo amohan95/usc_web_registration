@@ -2911,7 +2911,7 @@ body.open {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #D82323;
+  background-color: #990000;
   overflow: hidden;
   z-index: 1; }
 
@@ -3005,13 +3005,14 @@ body.open {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 250px;
+  width: 280px;
   height: 100%;
-  background-color: #3367D6;
-  color: #fefefe;
-  -webkit-transform: translate(-250px, 0);
-  transform: translate(-250px, 0);
-  overflow-y: auto; }
+  background-color: white;
+  color: black;
+  -webkit-transform: translate(-280px, 0);
+  transform: translate(-280px, 0);
+  overflow-y: auto;
+  box-shadow: 0 0 5px #888888; }
 
 .navdrawer-container.open {
   -webkit-transform: translate(0, 0);
@@ -3038,7 +3039,7 @@ body.open {
 .navdrawer-container ul li a {
   display: block;
   text-decoration: none;
-  color: white;
+  color: black;
   -webkit-transition: background-color 0.2s ease-out;
   transition: background-color 0.2s ease-out;
   white-space: nowrap; }
@@ -3046,7 +3047,7 @@ body.open {
 .navdrawer-container ul li {
   border-bottom-style: solid;
   border-width: 1px;
-  border-color: white;
+  border-color: black;
   padding: 0; }
 
 .navdrawer-container ul li::before {
@@ -3070,8 +3071,11 @@ main {
   width: 100%;
   height: 100%; }
 
+body {
+  background-color: #f9f9f9; }
+
 #top {
-  margin-top: 5px;
+  padding-top: 5px;
   margin-bottom: 0; }
 
 #top-text {
@@ -3120,6 +3124,16 @@ main {
   background-color: white;
   content: none; }
 
+.clear {
+  clear: both; }
+
+.ui-mobile [data-role=page], .ui-mobile [data-role=dialog], .ui-page {
+  position: relative;
+  height: 100%; }
+
+.ui-mobile-viewport {
+  margin: 0 auto; }
+
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
   .app-bar {
@@ -3129,16 +3143,15 @@ main {
     transform: translate(0px, 0); }
   .app-bar-container {
     display: block;
-    height: 130px;
+    height: 60px;
     max-width: 864px;
     padding: 0 16px;
     box-sizing: border-box;
-    background-color: #4285f4; }
+    background-color: #990000; }
   .app-bar .logo {
     float: left;
     margin: 0;
     padding: 0;
-    line-height: 130px;
     font-size: 46px; }
   .app-bar-actions {
     float: right; }
