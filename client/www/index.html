@@ -27,10 +27,11 @@
     -->
 
     <!-- Page styles -->
+    <link rel="stylesheet" href="styles/jquery.mobile-1.4.5.min.css">
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <header class="app-bar promote-layer">
+    <div data-role="header" class="app-bar promote-layer">
       <div id="top" class="app-bar-container">
         <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
         <h1 id="top-text" class="logo">USC <strong>Web Registration</strong></h1>
@@ -39,38 +40,143 @@
         <button class="search"><img src="images/icons/m_glass.png" alt="Search"></button>
         </section>
       </div>
-    </header>
-
+    </div>
     <nav class="navdrawer-container promote-layer">
-      <h4>Navigation</h4>
+      <h4>Menu</h4>
       <ul>
-        <li><a href="#hello">Hello</a></li>
-        <li><a href="#get-started">Get Started</a></li>
-        <li><a href="styleguide.html">Style Guide</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#auto-schedule">Auto Schedule</a></li>
+        <li><a href="#">Export to Google Calendar</a></li>
+        <li><a href="#">Logout</a></li>
       </ul>
     </nav>
-
     <main>
-      <div id="calendar">
-        <div id="days">
+      <div data-role="page" id="home">
+        <div id="calendar">
+          <div id="days">
+            <table id="cal-table" style="width:100%">
+              <tr>
+                <th>8am</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>9am</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>10am</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>11am</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>12pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>1pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>2pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>3pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>4pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>5pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>6pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>7pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>8pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>9pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
         </div>
-        <p class="time">8am</p>
-        <p class="time">9am</p>
-        <p class="time">10am</p>
-        <p class="time">11am</p>
-        <p class="time">12pm</p>
-        <p class="time">1pm</p>
-        <p class="time">2pm</p>
-        <p class="time">3pm</p>
-        <p class="time">4pm</p>
-        <p class="time">5pm</p>
-        <p class="time">6pm</p>
-        <p class="time">7pm</p>
-        <p class="time">8pm</p>
-        <p class="time">9pm</p>
+      </div>
+      <div data-role="page" id="auto-schedule">
       </div>
     </main>
 
+    <script src="scripts/jquery-2.1.3.min.js"></script>
+    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
     <!-- build:js scripts/main.min.js -->
     <script src="jquery_mobile/jquery-1.7.2.min"></script>
     <script src="scripts/main.js"></script>

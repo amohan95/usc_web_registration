@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = new (require('../models/database_model.js').DatabaseModel)();
 
-router.post('/get_user_sections', function(req, res, next) {
+router.get('/get_user_sections', function(req, res, next) {
   var body = req.body;
   if(body.username === undefined || body.term === undefined) {
     res.send({success: false});
