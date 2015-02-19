@@ -17,6 +17,8 @@
  *
  */
 
+var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+
 $(document).on('pagecontainercreate', function() {
   var closeMenu = function() {
     $('body').removeClass('open');
@@ -38,5 +40,13 @@ $(document).on('pagecontainercreate', function() {
 });
 
 $(document).on('pagecreate', '#home', function() {
-  $.get('http://localhost:8000/storage/get_user_sections/');
+  $.ajax({
+    type: 'POST',
+    url: REMOTE_URL + '/storage/get_user_sections/',
+    data: {username: 'Ananth', term: '20151'},
+    dataType: 'json',
+    success: function(data) {
+      console.log(data);
+    }
+  });
 });
