@@ -19,6 +19,7 @@
     "serve-favicon": "~2.2.0",
     "request": "~2.53.0",
     "q": "~1.1.2",
-    "jquery-deferred": "~0.3.0"
+    "jquery-deferred": "~0.3.0",
+    "express-session": "~1.10.3"
   }
 }
