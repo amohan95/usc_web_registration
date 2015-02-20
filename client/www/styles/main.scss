@@ -237,16 +237,19 @@ body {
 }
 
 #top {
-  padding-top: 5px;
   margin-bottom: 0;
+}
+#top button {
+  padding-top: 5px;
 }
 #top-text {
   font-size: 20px;
   text-align: center;
+  padding-top: 5px;
 }
 #calendar {
   height: 80%;
-  width: 90%;
+  width: 100%;
   margin: 20px auto;
 }
 .time {
@@ -259,11 +262,9 @@ body {
   margin-top: 0;
 }
 #days {
-  float: right;
   width: 90%;
   height: 100%;
-  width: 88%;
-  padding-left: 1%;
+  margin: 10px auto;
 }
 #cal-table {
   width: 100%;
@@ -271,16 +272,36 @@ body {
   margin: 0;
 }
 #cal-table tr {
-  height: 7%;
+  height: 5.6%;
 }
 #cal-table table, tr, td {
   background-color: white;
   border: 1px solid black;
 }
 #cal-table td {
-  width: 20%;
+  width: 15%;
   padding: 0;
   display: table-cell;
+  text-align: center;
+}
+#cal-table td p {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+#cal-table th {
+  width: 15%;
+  display: table-cell;
+  padding: 0;
+  border: none;
+  border: 1px black solid;
+  background-color: rgb(249, 249, 249);
+}
+.day-title {
+  border: none;
+  border-bottom: 1px black solid;
+  background-color: rgb(249, 249, 249);
 }
 #cal-table td::before {
   background-color: white;
@@ -295,6 +316,12 @@ body {
 }
 .ui-mobile-viewport {
   margin: 0 auto;
+}
+#last-time {
+  border-bottom: 1px solid black;
+}
+#top-right {
+  border-bottom: none;
 }
 
 /** Larger Screens - desktops and tablets **/
