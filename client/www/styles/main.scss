@@ -40,7 +40,7 @@ body.open {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #D82323;
+  background-color: #990000;
   overflow: hidden;
   z-index: 1;
 }
@@ -151,13 +151,14 @@ ol {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 250px;
+  width: 280px;
   height: 100%;
-  background-color: #3367D6;
-  color: #fefefe;
-  -webkit-transform: translate(-250px, 0);
-          transform: translate(-250px, 0);
+  background-color: white;
+  color: black;
+  -webkit-transform: translate(-280px, 0);
+          transform: translate(-280px, 0);
   overflow-y: auto;
+  box-shadow: 0 0 5px #888888;
 }
 
 .navdrawer-container.open {
@@ -193,7 +194,7 @@ main {
 .navdrawer-container ul li a {
   display: block;
   text-decoration: none;
-  color: white;
+  color: black;
   -webkit-transition: background-color 0.2s ease-out;
           transition: background-color 0.2s ease-out;
   white-space: nowrap;
@@ -202,7 +203,7 @@ main {
 .navdrawer-container ul li {
   border-bottom-style: solid;
   border-width: 1px;
-  border-color: white;
+  border-color: black;
   padding: 0;
 }
 
@@ -228,6 +229,99 @@ main {
   /* Height of the header */
   padding: 60px 16px 16px 16px;
   min-height: 100%;
+  width: 100%;
+  height: 100%;
+}
+body {
+  background-color: rgb(249, 249, 249);
+}
+
+#top {
+  margin-bottom: 0;
+}
+#top button {
+  padding-top: 5px;
+}
+#top-text {
+  font-size: 20px;
+  text-align: center;
+  padding-top: 5px;
+}
+#calendar {
+  height: 80%;
+  width: 100%;
+  margin: 20px auto;
+}
+.time {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  height: 7%;
+  width: 10%;
+  text-align: right;
+  margin-top: 0;
+}
+#days {
+  width: 90%;
+  height: 100%;
+  margin: 10px auto;
+}
+#cal-table {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+#cal-table tr {
+  height: 5.6%;
+}
+#cal-table table, tr, td {
+  background-color: white;
+  border: 1px solid black;
+}
+#cal-table td {
+  width: 15%;
+  padding: 0;
+  display: table-cell;
+  text-align: center;
+}
+#cal-table td p {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+#cal-table th {
+  width: 15%;
+  display: table-cell;
+  padding: 0;
+  border: none;
+  border: 1px black solid;
+  background-color: rgb(249, 249, 249);
+}
+.day-title {
+  border: none;
+  border-bottom: 1px black solid;
+  background-color: rgb(249, 249, 249);
+}
+#cal-table td::before {
+  background-color: white;
+  content: none;
+}
+.clear {
+  clear: both;
+}
+.ui-mobile [data-role=page], .ui-mobile [data-role=dialog], .ui-page {
+  position: relative;
+  height: 100%;
+}
+.ui-mobile-viewport {
+  margin: 0 auto;
+}
+#last-time {
+  border-bottom: 1px solid black;
+}
+#top-right {
+  border-bottom: none;
 }
 
 /** Larger Screens - desktops and tablets **/
@@ -244,18 +338,17 @@ main {
 
   .app-bar-container {
     display: block;
-    height: 130px;
+    height: 60px;
     max-width: 864px;
     padding: 0 16px;
     box-sizing: border-box;
-    background-color: #4285f4;
+    background-color: #990000;
   }
 
   .app-bar .logo {
     float: left;
     margin: 0;
     padding: 0;
-    line-height: 130px;
     font-size: 46px;
   }
 
