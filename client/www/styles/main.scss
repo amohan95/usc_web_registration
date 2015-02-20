@@ -264,7 +264,7 @@ body {
 #days {
   width: 90%;
   height: 100%;
-  margin: 30px auto;
+  margin: 10px auto;
 }
 #cal-table {
   width: 100%;
@@ -272,7 +272,7 @@ body {
   margin: 0;
 }
 #cal-table tr {
-  height: 7%;
+  height: 5.6%;
 }
 #cal-table table, tr, td {
   background-color: white;
@@ -282,11 +282,26 @@ body {
   width: 15%;
   padding: 0;
   display: table-cell;
+  text-align: center;
+}
+#cal-table td p {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
 }
 #cal-table th {
   width: 15%;
   display: table-cell;
   padding: 0;
+  border: none;
+  border: 1px black solid;
+  background-color: rgb(249, 249, 249);
+}
+.day-title {
+  border: none;
+  border-bottom: 1px black solid;
+  background-color: rgb(249, 249, 249);
 }
 #cal-table td::before {
   background-color: white;
@@ -301,6 +316,12 @@ body {
 }
 .ui-mobile-viewport {
   margin: 0 auto;
+}
+#last-time {
+  border-bottom: 1px solid black;
+}
+#top-right {
+  border-bottom: none;
 }
 
 /** Larger Screens - desktops and tablets **/
