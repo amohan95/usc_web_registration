@@ -5,7 +5,7 @@ var Course = require('../models/course').Course;
 var Term = require('../models/term').Term;
 var User = require('../models/user').User;
 
-var params = ['course_code', 'course_title', 'description', 'instructor', 'section_code'];
+var params = ['course_code', 'course_title', 'description', 'diversity', 'instructor', 'section_code'];
 
 function Query() { }
 
@@ -32,6 +32,13 @@ Query.prototype.executeQuery = function(query_string, term, parameters, callback
           queries.courses = Course.find();
         }
         queries.courses.or({description: new RegExp(query_string, 'i')});
+        break;
+      }
+      case 'diversity': {
+        if(!queries.courses) {
+          queries.courses = Course.find();
+        }
+        queries.courses.and({diversity: true});
         break;
       }
       case 'instructor': {
@@ -113,7 +120,7 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     return sectionsDef.promise();
   }
   $.when(coursesQuery(), sectionsQuery()).done(function(courses, sections) {
-    callback({courses: courses, sections: sections})
+    callback({courses: courses, sections: sections, success: true});
   });
 }
 

@@ -83,3 +83,32 @@ $(document).on('pagecreate', '#home', function() {
     // }
   });
 });
+
+var prevQuery = null;
+$(document).on('pagecreate', '#search', function() {
+  $('#execute-search').on('input', function() {
+    var query_string = $(this).val();
+    if(query_string.length > 1) {
+      var parameters = {};
+      $.each($("#search-options input:checked"), function(key, option) {
+        parameters[option.value] = true;
+      });
+      if(prevQuery !== null) {
+        prevQuery.abort();
+      }
+      prevQuery = $.ajax({
+        type: 'POST',
+        url: REMOTE_URL + '/search/execute_query/',
+        data: {query_string: query_string, term: '20151', parameters: parameters},
+        success: function(data) {
+          prevQuery = null;
+          if(data.success) {
+            $('#course-results-count').text(data.courses.length);
+            $('#section-results-count').text(data.sections.length);
+            console.log(data);
+          }
+        }
+      });
+    }
+  });
+})
