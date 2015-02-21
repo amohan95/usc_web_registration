@@ -37,12 +37,11 @@
         <h1 id="top-text" class="logo">USC <strong>Web Registration</strong></h1>
         <section class="app-bar-actions">
         <!-- Put App Bar Buttons Here -->
-        <button class="search"><img src="images/icons/m_glass.png" alt="Search"></button>
+        <a href="#search"><button class="search"><img src="images/icons/m_glass.png" alt="Search"></button></a>
         </section>
       </div>
     </div>
     <nav class="navdrawer-container promote-layer">
-      <h4>Menu</h4>
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#auto-schedule">Auto Schedule</a></li>
@@ -56,7 +55,15 @@
           <div id="days">
             <table id="cal-table" style="width:100%">
               <tr>
-                <th>8am</th>
+                <td class="day-title" id="top-right"></th>
+                <td class="day-title"><p>Mon</p></td>
+                <td class="day-title"><p>Tues</p></td>
+                <td class="day-title"><p>Wed</p></td>
+                <td class="day-title"><p>Thurs</p></td>
+                <td class="day-title"><p>Fri</p></td>
+              </tr>
+              <tr>
+                <th class="time-label">7am</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -64,7 +71,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>9am</th>
+                <th class="time-label">8am</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -72,7 +79,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>10am</th>
+                <th class="time-label">9am</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -80,7 +87,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>11am</th>
+                <th class="time-label">10am</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -88,7 +95,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>12pm</th>
+                <th class="time-label">11am</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -96,7 +103,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>1pm</th>
+                <th class="time-label">12pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -104,7 +111,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>2pm</th>
+                <th class="time-label">1pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -112,7 +119,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>3pm</th>
+                <th class="time-label">2pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -120,7 +127,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>4pm</th>
+                <th class="time-label">3pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -128,7 +135,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>5pm</th>
+                <th class="time-label">4pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -136,7 +143,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>6pm</th>
+                <th class="time-label">5pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -144,7 +151,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>7pm</th>
+                <th class="time-label">6pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -152,7 +159,7 @@
                 <td></td>
               </tr>
               <tr>
-                <th>8pm</th>
+                <th class="time-label">7pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -160,7 +167,23 @@
                 <td></td>
               </tr>
               <tr>
-                <th>9pm</th>
+                <th class="time-label">8pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th class="time-label">9pm</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th class="time-label" id="last-time">10pm</th>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -172,6 +195,16 @@
         </div>
       </div>
       <div data-role="page" id="auto-schedule">
+      </div>
+      <div data-role="page" id="search">
+        <h1>SEARCH</h1>
+      </div>
+      <div data-role="page" id="login">
+        <form action="http://localhost:8000/authentication/login" method="post" data-ajax="false">
+          <i>Username: </i><input type="text" name="username"/></br>
+          <i>Password: </i><input type="password" name="password"/></br>
+          <input type="submit" value="Login"/>
+        </form>
       </div>
     </main>
 

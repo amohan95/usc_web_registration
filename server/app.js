@@ -4,9 +4,64 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var passport = require('passport');
+var BearerStrategy = require('passport-http-bearer').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var config = require('./config').Config;
 
 require('mongoose').connect(config.uristring);
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  User.findOne({ username: username }, function(err, user) {
+    if (err) {
+      return done({error: err});
+    }
+    if (!user) {
+      return done(null, false, { message: 'Unknown user ' + username });
+    }
+    user.comparePassword(password, function(err, isMatch) {
+      if (err) return done(err);
+      if(isMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Invalid password' });
+      }
+    });
+  });
+}));
+
+
+passport.use(new BearerStrategy({}, function(token, done) {
+  process.nextTick(function () {
+    User.findOne({token: token}, function(err, user) {
+      if (err) {
+        return done({error: err});
+      }
+      if (!user) {
+        return done(null, false);
+      }
+      return done(null, user);
+    });
+  });
+}));
+
+var User = require('./models/user').User;
+User.findOne({username: 'admin'}, function(err, user) {
+    if (!user) {
+      user = new User({username: 'admin', password: 'password'});
+      user.save();
+    }
+});
 
 var app = express();
 
@@ -19,18 +74,21 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
 
 app.use('/storage', require('./routes/user_storage'));
 app.use('/search', require('./routes/execute_query'));
-app.use('/test', require('./routes/test'));
 app.use('/auto_schedule', require('./routes/auto_schedule'));
+app.use('/authentication', require('./routes/authentication'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

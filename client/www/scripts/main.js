@@ -39,14 +39,47 @@ $(document).on('pagecontainercreate', function() {
   });
 });
 
+var redirectLogin = function(e, data) {
+  var bearer_token = localStorage.getItem('bearer_token');
+  if(bearer_token === null || bearer_token === 'undefined') {
+    data.toPage = $('#login');
+  }
+};
+$(document).on('pagecontainerbeforechange', redirectLogin);
+$(document).on('pagecreate', '#login', function() {
+  $('form').submit(function(e) {
+    e.preventDefault();
+    $.post($(this).attr('action'), $(this).serialize(), function(data) {
+      if (data.bearer_token) {
+        console.log('setting localStorage.bearer_token to ' + data.bearer_token);
+        localStorage.setItem('bearer_token', data.bearer_token);
+        console.log(localStorage.getItem('bearer_token'));
+        $.mobile.changePage('#home', {allowSamePageTransition: true});
+      }
+    });
+  });
+});
+
 $(document).on('pagecreate', '#home', function() {
   $.ajax({
     type: 'POST',
     url: REMOTE_URL + '/storage/get_user_sections/',
-    data: {username: 'Ananth', term: '20151'},
-    dataType: 'json',
+    data: {term: '20151'},
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+    },
     success: function(data) {
       console.log(data);
-    }
+    },
+    // error: function(jqXHR, status, error) {
+    //   console.log(status, error);
+    //   console.log(error.stack);
+    // },
+    // statusCode: {
+    //   401: function() {
+    //     localStorage.removeItem('bearer_token');
+    //     $.mobile.changePage('#login', {allowSamePageTransition: true});
+    //   }
+    // }
   });
 });
