@@ -1,15 +1,23 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 var Section = require('./section').Section;
 var Course = require('./course').Course;
 
 var UserSchema = new mongoose.Schema({
-  user_id: {
-    type: Number,
-  },
   username: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  token: {
+    type: String
   },
   scheduled_sections: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -67,6 +75,32 @@ UserSchema.statics.getUserCourseData = function(user, term_code, callback) {
   } else {
     getRegistered();
   }
+}
+
+var SALT_WORK_FACTOR = 10;
+UserSchema.pre('save', function(next) {
+  var user = this;
+  if(!user.isModified('password')) return next();
+  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    if(err) return next(err);
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if(err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if(err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+
+UserSchema.methods.generateBearerToken = function(cb) {
+  this.token = crypto.randomBytes(32).toString('base64');
+  this.save(cb);
 }
 
 var User = mongoose.model('User', UserSchema);

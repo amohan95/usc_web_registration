@@ -1,58 +1,54 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 var dbModel = require('../models/database_model.js');
 var db = new dbModel();
 
-router.get('/get_user_sections', function(req, res, next) {
-  var body = req.body;
-  if(body.username === undefined || body.term === undefined) {
+router.get('/get_user_sections', passport.authenticate('bearer'), function(req, res, next) {
+  if(req.query.term === undefined) {
     res.send({success: false});
   } else {
-    db.getUserSections(body.username, body.term, function(data) {
+    db.getUserSections(req.user.username, req.query.term, function(data) {
       res.send(data);
     });
   }
 });
 
-router.post('/schedule_section', function(req, res, next) {
-  var body = req.body;
-  if(body.username === undefined || body.section_id === undefined) {
+router.post('/schedule_section',  passport.authenticate('bearer'), function(req, res, next) {
+  if(req.body.section_id === undefined) {
     res.send({success: false});
   } else {
-    db.scheduleSection(body.username, body.section_id, function(data) {
+    db.scheduleSection(req.user.username, req.body.section_id, function(data) {
       res.send(data);
     });
   }
 });
 
-router.post('/unschedule_section', function(req, res, next) {
-  var body = req.body;
-  if(body.username === undefined || body.section_id === undefined) {
+router.post('/unschedule_section', passport.authenticate('bearer'), function(req, res, next) {
+  if(req.body.section_id === undefined) {
     res.send({success: false});
   } else {
-    db.unscheduleSection(body.username, body.section_id, function(data) {
+    db.unscheduleSection(req.user.username, req.body.section_id, function(data) {
       res.send(data);
     });
   }
 });
 
-router.post('/register_sections', function(req, res, next) {
-  var body = req.body;
-  if(body.username === undefined || body.section_ids === undefined) {
+router.post('/register_sections', passport.authenticate('bearer'), function(req, res, next) {
+  if(req.body.section_ids === undefined) {
     res.send({success: false});
   } else {
-    db.registerSections(body.username, body.section_ids, function(data) {
+    db.registerSections(req.user.username, req.body.section_ids, function(data) {
       res.send(data);
     });
   }
 });
 
-router.post('/unregister_sections', function(req, res, next) {
-  var body = req.body;
-  if(body.username === undefined || body.section_ids === undefined) {
+router.post('/unregister_sections', passport.authenticate('bearer'), function(req, res, next) {
+  if(req.body.section_ids === undefined) {
     res.send({success: false});
   } else {
-    db.unregisterSections(body.username, body.section_ids, function(data) {
+    db.unregisterSections(req.user.username, req.body.section_ids, function(data) {
       res.send(data);
     });
   }

@@ -199,6 +199,13 @@
       <div data-role="page" id="search">
         <h1>SEARCH</h1>
       </div>
+      <div data-role="page" id="login">
+        <form action="http://localhost:8000/authentication/login" method="post" data-ajax="false">
+          <i>Username: </i><input type="text" name="username"/></br>
+          <i>Password: </i><input type="password" name="password"/></br>
+          <input type="submit" value="Login"/>
+        </form>
+      </div>
     </main>
 
     <script src="scripts/jquery-2.1.3.min.js"></script>

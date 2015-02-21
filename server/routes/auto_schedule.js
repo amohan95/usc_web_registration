@@ -1,9 +1,10 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 var Course = require('../models/course').Course;
 var AutoSchedule = require('../lib/auto_schedule');
 
-router.post('/add_course', function(req, res, next) {
+router.post('/add_course', passport.authenticate('bearer'), function(req, res, next) {
 	if (req.session.hasOwnProperty('courses')) {
 		req.session.courses.push(req.body.course_id);
 	} else {
@@ -12,7 +13,7 @@ router.post('/add_course', function(req, res, next) {
 	res.sendStatus(200);
 });
 
-router.post('/add_included_section', function(req, res, next) {
+router.post('/add_included_section', passport.authenticate('bearer'), function(req, res, next) {
 	if (!req.session.hasOwnProperty('include')) {
 		req.session.include = {};
 	}
@@ -23,12 +24,12 @@ router.post('/add_included_section', function(req, res, next) {
 	res.sendStatus(200)
 });
 
-router.post('/remove_included_section', function(req, res, next) {
+router.post('/remove_included_section', passport.authenticate('bearer'), function(req, res, next) {
 	delete req.session.include[course_id][section_id];
 	res.sendStatus(200)
 });
 
-router.post('/add_excluded_section', function(req, res, next) {
+router.post('/add_excluded_section', passport.authenticate('bearer'), function(req, res, next) {
 	if (!req.session.hasOwnProperty('exclude')) {
 		req.session.exclude = {};
 	}
@@ -36,12 +37,12 @@ router.post('/add_excluded_section', function(req, res, next) {
 	res.sendStatus(200)
 });
 
-router.post('/remove_excluded_section', function(req, res, next) {
+router.post('/remove_excluded_section', passport.authenticate('bearer'), function(req, res, next) {
 	delete req.session.exclude[req.body.section_id];
 	res.sendStatus(200)
 });
 
-router.get('/build_combinations', function(req, res, next) {
+router.get('/build_combinations', passport.authenticate('bearer'), function(req, res, next) {
 	var as = new AutoSchedule();
 	as.include = req.session.include || {};
 	as.exclude = req.session.exclude || {};
@@ -52,14 +53,12 @@ router.get('/build_combinations', function(req, res, next) {
 			as.addCourse(course);
 		});
 		as.buildGraph(function() {
-			User.findOne({_id: req.session.user_id}, function(err, user) {
-				user.getBlockedTimes(function(blocked) {
-					var combinations = as.buildCombinations(blocked);
-					res.send({
-						courses: as.courses,
-						combinations: combinations
-					});
-				})
+			req.user.getBlockedTimes(function(blocked) {
+				var combinations = as.buildCombinations(blocked);
+				res.send({
+					courses: as.courses,
+					combinations: combinations
+				});
 			});
 		});
 	});
