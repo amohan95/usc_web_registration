@@ -49,11 +49,9 @@ $(document).on('pagecontainerbeforechange', redirectLogin);
 $(document).on('pagecreate', '#login', function() {
   $('form').submit(function(e) {
     e.preventDefault();
-    $.post($(this).attr('action'), $(this).serialize(), function(data) {
+    $.post(REMOTE_URL + '/authentication/login', $(this).serialize(), function(data) {
       if (data.bearer_token) {
-        console.log('setting localStorage.bearer_token to ' + data.bearer_token);
         localStorage.setItem('bearer_token', data.bearer_token);
-        console.log(localStorage.getItem('bearer_token'));
         $.mobile.changePage('#home', {allowSamePageTransition: true});
       }
     });
@@ -65,6 +63,22 @@ $(document).on('pagecreate', '#home', function() {
     type: 'GET',
     url: REMOTE_URL + '/storage/get_user_sections/',
     data: {term: '20151'},
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+    },
+    success: function(data) {
+      console.log(data);
+    },
+    statusCode: {
+      401: function() {
+        localStorage.removeItem('bearer_token');
+        $.mobile.changePage('#login', {allowSamePageTransition: true});
+      }
+    }
+  });
+  $.ajax({
+    type: 'GET',
+    url: REMOTE_URL + '/auto_schedule/build_combinations/',
     beforeSend: function(xhr) {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
     },

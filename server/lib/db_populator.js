@@ -5,7 +5,7 @@ var Course = require('../models/course').Course;
 var Section = require('../models/section').Section;
 var Term = require('../models/term').Term;
 
-function DatabasePopulator() { }
+var DatabasePopulator = function DatabasePopulator() { }
 
 DatabasePopulator.prototype.populateTerm = function(term_code, callback) {
   var RETRIEVE_URL = 'http://petri.esd.usc.edu/socAPI/Courses/%s/ALL'
@@ -21,12 +21,10 @@ DatabasePopulator.prototype.populateTerm = function(term_code, callback) {
           if(!course) {
             ++count;
             course = new Course();
-            course.populateFromJSON(course_json, term_code, function() {
-              itr_callback();
-            });
-          } else {
-            itr_callback();
           }
+          course.populateFromJSON(course_json, term_code, function() {
+            itr_callback();
+          });
         });
       }, function() {
         callback({success: true, count: count});

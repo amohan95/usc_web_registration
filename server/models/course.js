@@ -76,8 +76,7 @@ CourseSchema.methods.populateFromJSON = function(body, term_code, callback) {
 						sec.populateFromJSON(section, done, self);
 					}
 					else {
-						self.sections.push(sec);
-						itr_callback();
+						done();
 					}
 				});
 			}, function() {
