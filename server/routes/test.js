@@ -97,7 +97,7 @@ router.get('/populate_db', function(req, res, next) {
 	populator.populateTerm(body.term, function(data) {
 		res.send(data);
 	});
-	console.log(populating);
+	console.log('Populating...');
 });
 
 module.exports = router;

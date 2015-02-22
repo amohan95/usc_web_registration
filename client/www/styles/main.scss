@@ -324,6 +324,32 @@ body {
   border-bottom: none;
 }
 
+.custom-count-pos {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 0.2em 0.5em;
+    float: right;
+}
+
+.ui-listview>.ui-li-static {
+  white-space: normal;
+  list-style-type: none;
+}
+
+.section-list {
+  list-style-type: none;
+}
+
+.section-list li {
+  border-bottom: 1px solid black;
+  background: #f9f9f9;
+}
+
+// .course-tile {
+//   border-bottom: 1px solid black;
+//   background: #f9f9f9;
+// }
+
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
   .app-bar {

@@ -125,4 +125,10 @@ else {
   });
 }
 
+// var populator = new (require('./lib/db_populator').DatabasePopulator)();
+// console.log('Populating...');
+// populator.populateTerm('20151', function(data) {
+//   console.log(data);
+// });
+
 module.exports = app;

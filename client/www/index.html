@@ -198,12 +198,12 @@
       </div>
       <div data-role="page" id="search">
         <div class="ui-field-contain">
-          <input type="search" name="execute-search" id="execute-search" value="" data-mini="true" placeholder="Search">
+          <input type="search" name="search-field" id="search-field" value="" data-mini="true" placeholder="Search">
           <div data-role="collapsible" data-collapsed-icon="gear" data-expanded-icon="gear" data-mini="true">
             <h4>Search Options</h4>
             <div data-role="fieldcontain" id="search-options">
               <fieldset class="ui-grid-a">
-                <legend>Search Courses and Sections By:</legend>
+                <h7>Search Courses and Sections By:</h7>
                 <div class="ui-block-a">
                   <fieldset data-role="controlgroup">
                     <input type="checkbox" name="course-code" id="course-code-option" value="course_code" checked="checked" data-mini="true"/>
@@ -232,18 +232,20 @@
             </div>
           </div>
           <div id="search-results">
-            <h4>Results:</h4>
-            <div data-role="collapsible" id="course-results" data-mini="true">
-              <h3>Courses ( <span id="course-results-count">0</span> )</h3>
+            <h7>Results:</h7>
+            <div data-role="collapsible" data-mini="true">
+              <h3>Courses<span id="course-results-count" class="ui-btn-up-c ui-btn-corner-all custom-count-pos">0</span></h3>
+              <ul data-role="listview" id="course-results" data-mini="true"></ul>
             </div>
-            <div data-role="collapsible" id="section-results" data-mini="true">
-              <h3>Sections ( <span id="section-results-count">0</span> )</h3>
+            <div data-role="collapsible" data-mini="true">
+              <h3>Sections<span id="section-results-count" class="ui-btn-up-c ui-btn-corner-all custom-count-pos">0</span></h3>
+              <ul data-role="listview" id="section-results" data-mini="true"></ul>
             </div>
           </div>
         </div>
       </div>
       <div data-role="page" id="login">
-        <form action="https://safe-hollows-1871.herokuapp.com/authentication/login" method="post" data-ajax="false">
+        <form action="http://localhost:8000/authentication/login" method="post" data-ajax="false">
           <i>Username: </i><input type="text" name="username"/></br>
           <i>Password: </i><input type="password" name="password"/></br>
           <input type="submit" value="Login"/>

@@ -15,28 +15,28 @@ Query.prototype.executeQuery = function(query_string, term, parameters, callback
     switch(param) {
       case 'course_code': {
         if(!queries.courses) {
-          queries.courses = Course.find();
+          queries.courses = Course.find().sort('course_code');
         }
         queries.courses.or({course_code: new RegExp('^' + query_string, 'i')});
         break;
       }
       case 'course_title': {
         if(!queries.courses) {
-          queries.courses = Course.find();
+          queries.courses = Course.find().sort('course_code');
         }
         queries.courses.or({title: new RegExp(query_string, 'i')});
         break;
       }
       case 'description': {
         if(!queries.courses) {
-          queries.courses = Course.find();
+          queries.courses = Course.find().sort('course_code');
         }
         queries.courses.or({description: new RegExp(query_string, 'i')});
         break;
       }
       case 'diversity': {
         if(!queries.courses) {
-          queries.courses = Course.find();
+          queries.courses = Course.find().sort('course_code');
         }
         queries.courses.and({diversity: true});
         break;
@@ -94,7 +94,8 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     if(queries.courses === undefined) {
       coursesDef.resolve(courses);
     } else {
-      queries.courses.populate('effective_term', 'term_code -_id').exec(function(err, docs) {
+      queries.courses.populate('effective_term', 'term_code -_id')
+                     .populate('sections').exec(function(err, docs) {
         docs.forEach(function(course) {
           if(course.effective_term !== null && course.effective_term.term_code === term) {
             courses.push(course);
@@ -110,9 +111,12 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     if(queries.sections === undefined) {
       sectionsDef.resolve(sections);
     } else {
-      queries.sections.populate('term', 'term_code -_id').exec(function(err, docs) {
+      queries.sections.populate('term', 'term_code -_id').populate('course')
+             .exec(function(err, docs) {
         docs.forEach(function(section) {
-          if(section.term !== null && section.term.term_code === term) sections.push(section);
+          if(section.term !== null && section.term.term_code === term) {
+            sections.push(section);
+          } 
         });
         sectionsDef.resolve(sections);
       });

@@ -17,7 +17,8 @@
  *
  */
 
-var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+// var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+var REMOTE_URL = 'http://localhost:8000';
 
 $(document).on('pagecontainercreate', function() {
   var closeMenu = function() {
@@ -84,31 +85,94 @@ $(document).on('pagecreate', '#home', function() {
   });
 });
 
+function createCourseTile(course) {
+  var courseInfo = $('<div>').addClass('course-info').attr('style', 'display:none;');
+  var sectionList = $('<ul>').addClass('section-list');
+  courseInfo.append(sectionList);
+  var courseTile = $('<li>').addClass('course-tile').attr('data-course-id', course.course_id)
+  .append($('<p>').addClass('course-tile-code').text(course.course_code))
+  .append($('<p>').addClass('course-tile-title').text(course.title))
+  .append(courseInfo)
+  .click(function() {
+    $(this).children('.course-info').slideToggle('fast');
+  });
+  addSections(course.sections, sectionList);
+  return courseTile;
+}
+
+function createSectionTile(section) {
+  var sectionTile = $('<li>').addClass('section-tile')
+  .attr('data-section-id', section.section_id)
+  .append($('<p>').addClass('section-tile-type').text(section.type))
+  .append($('<p>').addClass('section-tile-code').text(section.section_code))
+  .append($('<p>').addClass('section-tile-location').text(section.location))
+  .append($('<p>').addClass('section-tile-instructor').text(section.instructor));
+  return sectionTile;
+}
+
+function addCourses(courses, courseArea) {
+  courses.forEach(function(course) {
+    courseArea.append(createCourseTile(course));
+  });
+  courseArea.listview('refresh');
+}
+
+function addSections(sections, sectionArea) {
+  sections.forEach(function(section) {
+    sectionArea.append(createSectionTile(section));
+  });
+}
+
 var prevQuery = null;
-$(document).on('pagecreate', '#search', function() {
-  $('#execute-search').on('input', function() {
-    var query_string = $(this).val();
-    if(query_string.length > 1) {
-      var parameters = {};
-      $.each($("#search-options input:checked"), function(key, option) {
-        parameters[option.value] = true;
-      });
-      if(prevQuery !== null) {
-        prevQuery.abort();
-      }
-      prevQuery = $.ajax({
-        type: 'POST',
-        url: REMOTE_URL + '/search/execute_query/',
-        data: {query_string: query_string, term: '20151', parameters: parameters},
-        success: function(data) {
-          prevQuery = null;
-          if(data.success) {
+function executeSearch(query_string) {
+  if(prevQuery !== null) {
+    prevQuery.abort();
+  }
+  if(query_string.length > 1) {
+    var parameters = {};
+    $.each($("#search-options input:checked"), function(key, option) {
+      parameters[option.value] = true;
+    });
+    var courseArea = $("#course-results");
+    var sectionArea = $("#section-results");
+    courseArea.empty();
+    sectionArea.empty();
+    var loader = $('<div>').append($('<img>').attr('src', './images/ajax-loader.gif'))
+                           .addClass('loading');
+    courseArea.append(loader.clone());
+    sectionArea.append(loader.clone());
+    prevQuery = $.ajax({
+      type: 'POST',
+      url: REMOTE_URL + '/search/execute_query/',
+      data: {query_string: query_string, term: '20151', parameters: parameters},
+      success: function(data) {
+        prevQuery = null;
+        if(data.success) {
+          if(data.courses.length < 500) {
             $('#course-results-count').text(data.courses.length);
-            $('#section-results-count').text(data.sections.length);
-            console.log(data);
+            addCourses(data.courses, courseArea);
+          } else {
+            $('#course-results-count').text('Too Many!');
           }
+          if(data.sections.length < 500) {
+            $('#section-results-count').text(data.sections.length);
+            addSections(data.sections, sectionArea);
+          } else {
+            $('#section-results-count').text('Too Many!');
+          }
+          $('.loading').remove();
         }
-      });
-    }
+      }
+    });
+  }
+}
+
+$(document).on('pagecreate', '#search', function() {
+  $('#search-field').on('input', function() {
+    executeSearch($(this).val());
+  });
+
+  $('#search-options input').on('change', function() {
+    executeSearch($('#search-field').val());
   });
 })

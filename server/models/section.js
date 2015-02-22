@@ -107,12 +107,16 @@ SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callbac
 	this.publish = json.PUBLISH_FLAG == 'Y';
 	var self = this;
 	var load_session = function load_session() {
-		var session = new Session();
-		session.session_code = json.SESSION;
-	  session.retrieveWithoutId(json.TERM_CODE, function() {
-			self.session = session;
+		if(json.SESSION !== null) {
+			var session = new Session();
+			session.session_code = json.SESSION;
+		  session.retrieveWithoutId(json.TERM_CODE, function() {
+				self.session = session;
+				self.save(callback);
+			});
+		} else {
 			self.save(callback);
-		});
+		}
 	};
 	var load_course = function load_course(term) {
 		self.term = term;

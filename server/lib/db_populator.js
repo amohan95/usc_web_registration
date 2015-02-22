@@ -15,7 +15,6 @@ DatabasePopulator.prototype.populateTerm = function(term_code, callback) {
       url: util.format(RETRIEVE_URL, term_code),
       json: true
     }, function (error, response, body) {
-      var i = 0;
       async.forEach(body, function(course_json, itr_callback) {
         Course.findOne({course_id: course_json.COURSE_ID}, function(err, course) {
           if(!course) {
