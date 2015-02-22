@@ -62,7 +62,7 @@ $(document).on('pagecreate', '#login', function() {
 
 $(document).on('pagecreate', '#home', function() {
   $.ajax({
-    type: 'POST',
+    type: 'GET',
     url: REMOTE_URL + '/storage/get_user_sections/',
     data: {term: '20151'},
     beforeSend: function(xhr) {
@@ -71,16 +71,12 @@ $(document).on('pagecreate', '#home', function() {
     success: function(data) {
       console.log(data);
     },
-    // error: function(jqXHR, status, error) {
-    //   console.log(status, error);
-    //   console.log(error.stack);
-    // },
-    // statusCode: {
-    //   401: function() {
-    //     localStorage.removeItem('bearer_token');
-    //     $.mobile.changePage('#login', {allowSamePageTransition: true});
-    //   }
-    // }
+    statusCode: {
+      401: function() {
+        localStorage.removeItem('bearer_token');
+        $.mobile.changePage('#login', {allowSamePageTransition: true});
+      }
+    }
   });
 });
 

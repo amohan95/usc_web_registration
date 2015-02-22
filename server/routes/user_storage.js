@@ -3,7 +3,7 @@ var passport = require('passport');
 var router = express.Router();
 var db = new (require('../models/database_model.js').DatabaseModel)();
 
-router.post('/get_user_sections', passport.authenticate('bearer'), function(req, res, next) {
+router.get('/get_user_sections', passport.authenticate('bearer'), function(req, res, next) {
   if(req.body.term === undefined) {
     res.send({success: false});
   } else {
