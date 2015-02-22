@@ -11,7 +11,7 @@
  * Visual Style Guide styles
  * Remove if you prefer to use a CSS library, like Bootstrap
  */
-@import 'components/components';
+/*@import 'components/components';*/
 
 html,
 body {
@@ -23,7 +23,7 @@ body {
 
 body {
   position: relative;
-  font-family: 'Roboto Condensed', Helvetica, Arial, sans-serif;
+  font-family: 'Raleway', 'Roboto Condensed', Helvetica, Arial, sans-serif;
   font-weight: 300;
   background-color: #fff;
   box-sizing: border-box;
@@ -227,7 +227,7 @@ main {
 main {
   margin: 0 auto;
   /* Height of the header */
-  padding: 60px 16px 16px 16px;
+  padding: 60px 0 0 0;
   min-height: 100%;
   width: 100%;
   height: 100%;
@@ -243,23 +243,26 @@ body {
   padding-top: 5px;
 }
 #top-text {
+  font-family: 'Raleway';
   font-size: 20px;
   text-align: center;
   padding-top: 5px;
 }
 #calendar {
-  height: 80%;
+  height: 85%;
   width: 100%;
   margin: 20px auto;
 }
-.time {
-  font-size: 12px;
+#cal-table .time-label {
+  font-family: 'Raleway';
   margin: 0;
   padding: 0;
-  height: 7%;
-  width: 10%;
+  padding-right: 10px;
+  width: 5%;
+  min-width: 10px;
   text-align: right;
   margin-top: 0;
+  border: none;
 }
 #days {
   width: 90%;
@@ -272,14 +275,17 @@ body {
   margin: 0;
 }
 #cal-table tr {
-  height: 5.6%;
+  height: 5%;
 }
-#cal-table table, tr, td {
+table {
+  border-collapse: collapse;
+}
+#cal-table table, td {
   background-color: white;
   border: 1px solid black;
 }
 #cal-table td {
-  width: 15%;
+  width: 18%;
   padding: 0;
   display: table-cell;
   text-align: center;
@@ -322,6 +328,8 @@ body {
 }
 #top-right {
   border-bottom: none;
+  width: 5% !important;
+  min-width: 10px;
 }
 
 .custom-count-pos {
@@ -440,46 +448,53 @@ body {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 300;
-  src: url(/fonts/RobotoCondensed-Light.eot);
-  src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url(/fonts/RobotoCondensed-Light.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Light.woff) format('woff');
+  src: url(../fonts/RobotoCondensed-Light.eot);
+  src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url(../fonts/RobotoCondensed-Light.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Light.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 400;
-  src: url(/fonts/RobotoCondensed-Regular.eot);
-  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(/fonts/RobotoCondensed-Regular.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Regular.woff) format('woff');
+  src: url(../fonts/RobotoCondensed-Regular.eot);
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(../fonts/RobotoCondensed-Regular.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-Regular.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 700;
-  src: url(/fonts/RobotoCondensed-Bold.eot);
-  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Bold'), url(/fonts/RobotoCondensed-Bold.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Bold.woff) format('woff');
+  src: url(../fonts/RobotoCondensed-Bold.eot);
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Bold'), url(../fonts/RobotoCondensed-Bold.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-Bold.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 300;
-  src: url(/fonts/RobotoCondensed-LightItalic.eot);
-  src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url(/fonts/RobotoCondensed-LightItalic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-LightItalic.woff) format('woff');
+  src: url(../fonts/RobotoCondensed-LightItalic.eot);
+  src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url(../fonts/RobotoCondensed-LightItalic.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-LightItalic.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 400;
-  src: url(/fonts/RobotoCondensed-Italic.eot);
-  src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url(/fonts/RobotoCondensed-Italic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Italic.woff) format('woff');
+  src: url(../fonts/RobotoCondensed-Italic.eot);
+  src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url(../fonts/RobotoCondensed-Italic.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-Italic.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 700;
-  src: url(/fonts/RobotoCondensed-BoldItalic.eot);
-  src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url(/fonts/RobotoCondensed-BoldItalic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-BoldItalic.woff) format('woff');
+  src: url(../fonts/RobotoCondensed-BoldItalic.eot);
+  src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url(../fonts/RobotoCondensed-BoldItalic.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-BoldItalic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/Raleway-Regular.ttf);
 }
