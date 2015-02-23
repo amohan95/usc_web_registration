@@ -4,6 +4,7 @@ var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 var Section = require('./section').Section;
 var Course = require('./course').Course;
+var AutoSchedule = require('./auto_schedule').AutoSchedule;
 
 var UserSchema = new mongoose.Schema({
   username: {
@@ -26,7 +27,11 @@ var UserSchema = new mongoose.Schema({
   registered_sections: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Section'
-  }]
+  }],
+  auto_schedule: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AutoSchedule'
+  }
 });
 
 UserSchema.methods.getBlockedTimes = function(callback) {

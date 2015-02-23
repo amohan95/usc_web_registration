@@ -3,11 +3,11 @@ var passport = require('passport');
 var router = express.Router();
 var db = new (require('../models/database_model.js').DatabaseModel)();
 
-router.post('/get_user_sections', passport.authenticate('bearer'), function(req, res, next) {
-  if(req.body.term === undefined) {
+router.get('/get_user_sections', passport.authenticate('bearer'), function(req, res, next) {
+  if(req.query.term === undefined) {
     res.send({success: false});
   } else {
-    db.getUserSections(req.user.username, req.body.term, function(data) {
+    db.getUserSections(req.user.username, req.query.term, function(data) {
       res.send(data);
     });
   }
