@@ -27,7 +27,7 @@ body {
   font-weight: 300;
   background-color: #fff;
   box-sizing: border-box;
-  min-height: 100%;
+  min-height: 0;
 }
 
 body.open {
@@ -330,6 +330,14 @@ table {
   border-bottom: none;
   width: 5% !important;
   min-width: 10px;
+}
+.ui-page {
+  min-height: 600px !important;
+  max-height: 600px !important;
+}
+#login {
+  min-height: 600px !important;
+  max-height: 600px !important;
 }
 
 /** Larger Screens - desktops and tablets **/
