@@ -57,11 +57,7 @@ router.post('/remove_excluded_section', passport.authenticate('bearer'),  popula
 router.get('/build_combinations', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
 	req.user.auto_schedule.buildGraph(function() {
 		req.user.getBlockedTimes(function(blocked) {
-			var combinations = req.user.auto_schedule.buildCombinations(blocked);
-			res.send({
-				courses: req.user.auto_schedule.course_map || {},
-				combinations: combinations
-			});
+			res.send(req.user.auto_schedule.buildCombinations(blocked, 100));
 		});
 	});
 });

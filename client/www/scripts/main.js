@@ -77,6 +77,11 @@ $(document).on('pagecreate', '#home', function() {
       }
     }
   });
+});
+
+$(document).on('pagecreate', '#auto-schedule', function() {
+  $('#combination-title').text('');
+  $('#combination-list').empty();
   $.ajax({
     type: 'GET',
     url: REMOTE_URL + '/auto_schedule/build_combinations/',
@@ -84,7 +89,13 @@ $(document).on('pagecreate', '#home', function() {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
     },
     success: function(data) {
-      console.log(data);
+      if (Object.keys(data.section_map).length == 0) {
+        $('#combination-title').text('Add at least one course to your auto-schedule bin');
+      } else {
+        sessionStorage.setItem('section_map', JSON.stringify(data.section_map));
+        sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
+        displayCombination(0);
+      }
     },
     statusCode: {
       401: function() {
@@ -95,13 +106,56 @@ $(document).on('pagecreate', '#home', function() {
   });
 });
 
+function displayCombination(i) {
+  if (sessionStorage.getItem('section_map') && sessionStorage.getItem('combinations')) {
+    var section_map = JSON.parse(sessionStorage.getItem('section_map'));
+    var combinations = JSON.parse(sessionStorage.getItem('combinations'));
+    if (i < 0) {
+      i = 0;
+    } else if (i >= combinations.length) {
+      i = combinations.length - 1;
+    }
+    sessionStorage.setItem('current_combination', i);
+    $('#combination-title').text('Combination ' + (i + 1) + ' of ' + combinations.length);
+    for (var j = 0; j < combinations[i].length; ++j) {
+      $('#combination-list').append(createSectionTile(section_map[combinations[i][j]]));
+    }
+  }
+}
+
+$(document).on('swipeleft', '#auto-schedule', function(e) {
+  var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
+  displayCombination(i + 1);
+});
+
+$(document).on('swiperight', '#auto-schedule', function(e) {
+  var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
+  displayCombination(i - 1);
+});
+
 function createCourseTile(course) {
   var courseInfo = $('<div>').addClass('course-info').attr('style', 'display:none;')
     .append($('<a>')
     .addClass('ui-btn ui-shadow ui-corner-all ui-icon-calendar ui-btn-icon-notext btn-center')
     .click(function(e) {
       e.stopPropagation();
-      console.log('AutoSchedule');
+      $.ajax({
+        type: 'POST',
+        url: REMOTE_URL + '/auto_schedule/add_course/',
+        data: {course_id: courseInfo.parent().data('course-id')},
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+        },
+        success: function(data) {
+          console.log(data);
+        },
+        statusCode: {
+          401: function() {
+            localStorage.removeItem('bearer_token');
+            $.mobile.changePage('#login', {allowSamePageTransition: true});
+          }
+        }
+      });
     }));
   var sectionList = $('<ul>').addClass('section-list');
   courseInfo.append(sectionList);

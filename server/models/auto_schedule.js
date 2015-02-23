@@ -16,8 +16,12 @@ var AutoScheduleSchema = new mongoose.Schema({
 });
 
 AutoScheduleSchema.methods.addCourse = function(course, cb) {
-	this.courses.push(course);
-	this.save(cb);
+	if (this.courses.indexOf(course) == -1) {
+		this.courses.push(course);
+		this.save(cb);
+	} else {
+		cb();
+	}
 }
 
 AutoScheduleSchema.methods.removeCourse = function(course, cb) {
@@ -63,11 +67,11 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 	var self = this;
 	var section_groups = [];
 	Course.find({'course_id': { $in: this.courses}}).populate('sections').exec(function(err, courses) {
-		self.course_map = {};
+		self.section_map = {};
 		courses.forEach(function(course) {
-			self.course_map[course.course_id] = course;
 			var sections = {};
 			course.sections.forEach(function(section) {
+				self.section_map[section.section_id] = section;
 				section.course = course;
 				if (sections.hasOwnProperty(section.type)) {
 					sections[section.type].push(section);
@@ -80,7 +84,9 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 			}
 		});
 		self.graph['head'] = [];
+		self.graph['max_combinations'] = 1;
 		for (var i = 0; i < section_groups.length - 1; ++i) {
+			self.graph['max_combinations'] *= section_groups[i].length;
 			for (var j = 0; j < section_groups[i].length; ++j) {
 				self.graph[section_groups[i][j]] = [];
 				for (var k = 0; k < section_groups[i + 1].length; ++k) {
@@ -91,19 +97,25 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 				}
 			}
 		}
+		self.graph['max_combinations'] *= section_groups[section_groups.length - 1].length;
 		callback();
 	});
 };
 
-AutoScheduleSchema.methods.buildCombinations = function(blocked) {
-	var all_combinations = [];
+AutoScheduleSchema.methods.buildCombinations = function(blocked, max_combinations) {
+	var combinations = [];
+	var all_possible = true;
 	for (var i = 0; i < this.graph['head'].length; ++i) {
-		this._buildCombinations(this.graph['head'][i], blocked, [], all_combinations);
+		all_possible = all_possible && this._buildCombinations(this.graph['head'][i], blocked, [], combinations, max_combinations);
 	}
-	return all_combinations;
+	return {
+		section_map: this.section_map || {},
+		combinations: combinations,
+		all_possible: all_possible
+	};
 };
 
-AutoScheduleSchema.methods._buildCombinations = function(current, blocked, combination, combinations) {
+AutoScheduleSchema.methods._buildCombinations = function(current, blocked, combination, combinations, max_combinations) {
 	if (current.publish && !this.exclude.hasOwnProperty(current.section_id) &&
 			    !current.conflictsWith(blocked) &&
 			    (!this.include.hasOwnProperty(current.course.course_id) ||
@@ -119,12 +131,21 @@ AutoScheduleSchema.methods._buildCombinations = function(current, blocked, combi
 				}
 			}
 			current.setConflict(blocked_new);
+			var ret = true;
 			for (var i = 0; i < this.graph[current].length; ++i) {
-				this._buildCombinations(this.graph[current][i], blocked_new, comb, combinations);
+				ret = ret && this._buildCombinations(this.graph[current][i], blocked_new, comb, combinations, max_combinations);
 			}
+			return ret;
 		} else {
-			combinations.push(combination);
+			if (combinations.length < max_combinations) {
+				combinations.push(combination);
+				return true;
+			} else {
+				return false;
+			}
 		}
+	} else {
+		return true;
 	}
 };
 
