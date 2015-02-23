@@ -17,7 +17,8 @@ Query.prototype.executeQuery = function(query_string, term, parameters, callback
         if(!queries.courses) {
           queries.courses = Course.find().sort('course_code');
         }
-        queries.courses.or({course_code: new RegExp('^' + query_string, 'i')});
+        queries.courses.or({course_code: new RegExp('^' + query_string + '|^' +
+                                                    query_string.replace(' ','-'), 'i')});
         break;
       }
       case 'course_title': {

@@ -13,7 +13,7 @@ router.get('/get_user_sections', passport.authenticate('bearer'), function(req, 
   }
 });
 
-router.post('/schedule_section',  passport.authenticate('bearer'), function(req, res, next) {
+router.post('/schedule_section', passport.authenticate('bearer'), function(req, res, next) {
   if(req.body.section_id === undefined) {
     res.send({success: false});
   } else {

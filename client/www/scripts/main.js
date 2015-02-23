@@ -96,11 +96,20 @@ $(document).on('pagecreate', '#home', function() {
 });
 
 function createCourseTile(course) {
-  var courseInfo = $('<div>').addClass('course-info').attr('style', 'display:none;');
+  var courseInfo = $('<div>').addClass('course-info').attr('style', 'display:none;')
+    .append($('<a>')
+    .addClass('ui-btn ui-shadow ui-corner-all ui-icon-calendar ui-btn-icon-notext btn-center')
+    .click(function(e) {
+      e.stopPropagation();
+      console.log('AutoSchedule');
+    }));
   var sectionList = $('<ul>').addClass('section-list');
   courseInfo.append(sectionList);
+
   var courseTile = $('<li>').addClass('course-tile').attr('data-course-id', course.course_id)
-  .append($('<p>').addClass('course-tile-code').text(course.course_code))
+  .append($('<p>').addClass('course-tile-code').text(course.course_code)
+    .append($('<span>').addClass('course-tile-units')
+    .text(", Units: " + (course.min_units == course.max_units ? course.min_units : course.min_units + "-" + course.max_units))))
   .append($('<p>').addClass('course-tile-title').text(course.title))
   .append(courseInfo)
   .click(function() {
@@ -111,12 +120,15 @@ function createCourseTile(course) {
 }
 
 function createSectionTile(section) {
-  var sectionTile = $('<li>').addClass('section-tile')
-  .attr('data-section-id', section.section_id)
+  var sectionTile = $('<li>').addClass('section-tile').attr('data-section-id', section.section_id)
   .append($('<p>').addClass('section-tile-type').text(section.type))
   .append($('<p>').addClass('section-tile-code').text(section.section_code))
   .append($('<p>').addClass('section-tile-location').text(section.location))
-  .append($('<p>').addClass('section-tile-instructor').text(section.instructor));
+  .append($('<p>').addClass('section-tile-instructor').text(section.instructor))
+  .click(function(e) {
+    e.stopPropagation();
+    console.log(section);
+  });
   return sectionTile;
 }
 
