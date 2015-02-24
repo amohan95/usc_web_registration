@@ -19,6 +19,12 @@
 
 // var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 var REMOTE_URL = 'http://localhost:8000';
+var current_classes = {};
+$(document).ready(function () {
+  $(window).resize(function(){
+    showClassCal(current_classes);
+  });
+});
 
 $(document).on('pagecontainercreate', function() {
   var closeMenu = function() {
@@ -60,23 +66,11 @@ $(document).on('pagecreate', '#login', function() {
 });
 
 $(document).on('pagecreate', '#home', function() {
-  $.ajax({
-    type: 'GET',
-    url: REMOTE_URL + '/storage/get_user_sections/',
-    data: {term: '20151'},
-    beforeSend: function(xhr) {
-      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
-    },
-    success: function(data) {
-      console.log(data);
-    },
-    statusCode: {
-      401: function() {
-        localStorage.removeItem('bearer_token');
-        $.mobile.changePage('#login', {allowSamePageTransition: true});
-      }
-    }
-  });
+  getCourseBin();
+});
+
+$("#home").on("pageshow" , function() {
+  getCourseBin();
 });
 
 $(document).on('pagecreate', '#auto-schedule', function() {
@@ -327,4 +321,91 @@ function convertMilitaryTime(time_string) {
   hrs = ((hrs + 11) % 12) + 1;
   var mins = time_string.substring(cIndex + 1, cIndex + 3);
   return hrs + ':' + mins + ' ' + amPm;
+}
+
+function getCourseBin() {
+  $.ajax({
+    type: 'GET',
+    url: REMOTE_URL + '/storage/get_user_sections/',
+    data: {term: '20151'},
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+    },
+    success: function(data) {
+      current_classes = data;
+      console.log(data);
+      showClassCal(data);
+    },
+    statusCode: {
+      401: function() {
+        localStorage.removeItem('bearer_token');
+        $.mobile.changePage('#login', {allowSamePageTransition: true});
+      }
+    }
+  });
+}
+
+function showClassCal(data) {
+  $("#class-display").empty();
+  var classes = data.scheduled;
+  for (var i = 0; i < classes.length; i++) {
+    if(classes[i].begin_time != "TBA") {
+      var day = classes[i].day;
+      while (day.length > 0) {
+        if ( day[0] == 'M') {
+          displayClass(2, classes[i]);
+          day = day.substring(1,day.length);
+        } else if ( day[0] == 'T') {
+          displayClass(3, classes[i]);
+          day = day.substring(1,day.length);
+        } else if ( day[0] == 'W') {
+          displayClass(4, classes[i]);
+          day = day.substring(1,day.length);
+        } else if ( day[0] == 'H') {
+          displayClass(5, classes[i]);
+          day = day.substring(1,day.length);
+        }else if ( day[0] == 'F') {
+          displayClass(6, classes[i]);
+          day = day.substring(1,day.length);
+        } else {
+          break;
+        }
+      }
+    }
+  }
+}
+
+//Calculates position of class and displays it
+function displayClass(day, data) {
+  var time = parseInt(data.begin_time.substring(0,2))-5;
+  var halftime = parseInt(data.begin_time.substring(3,5));
+  var duration = calculateClassTime(data);
+  var cell = $("#cal-table tr:nth-child("+time+") td:nth-child("+day+")");
+  var offset = cell.position();
+  var width = cell.width() + 1;
+  var height = duration * (cell.height()+1);
+  var top = offset.top+1;
+  var left = offset.left+1;
+  if(halftime == 30) {
+    top += (cell.height()+1)/2 +1;
+  }
+  $("#class-display").append($("<div>").attr('class', 'section').css("width",width).css("height",height).offset({top:top, left:left}).text(data.section_code));
+}
+
+//Returns class duration
+function calculateClassTime(data) {
+  var starttime = parseInt(data.begin_time.substring(0,2))-5;
+  var starthalftime = parseInt(data.begin_time.substring(3,5));
+  if(starthalftime == 30) {
+    starttime += .5;
+  }
+  var endtime = parseInt(data.end_time.substring(0,2))-5;
+  var endhalftime = parseInt(data.end_time.substring(3,5));
+  if(endhalftime == 30) {
+    endtime += .5;
+  } else if(endhalftime == 50) {
+    endtime += 1;
+  }
+
+  return endtime - starttime;
 }

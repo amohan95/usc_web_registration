@@ -161,7 +161,7 @@ body {
   font-weight: 300;
   background-color: #fff;
   box-sizing: border-box;
-  min-height: 100%; }
+  min-height: 0; }
 
 body.open {
   overflow: hidden; }
@@ -430,56 +430,65 @@ table {
   width: 5% !important;
   min-width: 10px; }
 
+.ui-page {
+  min-height: 600px !important;
+  max-height: 600px !important; }
+
+#login {
+  min-height: 600px !important;
+  max-height: 600px !important; }
+
 .custom-count-pos {
   font-size: 11px;
   font-weight: bold;
   padding: 0.2em 0.5em;
-  float: right;
-}
+  float: right; }
 
-.ui-listview>.ui-li-static {
+.ui-listview > .ui-li-static {
   white-space: normal;
-  list-style-type: none;
-}
+  list-style-type: none; }
 
 .course-tile > .ui-btn-right {
   margin-right: 10px;
-  margin-top: 25px;
-}
+  margin-top: 25px; }
 
 .course-tile-title {
   display: inline-block;
-  width: 90%;
-}
+  width: 90%; }
 
-.course-tile .section-list {
+.section-list {
   list-style-type: none;
-  padding: 10px;
-}
+  padding: 10px; }
 
-.course-tile .section-list li {
+.section-list li {
   border-bottom: 1px solid black;
-  background: #f9f9f9;
-}
+  background: #f9f9f9; }
 
 .section-tile {
-  margin: 10px;
-}
+  margin: 10px; }
 
 .section-tile-info {
-  display: inline-block;
-}
+  display: inline-block; }
 
 .section-tile-time {
   display: inline-block;
   text-align: center;
   margin-right: 10px;
-  float: right;
-}
+  float: right; }
 
 #popup-section-tile p {
-  font-size: 16px;
-}
+  font-size: 16px; }
+
+#class-display {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+.section {
+  background-color: #FFCC00;
+  position: absolute;
+  font-size: 10px;
+  text-align: center; }
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {

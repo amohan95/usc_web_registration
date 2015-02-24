@@ -391,6 +391,19 @@ table {
   font-size: 16px;
 }
 
+#class-display {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.section {
+  background-color: #FFCC00;
+  position: absolute;
+  font-size: 10px;
+  text-align: center;
+}
+
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
   .app-bar {
