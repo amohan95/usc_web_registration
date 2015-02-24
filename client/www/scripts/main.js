@@ -134,20 +134,42 @@ $(document).on('swiperight', '#auto-schedule', function(e) {
 });
 
 function createCourseTile(course) {
-  var courseInfo = $('<div>').addClass('course-info').attr('style', 'display:none;')
+  var courseInfo = $('<div>').addClass('course-info').attr('style', 'display:none;');
+  var sectionList = $('<ul>').addClass('section-list');
+  courseInfo.append(sectionList);
+
+  var courseTile = $('<div>').addClass('course-tile').attr('data-course-id', course.course_id)
+    .append($('<div>').addClass('course-tile-title')
+    .append($('<p>').text(course.course_code)
+      .append($('<span>')
+      .text(", Units: " + (course.min_units == course.max_units ? course.min_units : course.min_units + "-" + course.max_units))))
+    .append($('<p>').text(course.title)))
     .append($('<a>')
-    .addClass('ui-btn ui-shadow ui-corner-all ui-icon-calendar ui-btn-icon-notext btn-center')
+    .addClass('ui-btn ui-shadow ui-corner-all ui-icon-calendar ui-btn-icon-notext ui-btn-right')
     .click(function(e) {
       e.stopPropagation();
+      var popup = $('#autoschedule-popup');
+      popup.attr('data-course-id', course.course_id);
+      $('#autoschedule-popup-title').text(course.course_code);
+      popup.popup('open');
+    }))
+  .append(courseInfo)
+  .click(function() {
+    if(!$(this).hasClass('expanded')) {
+      $(this).addClass('expanded');
+      sectionList.empty();
       $.ajax({
         type: 'POST',
-        url: REMOTE_URL + '/auto_schedule/add_course/',
-        data: {course_id: courseInfo.parent().data('course-id')},
+        url: REMOTE_URL + '/search/get_sections_for_course/',
+        data: {course_id: course.course_id},
+        dataType: 'json',
         beforeSend: function(xhr) {
           xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
         },
         success: function(data) {
-          console.log(data);
+          if(data.success) {
+            addSections(data.sections, sectionList);
+          }
         },
         statusCode: {
           401: function() {
@@ -156,46 +178,49 @@ function createCourseTile(course) {
           }
         }
       });
-    }));
-  var sectionList = $('<ul>').addClass('section-list');
-  courseInfo.append(sectionList);
-
-  var courseTile = $('<li>').addClass('course-tile').attr('data-course-id', course.course_id)
-  .append($('<p>').addClass('course-tile-code').text(course.course_code)
-    .append($('<span>').addClass('course-tile-units')
-    .text(", Units: " + (course.min_units == course.max_units ? course.min_units : course.min_units + "-" + course.max_units))))
-  .append($('<p>').addClass('course-tile-title').text(course.title))
-  .append(courseInfo)
-  .click(function() {
+    } else {
+      $(this).removeClass('expanded');
+    }
     $(this).children('.course-info').slideToggle('fast');
   });
-  addSections(course.sections, sectionList);
   return courseTile;
 }
 
 function createSectionTile(section) {
-  var sectionTile = $('<li>').addClass('section-tile').attr('data-section-id', section.section_id)
-  .append($('<p>').addClass('section-tile-type').text(section.type))
-  .append($('<p>').addClass('section-tile-code').text(section.section_code))
-  .append($('<p>').addClass('section-tile-location').text(section.location))
-  .append($('<p>').addClass('section-tile-instructor').text(section.instructor))
-  .click(function(e) {
+  var sectionTile = $('<div>').addClass('section-tile')
+  .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
+  .append($('<div>').addClass('section-tile-info')
+    .append($('<p>').addClass('section-tile-type').text(section.type))
+    .append($('<p>').addClass('section-tile-code').text(section.section_code))
+    .append($('<p>').addClass('section-tile-location').text(section.location))
+    .append($('<p>').addClass('section-tile-instructor').text(section.instructor)))
+  .append($('<div>').addClass('section-tile-time')
+    .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
+                         (convertMilitaryTime(section.begin_time) + '-' +
+                          convertMilitaryTime(section.end_time))))
+    .append($('<p>').text(section.day)));
+  
+  sectionTile.click(function(e) {
     e.stopPropagation();
-    console.log(section);
+    var popup = $('#schedule-section-popup');
+    $('#popup-section-course').text(section.course_code);
+    $('#popup-section-tile').empty()
+    $('#popup-section-tile').append(sectionTile.clone());
+    popup.popup('open');
   });
   return sectionTile;
 }
 
 function addCourses(courses, courseArea) {
   courses.forEach(function(course) {
-    courseArea.append(createCourseTile(course));
+    courseArea.append($('<li>').append(createCourseTile(course)));
   });
   courseArea.listview('refresh');
 }
 
 function addSections(sections, sectionArea) {
   sections.forEach(function(section) {
-    sectionArea.append(createSectionTile(section));
+    sectionArea.append($('<li>').append(createSectionTile(section)));
   });
 }
 
@@ -251,4 +276,55 @@ $(document).on('pagecreate', '#search', function() {
   $('#search-options input').on('change', function() {
     executeSearch($('#search-field').val());
   });
-})
+
+  $('#confirm-add-autoschedule').click(function() {
+    $.ajax({
+      type: 'POST',
+      url: REMOTE_URL + '/auto_schedule/add_course/',
+      data: {course_id: $("#autoschedule-popup").data('course-id')},
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+      },
+      success: function(data) {
+        console.log(data);
+        $("autoschedule-popup").popup('close');
+      },
+      statusCode: {
+        401: function() {
+          localStorage.removeItem('bearer_token');
+          $.mobile.changePage('#login', {allowSamePageTransition: true});
+        }
+      }
+    });
+  });
+
+  $('#confirm-schedule-section').click(function() {
+    $.ajax({
+      type: 'POST',
+      url: REMOTE_URL + '/storage/schedule_section/',
+      data: {section_id: $('#popup-section-tile > div').data('section-id')},
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+      },
+      success: function(data) {
+        console.log(data);
+        $('#schedule-section-popup').popup('close');
+      },
+      statusCode: {
+        401: function() {
+          localStorage.removeItem('bearer_token');
+          $.mobile.changePage('#login', {allowSamePageTransition: true});
+        }
+      }
+    });
+  });
+});
+
+function convertMilitaryTime(time_string) {  
+  var cIndex = time_string.indexOf(':');
+  var hrs = parseInt(time_string.substring(0, cIndex));
+  var amPm = hrs > 11 ? 'PM' : 'AM';
+  hrs = ((hrs + 11) % 12) + 1;
+  var mins = time_string.substring(cIndex + 1, cIndex + 3);
+  return hrs + ':' + mins + ' ' + amPm;
+}

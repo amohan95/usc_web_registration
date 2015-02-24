@@ -431,10 +431,10 @@ table {
   min-width: 10px; }
 
 .custom-count-pos {
-    font-size: 11px;
-    font-weight: bold;
-    padding: 0.2em 0.5em;
-    float: right;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 0.2em 0.5em;
+  float: right;
 }
 
 .ui-listview>.ui-li-static {
@@ -442,13 +442,43 @@ table {
   list-style-type: none;
 }
 
-.section-list {
-  list-style-type: none;
+.course-tile > .ui-btn-right {
+  margin-right: 10px;
+  margin-top: 25px;
 }
 
-.section-list li {
+.course-tile-title {
+  display: inline-block;
+  width: 90%;
+}
+
+.course-tile .section-list {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.course-tile .section-list li {
   border-bottom: 1px solid black;
   background: #f9f9f9;
+}
+
+.section-tile {
+  margin: 10px;
+}
+
+.section-tile-info {
+  display: inline-block;
+}
+
+.section-tile-time {
+  display: inline-block;
+  text-align: center;
+  margin-right: 10px;
+  float: right;
+}
+
+#popup-section-tile p {
+  font-size: 16px;
 }
 
 /** Larger Screens - desktops and tablets **/

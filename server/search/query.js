@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var async = require('async');
 var $ = require('jquery-deferred');
 var Section = require('../models/section').Section;
 var Course = require('../models/course').Course;
@@ -95,8 +96,7 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     if(queries.courses === undefined) {
       coursesDef.resolve(courses);
     } else {
-      queries.courses.populate('effective_term', 'term_code -_id')
-                     .populate('sections').exec(function(err, docs) {
+      queries.courses.populate('effective_term', 'term_code -_id').exec(function(err, docs) {
         docs.forEach(function(course) {
           if(course.effective_term !== null && course.effective_term.term_code === term) {
             courses.push(course);
@@ -126,6 +126,20 @@ Query.prototype.executeSearch = function(queries, term, callback) {
   }
   $.when(coursesQuery(), sectionsQuery()).done(function(courses, sections) {
     callback({courses: courses, sections: sections, success: true});
+  });
+}
+
+Query.prototype.getSectionsForCourse = function(course_id, username, callback) {
+  var sections = [];
+  Course.findOne({course_id: course_id}).populate('sections').lean()
+  .exec(function(err, doc) {
+    async.forEach(doc.sections, function(section, itr_callback) {
+      section.course_code = doc.course_code;
+      sections.push(section);
+      itr_callback();
+    }, function() {
+      callback({sections: sections, success: true})
+    });
   });
 }
 
