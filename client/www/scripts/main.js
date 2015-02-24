@@ -193,7 +193,7 @@ function createSectionTile(section) {
                          (convertMilitaryTime(section.begin_time) + '-' +
                           convertMilitaryTime(section.end_time))))
     .append($('<p>').text(section.day)));
-  
+
   sectionTile.click(function(e) {
     e.stopPropagation();
     var popup = $('#schedule-section-popup');
@@ -275,13 +275,13 @@ $(document).on('pagecreate', '#search', function() {
     $.ajax({
       type: 'POST',
       url: REMOTE_URL + '/auto_schedule/add_course/',
-      data: {course_id: $("#autoschedule-popup").data('course-id')},
+      data: {course_id: $('#autoschedule-popup').data('course-id')},
       beforeSend: function(xhr) {
         xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
       },
       success: function(data) {
         console.log(data);
-        $("#autoschedule-popup").popup('close');
+        $('#autoschedule-popup').popup('close');
       },
       statusCode: {
         401: function() {
@@ -314,7 +314,7 @@ $(document).on('pagecreate', '#search', function() {
   });
 });
 
-function convertMilitaryTime(time_string) {  
+function convertMilitaryTime(time_string) {
   var cIndex = time_string.indexOf(':');
   var hrs = parseInt(time_string.substring(0, cIndex));
   var amPm = hrs > 11 ? 'PM' : 'AM';
