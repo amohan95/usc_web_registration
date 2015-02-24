@@ -5,7 +5,7 @@ var Course = require('../models/course').Course;
 var AutoSchedule = require('../models/auto_schedule').AutoSchedule;
 
 var populateAutoSchedule = function (req, res, next) {
-	req.user.populate('auto_schedule', function(err, user) {
+	req.user.populate('auto_schedule sections', function(err, user) {
 		if (user.auto_schedule) {
 			next();
 		} else {
