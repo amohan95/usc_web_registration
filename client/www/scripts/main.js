@@ -22,8 +22,16 @@ var REMOTE_URL = 'http://localhost:8000';
 var current_classes = {};
 $(document).ready(function () {
   $(window).resize(function(){
-    showClassCal(current_classes);
+    $("#class-display").empty();
+    for (var i = 0; i < current_classes.length; i++) {
+      showSection(current_classes[i]);
+    }
   });
+  $('#home-menu').click(function() {
+    $('#home').removeClass('auto-schedule');
+    $("#class-display").empty();
+    getCourseBin()
+  })
 });
 
 $(document).on('pagecontainercreate', function() {
@@ -73,7 +81,9 @@ $("#home").on("pageshow" , function() {
   getCourseBin();
 });
 
-$(document).on('pagecreate', '#auto-schedule', function() {
+$("#auto-schedule").click( function(e) {
+  e.preventDefault();
+  $('#home').addClass('auto-schedule');
   $('#combination-title').text('');
   $('#combination-list').empty();
   $.ajax({
@@ -110,22 +120,26 @@ function displayCombination(i) {
       i = combinations.length - 1;
     }
     if (i >= 0) {
-      $('#combination-list').clear();
+      $('#combination-list').empty();
       sessionStorage.setItem('current_combination', i);
       $('#combination-title').text('Combination ' + (i + 1) + ' of ' + combinations.length);
+      $("#class-display").empty();
+      current_classes = [];
       for (var j = 0; j < combinations[i].length; ++j) {
         $('#combination-list').append(createSectionTile(section_map[combinations[i][j]]));
+        current_classes.push(section_map[combinations[i][j]]);
       }
+      console.log(current_classes);
     }
   }
 }
 
-$(document).on('swipeleft', '#auto-schedule', function(e) {
+$(document).on('swipeleft', '.auto-schedule', function(e) {
   var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
   displayCombination(i + 1);
 });
 
-$(document).on('swiperight', '#auto-schedule', function(e) {
+$(document).on('swiperight', '.auto-schedule', function(e) {
   var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
   displayCombination(i - 1);
 });
@@ -184,6 +198,7 @@ function createCourseTile(course) {
 }
 
 function createSectionTile(section) {
+  showSection(section);
   var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
@@ -335,7 +350,7 @@ function getCourseBin() {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
     },
     success: function(data) {
-      current_classes = data;
+      current_classes = data.scheduled;
       console.log(data);
       showClassCal(data);
     },
@@ -348,31 +363,37 @@ function getCourseBin() {
   });
 }
 
+//Takes an array
 function showClassCal(data) {
   $("#class-display").empty();
   var classes = data.scheduled;
   for (var i = 0; i < classes.length; i++) {
-    if(classes[i].begin_time != "TBA") {
-      var day = classes[i].day;
-      while (day.length > 0) {
-        if ( day[0] == 'M') {
-          displayClass(2, classes[i]);
-          day = day.substring(1,day.length);
-        } else if ( day[0] == 'T') {
-          displayClass(3, classes[i]);
-          day = day.substring(1,day.length);
-        } else if ( day[0] == 'W') {
-          displayClass(4, classes[i]);
-          day = day.substring(1,day.length);
-        } else if ( day[0] == 'H') {
-          displayClass(5, classes[i]);
-          day = day.substring(1,day.length);
-        }else if ( day[0] == 'F') {
-          displayClass(6, classes[i]);
-          day = day.substring(1,day.length);
-        } else {
-          break;
-        }
+    showSection(classes[i]);
+  }
+}
+
+//Takes a section
+function showSection(data) {
+  if(data.begin_time != "TBA") {
+    var day = data.day;
+    while (day.length > 0) {
+      if ( day[0] == 'M') {
+        displayClass(2, data);
+        day = day.substring(1,day.length);
+      } else if ( day[0] == 'T') {
+        displayClass(3, data);
+        day = day.substring(1,day.length);
+      } else if ( day[0] == 'W') {
+        displayClass(4, data);
+        day = day.substring(1,day.length);
+      } else if ( day[0] == 'H') {
+        displayClass(5, data);
+        day = day.substring(1,day.length);
+      }else if ( day[0] == 'F') {
+        displayClass(6, data);
+        day = day.substring(1,day.length);
+      } else {
+        break;
       }
     }
   }
@@ -392,7 +413,7 @@ function displayClass(day, data) {
   if(halftime == 30) {
     top += (cell.height()+1)/2 +1;
   }
-  $("#class-display").append($("<div>").attr('class', 'section').css("width",width).css("height",height).offset({top:top, left:left}).text(data.section_code));
+  $("#class-display").append($("<div>").attr('class', 'section').css("width",width).css("height",height).offset({top:top, left:left}).text(data.course_code));
 }
 
 //Returns class duration
