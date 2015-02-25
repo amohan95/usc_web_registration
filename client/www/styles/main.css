@@ -303,7 +303,10 @@ body.open {
   color: black;
   -webkit-transition: background-color 0.2s ease-out;
   transition: background-color 0.2s ease-out;
-  white-space: nowrap; }
+  white-space: nowrap;
+  height: 25px;
+  width: 70%;
+  margin-left: 10%; }
 
 .navdrawer-container ul li {
   border-bottom-style: solid;
@@ -497,6 +500,10 @@ table {
   font-size: 15px;
   margin-top: 5px;
   margin-bottom: 0; }
+
+.menu-icon {
+  width: 30px;
+  padding-right: 20px; }
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {

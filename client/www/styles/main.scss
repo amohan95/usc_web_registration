@@ -198,6 +198,9 @@ main {
   -webkit-transition: background-color 0.2s ease-out;
           transition: background-color 0.2s ease-out;
   white-space: nowrap;
+  height: 25px;
+  width: 70%;
+  margin-left: 10%;
 }
 
 .navdrawer-container ul li {
@@ -412,6 +415,10 @@ table {
   font-size: 15px;
   margin-top: 5px;
   margin-bottom: 0;
+}
+.menu-icon {
+  width: 30px;
+  padding-right: 20px;
 }
 
 /** Larger Screens - desktops and tablets **/

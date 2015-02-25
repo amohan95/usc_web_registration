@@ -28,6 +28,7 @@ $(document).ready(function () {
     }
   });
   $('#home-menu').click(function() {
+    $('#combination-title').text('');
     $('#home').removeClass('auto-schedule');
     $("#class-display").empty();
     getCourseBin()
