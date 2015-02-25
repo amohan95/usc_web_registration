@@ -79,10 +79,14 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 					sections[section.type] = [section];
 				}
 			});
-			section_groups.push(sections['Lecture']);
-			section_groups.push(sections[null]);
-			delete sections['Lecture'];
-			delete sections[null];
+			if (sections.hasOwnProperty('Lecture')) {
+				section_groups.push(sections['Lecture']);
+				delete sections['Lecture'];
+			}
+			if (sections.hasOwnProperty(null)) {
+				section_groups.push(sections[null]);
+				delete sections[null];
+			}
 			for (var key in sections) {
 				section_groups.push(sections[key]);
 			}
