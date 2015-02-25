@@ -487,7 +487,8 @@ table {
   background-color: #FFCC00;
   position: absolute;
   font-size: 10px;
-  text-align: center; }
+  text-align: center;
+  text-shadow: none; }
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
@@ -546,7 +547,9 @@ table {
     padding-top: 0;
     min-height: initial; }
   body {
-    overflow-y: scroll; } }
+    overflow-y: scroll; }
+  .section {
+    font-size: 14px; } }
 
 @font-face {
   font-family: 'Roboto Condensed';

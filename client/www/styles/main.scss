@@ -402,6 +402,7 @@ table {
   position: absolute;
   font-size: 10px;
   text-align: center;
+  text-shadow: none;
 }
 
 /** Larger Screens - desktops and tablets **/
@@ -487,6 +488,10 @@ table {
 
   body {
     overflow-y: scroll;
+  }
+
+  .section {
+    font-size: 14px;
   }
 }
 

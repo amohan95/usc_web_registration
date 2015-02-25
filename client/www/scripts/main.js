@@ -425,7 +425,7 @@ function calculateClassTime(data) {
   }
   var endtime = parseInt(data.end_time.substring(0,2))-5;
   var endhalftime = parseInt(data.end_time.substring(3,5));
-  if(endhalftime == 30) {
+  if(endhalftime == 20) {
     endtime += .5;
   } else if(endhalftime == 50) {
     endtime += 1;
