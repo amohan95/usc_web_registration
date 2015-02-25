@@ -126,7 +126,7 @@ function displayCombination(i) {
       $("#class-display").empty();
       current_classes = [];
       for (var j = 0; j < combinations[i].length; ++j) {
-        $('#combination-list').append(createSectionTile(section_map[combinations[i][j]]));
+        showSection(section_map[combinations[i][j]]);
         current_classes.push(section_map[combinations[i][j]]);
       }
       console.log(current_classes);

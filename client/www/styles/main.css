@@ -350,7 +350,8 @@ body {
 #calendar {
   height: 85%;
   width: 100%;
-  margin: 20px auto; }
+  margin: 20px auto;
+  margin-bottom: 0; }
 
 #cal-table .time-label {
   font-family: 'Raleway';
@@ -366,7 +367,8 @@ body {
 #days {
   width: 90%;
   height: 100%;
-  margin: 10px auto; }
+  margin: 10px auto;
+  margin-bottom: 0; }
 
 #cal-table {
   width: 100%;
@@ -489,6 +491,12 @@ table {
   font-size: 10px;
   text-align: center;
   text-shadow: none; }
+
+#combination-title {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 5px;
+  margin-bottom: 0; }
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
