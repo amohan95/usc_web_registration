@@ -403,15 +403,15 @@ function showSection(data) {
 function displayClass(day, data) {
   var time = parseInt(data.begin_time.substring(0,2))-5;
   var halftime = parseInt(data.begin_time.substring(3,5));
-  var duration = calculateClassTime(data);
+  var duration = calculateClassTime(data); 
   var cell = $("#cal-table tr:nth-child("+time+") td:nth-child("+day+")");
   var offset = cell.position();
   var width = cell.width() + 1;
-  var height = duration * (cell.height()+1);
+  var height = duration*(cell.height()+1) + duration -1;
   var top = offset.top+1;
   var left = offset.left+1;
   if(halftime == 30) {
-    top += (cell.height()+1)/2 +1;
+    top += (cell.height()+1)/2;
   }
   $("#class-display").append($("<div>").attr('class', 'section').css("width",width).css("height",height).offset({top:top, left:left}).text(data.course_code));
 }
