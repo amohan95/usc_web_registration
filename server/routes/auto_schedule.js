@@ -5,16 +5,18 @@ var Course = require('../models/course').Course;
 var AutoSchedule = require('../models/auto_schedule').AutoSchedule;
 
 var populateAutoSchedule = function (req, res, next) {
-	req.user.populate('auto_schedule sections', function(err, user) {
-		if (user.auto_schedule) {
-			next();
-		} else {
-			var auto_schedule = new AutoSchedule();
-			auto_schedule.save(function(){
-				user.auto_schedule = auto_schedule;
-				user.save(next);
-			});
-		}
+	req.user.populate('auto_schedule', function(err, user) {
+		user.populate('scheduled_sections', function(err, user_) {
+			if (user.auto_schedule) {
+				next();
+			} else {
+				var auto_schedule = new AutoSchedule();
+				auto_schedule.save(function(){
+					user.auto_schedule = auto_schedule;
+					user.save(next);
+				});
+			}
+		});
 	});
 };
 

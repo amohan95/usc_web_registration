@@ -20,6 +20,7 @@ var SectionSchema = new mongoose.Schema({
 		unique: true
 	},
 	section_code: String,
+	course_code: String,
 	session: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'Session'
@@ -77,6 +78,41 @@ SectionSchema.methods.setConflict = function(blocked) {
 	}
 }
 
+SectionSchema.methods.getNumericalSectionCode = function() {
+	return parseInt(this.section_code.replace(/[^a-z\d]*$/gi, ''));
+};
+
+var DEPARTMENTS_REQUIRING_SECTION_RELATION = {
+	'MATH' : ['Lecture',null]
+};
+SectionSchema.methods.isValidChildOf = function(parent, parent_pool) {
+	if (parent.course_code == this.course_code) {
+		if (DEPARTMENTS_REQUIRING_SECTION_RELATION.hasOwnProperty(parent.course_code.split('-')[0])) {
+			var relation = DEPARTMENTS_REQUIRING_SECTION_RELATION[parent.course_code.split('-')[0]];
+			if (parent.type == relation[0] && this.type == relation[1]) {
+				var parent_code = parent.getNumericalSectionCode();
+				var next_parent_code = 9007199254740992;
+				var next_parent = null;
+				parent_pool.forEach(function(section) {
+					var section_code = section.getNumericalSectionCode();
+					if (section_code > parent_code && section_code < next_parent_code) {
+						next_parent_code = section_code;
+					}
+				});
+				var this_code = this.getNumericalSectionCode();
+				console.log(parent_code + ' ' + this_code + ' ' + next_parent_code);
+				return this_code > parent_code && this_code < next_parent_code;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	} else {
+		return true;
+	}
+}
+
 SectionSchema.statics.RETRIEVE_URL = 'http://petri.esd.usc.edu/socapi/sections/%s';
 
 SectionSchema.methods.retrieve = function retrieve(callback) {
@@ -92,6 +128,7 @@ SectionSchema.methods.retrieve = function retrieve(callback) {
 SectionSchema.methods.populateFromJSON = function populateFromJSON(json, callback, course) {
 	this.section_id = json.SECTION_ID;
 	this.section_code = json.SECTION;
+	this.course_code = json.SIS_COURSE_ID;
 	this.name = json.NAME;
 	this.units = json.UNIT_CODE;
 	this.type = json.TYPE;

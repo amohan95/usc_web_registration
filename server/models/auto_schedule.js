@@ -66,7 +66,7 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 	this.graph = {};
 	var self = this;
 	var section_groups = [];
-	Course.find({'course_id': { $in: this.courses}}).populate('sections').exec(function(err, courses) {
+	Course.find({'course_id': { $in: this.courses}}).populate({path: 'sections', options: {sort: 'section_code'}}).exec(function(err, courses) {
 		self.section_map = {};
 		courses.forEach(function(course) {
 			var sections = {};
@@ -79,25 +79,28 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 					sections[section.type] = [section];
 				}
 			});
+			section_groups.push(sections['Lecture']);
+			section_groups.push(sections[null]);
+			delete sections['Lecture'];
+			delete sections[null];
 			for (var key in sections) {
 				section_groups.push(sections[key]);
 			}
 		});
 		self.graph['head'] = [];
-		self.graph['max_combinations'] = 1;
 		for (var i = 0; i < section_groups.length - 1; ++i) {
-			self.graph['max_combinations'] *= section_groups[i].length;
 			for (var j = 0; j < section_groups[i].length; ++j) {
 				self.graph[section_groups[i][j]] = [];
 				for (var k = 0; k < section_groups[i + 1].length; ++k) {
-					self.graph[section_groups[i][j]].push(section_groups[i + 1][k]);
+					if (section_groups[i + 1][k].isValidChildOf(section_groups[i][j], section_groups[i])) {
+						self.graph[section_groups[i][j]].push(section_groups[i + 1][k]);
+					}
 				}
 				if (i == 0) {
 					self.graph['head'].push(section_groups[i][j]);
 				}
 			}
 		}
-		self.graph['max_combinations'] *= section_groups[section_groups.length - 1].length;
 		callback();
 	});
 };
@@ -138,7 +141,7 @@ AutoScheduleSchema.methods._buildCombinations = function(current, blocked, combi
 			return ret;
 		} else {
 			if (combinations.length < max_combinations) {
-				combinations.push(combination);
+				combinations.push(comb);
 				return true;
 			} else {
 				return false;

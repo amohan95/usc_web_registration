@@ -109,10 +109,13 @@ function displayCombination(i) {
     } else if (i >= combinations.length) {
       i = combinations.length - 1;
     }
-    sessionStorage.setItem('current_combination', i);
-    $('#combination-title').text('Combination ' + (i + 1) + ' of ' + combinations.length);
-    for (var j = 0; j < combinations[i].length; ++j) {
-      $('#combination-list').append(createSectionTile(section_map[combinations[i][j]]));
+    if (i >= 0) {
+      $('#combination-list').clear();
+      sessionStorage.setItem('current_combination', i);
+      $('#combination-title').text('Combination ' + (i + 1) + ' of ' + combinations.length);
+      for (var j = 0; j < combinations[i].length; ++j) {
+        $('#combination-list').append(createSectionTile(section_map[combinations[i][j]]));
+      }
     }
   }
 }

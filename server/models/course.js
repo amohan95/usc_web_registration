@@ -73,12 +73,8 @@ CourseSchema.methods.populateFromJSON = function(body, term_code, callback) {
 					}
 					if (sec == null) {
 						sec = new Section();
-						sec.populateFromJSON(section, done, self);
 					}
-					else {
-						sec.course = self;
-						sec.save(done);
-					}
+					sec.populateFromJSON(section, done, self);
 				});
 			}, function() {
 				self.save(callback);
