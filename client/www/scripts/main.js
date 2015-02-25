@@ -281,7 +281,7 @@ $(document).on('pagecreate', '#search', function() {
       },
       success: function(data) {
         console.log(data);
-        $("autoschedule-popup").popup('close');
+        $("#autoschedule-popup").popup('close');
       },
       statusCode: {
         401: function() {

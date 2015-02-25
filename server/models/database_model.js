@@ -32,7 +32,7 @@ DatabaseModel.prototype.getUserSections = function getUserSections(username, ter
 DatabaseModel.prototype.scheduleSection = function(username, section_id, callback) {
   Section.findOne({section_id: section_id}, function(err, section) {
     User.findOne({username: username}, function(e, user) {
-      if(user === null) {
+      if(user === null || section === null) {
         callback({success: false});
         return;
       }
@@ -75,12 +75,7 @@ DatabaseModel.prototype.scheduleSection = function(username, section_id, callbac
           callback({success: false});
         });
       }
-      if(section == null) {
-        section = new Section({section_id: section_id});
-        section.retrieve(addSection(section));
-      } else {
-        section.retrieve(addSection(section));
-      }
+      addSection(section);
     });
   });
 }

@@ -112,12 +112,12 @@ Query.prototype.executeSearch = function(queries, term, callback) {
     if(queries.sections === undefined) {
       sectionsDef.resolve(sections);
     } else {
-      queries.sections.populate('term', 'term_code -_id').populate('course')
-             .exec(function(err, docs) {
+      queries.sections.populate('term', 'term_code -_id').populate('course').lean()
+      .exec(function(err, docs) {
         docs.forEach(function(section) {
-          if(section.term !== null && section.term.term_code === term) {
+          if(section.publish && section.term !== null && section.term.term_code === term) {
             sections.push(section);
-          } 
+          }
         });
         sectionsDef.resolve(sections);
       });
@@ -131,14 +131,24 @@ Query.prototype.executeSearch = function(queries, term, callback) {
 
 Query.prototype.getSectionsForCourse = function(course_id, username, callback) {
   var sections = [];
-  Course.findOne({course_id: course_id}).populate('sections').lean()
-  .exec(function(err, doc) {
-    async.forEach(doc.sections, function(section, itr_callback) {
-      section.course_code = doc.course_code;
-      sections.push(section);
-      itr_callback();
-    }, function() {
-      callback({sections: sections, success: true})
+  User.findOne({username: username}).populate('registered_sections scheduled_sections')
+    .exec(function(err, user) {
+    Course.findOne({course_id: course_id}).populate('sections')
+    .exec(function(err, doc) {
+      async.forEach(doc.sections, function(section, itr_callback) {
+        if(section.publish) {
+          user.getBlockedTimes(function(blocked) {
+            if(section.conflictsWith(blocked)) {
+              section.conflict = true;
+            }
+          });
+          section.course_code = doc.course_code;
+          sections.push(section);
+        }
+        itr_callback();
+      }, function() {
+        callback({sections: sections, success: true})
+      });
     });
   });
 }

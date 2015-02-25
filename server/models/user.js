@@ -43,6 +43,7 @@ UserSchema.methods.getBlockedTimes = function(callback) {
     callback(blocked);
   });
 }
+
 UserSchema.statics.getUserCourseData = function(user, term_code, callback) {
   var scheduled = [];
   var registered = [];

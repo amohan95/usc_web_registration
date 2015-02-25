@@ -35,7 +35,7 @@ CourseSchema.statics.getOrRetrieveByCodeAndId = function getOrRetrieveByCodeAndI
 			callback(course);
 		} else {
 			course = new Course();
-			course.retrieve(term_code, course_id, function(){ callback(course) });
+			course.retrieve(term_code, course_id, function() { callback(course) });
 		}
 	});
 };
@@ -76,7 +76,8 @@ CourseSchema.methods.populateFromJSON = function(body, term_code, callback) {
 						sec.populateFromJSON(section, done, self);
 					}
 					else {
-						done();
+						sec.course = self;
+						sec.save(done);
 					}
 				});
 			}, function() {
