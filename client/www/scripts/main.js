@@ -31,8 +31,8 @@ $(document).ready(function () {
     $('#combination-title').text('');
     $('#home').removeClass('auto-schedule');
     $("#class-display").empty();
-    getCourseBin()
-  })
+    getCourseBin();
+  });
 });
 
 $(document).on('pagecontainercreate', function() {
@@ -79,12 +79,15 @@ $(document).on('pagecreate', '#home', function() {
 });
 
 $("#home").on("pageshow" , function() {
-  getCourseBin();
+  if(!$('#home').hasClass('auto-schedule')) {
+    getCourseBin();
+  }
 });
 
 $("#auto-schedule").click( function(e) {
   e.preventDefault();
   $('#home').addClass('auto-schedule');
+  $.mobile.changePage('#home', {allowSamePageTransition: true});
   $('#combination-title').text('');
   $('#combination-list').empty();
   $.ajax({
@@ -136,13 +139,28 @@ function displayCombination(i) {
 }
 
 $(document).on('swipeleft', '.auto-schedule', function(e) {
-  var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
-  displayCombination(i + 1);
+  changeCombination(1);
 });
 
 $(document).on('swiperight', '.auto-schedule', function(e) {
+  changeCombination(-1);
+});
+
+function changeCombination(j) {
   var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
-  displayCombination(i - 1);
+  displayCombination(i + j);
+}
+
+$(document).on('keydown', '.auto-schedule', function(e) {
+  e.preventDefault();
+  switch(e.which) {
+    case 37:
+      changeCombination(-1);
+      break;
+    case 39:
+      changeCombination(1);
+      break;
+  }
 });
 
 function createCourseTile(course) {
@@ -161,7 +179,7 @@ function createCourseTile(course) {
     .click(function(e) {
       e.stopPropagation();
       var popup = $('#autoschedule-popup');
-      popup.attr('data-course-id', course.course_id);
+      popup.data('course-id', course.course_id);
       $('#autoschedule-popup-title').text(course.course_code);
       popup.popup('open');
     }))

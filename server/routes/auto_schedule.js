@@ -8,6 +8,8 @@ var populateAutoSchedule = function (req, res, next) {
 	req.user.populate('auto_schedule', function(err, user) {
 		user.populate('scheduled_sections', function(err, user_) {
 			if (user.auto_schedule) {
+				// user.auto_schedule.courses = [];
+				// user.auto_schedule.save(next);
 				next();
 			} else {
 				var auto_schedule = new AutoSchedule();

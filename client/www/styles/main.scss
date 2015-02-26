@@ -23,7 +23,7 @@ body {
 
 body {
   position: relative;
-  font-family: 'Raleway', 'Roboto Condensed', Helvetica, Arial, sans-serif;
+  font-family: Helvetica, 'Roboto Condensed', Helvetica, Arial, sans-serif;
   font-weight: 300;
   background-color: #fff;
   box-sizing: border-box;
@@ -245,7 +245,7 @@ body {
   padding-top: 5px;
 }
 #top-text {
-  font-family: 'Raleway';
+  font-family: Helvetica;
   font-size: 20px;
   text-align: center;
   padding-top: 5px;
@@ -257,7 +257,7 @@ body {
   margin-bottom: 0;
 }
 #cal-table .time-label {
-  font-family: 'Raleway';
+  font-family: Helvetica;
   margin: 0;
   padding: 0;
   padding-right: 10px;
@@ -421,7 +421,7 @@ table {
 }
 .menu-icon {
   width: 30px;
-  padding-right: 20px;
+  padding-right: 30px;
 }
 
 

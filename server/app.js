@@ -84,6 +84,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use('/', express.static(__dirname + '/../client/www'));
 app.use('/storage', require('./routes/user_storage'));
 app.use('/search', require('./routes/execute_query'));
 app.use('/auto_schedule', require('./routes/auto_schedule'));
