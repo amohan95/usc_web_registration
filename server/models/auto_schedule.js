@@ -105,6 +105,7 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 				}
 			}
 		}
+		console.log(self.courses);
 		callback();
 	});
 };
