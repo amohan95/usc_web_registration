@@ -138,6 +138,7 @@ Query.prototype.getSectionsForCourse = function(course_id, username, callback) {
       async.forEach(doc.sections, function(section, itr_callback) {
         if(section.publish) {
           user.getBlockedTimes(function(blocked) {
+            console.log('USER BLOCKED: ' + blocked);
             if(section.conflictsWith(blocked)) {
               section.conflict = true;
             }

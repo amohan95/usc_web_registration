@@ -200,6 +200,7 @@ function createCourseTile(course) {
 
 function createSectionTile(section) {
   showSection(section);
+  console.log(section.conflict);
   var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
@@ -211,7 +212,9 @@ function createSectionTile(section) {
     .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
                          (convertMilitaryTime(section.begin_time) + '-' +
                           convertMilitaryTime(section.end_time))))
-    .append($('<p>').text(section.day)));
+    .append($('<p>').text(section.day))
+    .append((section.conflict ?
+    "<btn class='ui-btn ui-shadow ui-corner-all ui-icon-alert ui-btn-icon-notext'>Conflict</btn>" : '')));
 
   sectionTile.click(function(e) {
     e.stopPropagation();
@@ -274,8 +277,8 @@ function executeSearch(query_string) {
           } else {
             $('#section-results-count').text('Too Many!');
           }
-          $('.loading').remove();
         }
+        $('.loading').remove();
       }
     });
   }

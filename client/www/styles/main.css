@@ -476,7 +476,6 @@ table {
 .section-tile-time {
   display: inline-block;
   text-align: center;
-  margin-right: 10px;
   float: right; }
 
 #popup-section-tile p {

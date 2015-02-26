@@ -35,11 +35,15 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.getBlockedTimes = function(callback) {
-  this.populate('registered_sections', function(err, self) {
+  this.populate('registered_sections scheduled_sections', function(err, self) {
     var blocked = {};
+    self.registered_sections.forEach(function(section) {
+      section.setConflict(blocked);
+    });
     self.scheduled_sections.forEach(function(section) {
       section.setConflict(blocked);
     });
+    console.log('BLOCKED: ' + blocked);
     callback(blocked);
   });
 }
