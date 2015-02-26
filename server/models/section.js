@@ -100,7 +100,6 @@ SectionSchema.methods.isValidChildOf = function(parent, parent_pool) {
 					}
 				});
 				var this_code = this.getNumericalSectionCode();
-				console.log(parent_code + ' ' + this_code + ' ' + next_parent_code);
 				return this_code > parent_code && this_code < next_parent_code;
 			} else {
 				return true;
