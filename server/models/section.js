@@ -39,6 +39,14 @@ var SectionSchema = new mongoose.Schema({
 	publish: Boolean
 });
 
+SectionSchema.pre('save', function(next) {
+	if (this.isModified('number_registered') || this.isModified('number_seats')) {
+		User.find({scheduled_sections: this}).select('registration_id').exec(function(err, reg_ids) {
+			console.log(reg_ids);
+		});
+	}
+});
+
 SectionSchema.statics.getNumericalTime = function(time_string) {
 	var s = time_string.split(':');
 	return parseInt(s[0]) + Math.round(parseInt(s[1]) / 30) / 2;

@@ -8,6 +8,7 @@ var passport = require('passport');
 var BearerStrategy = require('passport-http-bearer').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var config = require('./config').Config;
+var Token = require('./models/token').Token;
 
 require('mongoose').connect(config.uristring);
 
@@ -43,14 +44,14 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
 passport.use(new BearerStrategy({}, function(token, done) {
   process.nextTick(function () {
-    User.findOne({token: token}, function(err, user) {
+    Token.findOne({token: token}).populate('user').exec(function(err, token) {
       if (err) {
         return done({error: err});
       }
-      if (!user) {
+      if (!token || Date.now >= token.expiration) {
         return done(null, false);
       }
-      return done(null, user);
+      return done(null, token.user);
     });
   });
 }));

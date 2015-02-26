@@ -17,9 +17,35 @@
  *
  */
 
+/***
+ * Constants
+ ***/
 // var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+//var REMOTE_URL = 'http://10.0.2.2:8000';
 var REMOTE_URL = 'http://localhost:8000';
-var current_classes = [];
+
+/***
+ * PushPlugin
+ ***/
+var registrationSuccess =  function(result) {
+};
+
+var registrationError = function(error) {
+};
+
+function notificationReceived(e) {
+  alert(e);
+}
+
+var pushNotification;
+document.addEventListener('deviceready', function(e) {
+  pushNotification = window.plugins.pushNotification;
+  pushNotification.register(registrationSuccess, registrationError, {senderID: '225225239291', ecb: 'notificationReceived'});
+}, true);
+
+/***
+ * DOM Event Handling
+ ***/
 $(document).ready(function () {
   $(window).resize(function(){
     $("#class-display").empty();
@@ -74,12 +100,7 @@ $('#home').on('pageshow', function() {
   }
 });
 
-$("#course-bin").on("pageshow" , function() {
-  console.log("display course bin");
-  getCourseBin(true)
-});
-
-$("#auto-schedule").click( function(e) {
+$('#auto-schedule').click(function(e) {
   e.preventDefault();
   $('#home').addClass('auto-schedule');
   $.mobile.changePage('#home', {allowSamePageTransition: true});
@@ -102,7 +123,9 @@ $("#auto-schedule").click( function(e) {
 $('#logout').click(function(e) {
   e.preventDefault();
   localStorage.removeItem('bearer_token');
-  $.mobile.changePage('#login', {allowSamePageTransition: true});
+  $.post(REMOTE_URL + '/authentication/logout', function(data) {
+    $.mobile.changePage('#login', {allowSamePageTransition: true});
+  });
 });
 
 $(document).on('swipeleft', '.auto-schedule', function(e) {
@@ -158,7 +181,7 @@ $(document).on('pagecreate', '#course-bin', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/unschedule_section', {section_id: $('#popup-remove-section-tile > div').data('section-id')},
       function(data) {
-        $('#remove-section-popup').popup('close');    
+        $('#remove-section-popup').popup('close');
       }
     );
   });
@@ -499,4 +522,3 @@ function displayCourseBin(classes) {
     $('#course-display').append(createCourseBinTile(current_classes[i]));
   }
 }
-
