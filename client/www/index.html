@@ -44,8 +44,8 @@
     <nav class="navdrawer-container promote-layer">
       <ul>
         <li id="home-menu"><a href="#home"><img class="menu-icon" src="images/calendar.svg" />Home</a></li>
+        <li id="course-bin-btn"><a href="#course-bin"><img class="menu-icon" src="images/bin.png" />Course Bin</a></li>
         <li id="auto-schedule"><a href="#"><img class="menu-icon" src="images/auto-schedule.svg" />Auto Schedule</a></li>
-        <li><a href="#"><img class="menu-icon" src="images/export.svg" />Export</a></li>
         <li id="logout"><a href="#"><img class="menu-icon" src="images/logout-icon.svg" />Logout</a></li>
       </ul>
     </nav>
@@ -261,6 +261,12 @@
           <a id="confirm-schedule-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
             <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
         </div>
+        <div id="remove-section-popup" data-role="popup" class="ui-content">
+          <p>Remove this section for <span id="popup-remove-section-course"></span>?</p>
+          <div id="popup-remove-section-tile"></div>
+          <a id="confirm-remove-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
+            <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
+        </div>
       </div>
       <div data-role="page" id="login">
         <form method="post" data-ajax="false">
@@ -270,7 +276,7 @@
         </form>
       </div>
       <div data-role="page" id="course-bin">
-        <p>Course Bin</p>
+        <div id="course-display"></div>
       </div>
     </main>
 

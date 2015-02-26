@@ -50,16 +50,15 @@ DatabaseModel.prototype.scheduleSection = function(username, section_id, callbac
 
 DatabaseModel.prototype.unscheduleSection = function(username, section_id, callback) {
   User.findOne({username: username}).populate('scheduled_sections').exec(function(err, user) {
-    user.scheduled_sections.forEach(function(section, index, arr) {
-      if(section.section_id === section_id) {
-        user.scheduled_sections.splice(index, 1);
-        user.save(callback({success: true}));
-        return;
+    var removed = false;
+    for (var i = 0; i < user.scheduled_sections.length; ++i) {
+      if(user.scheduled_sections[i].section_id == section_id) {
+        user.scheduled_sections.splice(i, 1);
+        removed = true
+        break;
       }
-      if(index === arr.length - 1) {
-        callback({success: false});
-      }
-    });
+    }
+    user.save(callback({success: removed}));
   });
 }
 

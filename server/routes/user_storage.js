@@ -24,7 +24,9 @@ router.post('/schedule_section', passport.authenticate('bearer'), function(req, 
 });
 
 router.post('/unschedule_section', passport.authenticate('bearer'), function(req, res, next) {
+  console.log(req.body);
   if(req.body.section_id === undefined) {
+    console.log("fjsdklfjs");
     res.send({success: false});
   } else {
     db.unscheduleSection(req.user.username, req.body.section_id, function(data) {

@@ -19,7 +19,7 @@
 
 // var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 var REMOTE_URL = 'http://localhost:8000';
-var current_classes = {};
+var current_classes = [];
 $(document).ready(function () {
   $(window).resize(function(){
     $("#class-display").empty();
@@ -31,7 +31,7 @@ $(document).ready(function () {
     $('#combination-title').text('');
     $('#home').removeClass('auto-schedule');
     $("#class-display").empty();
-    getCourseBin();
+    getCourseBin(false);
   });
 });
 
@@ -70,11 +70,16 @@ $(document).on('pagecreate', '#login', function() {
 
 $('#home').on('pageshow', function() {
   if(!$('#home').hasClass('auto-schedule')) {
-    getCourseBin();
+    getCourseBin(false);
   }
 });
 
-$('#auto-schedule'.click( function(e) {
+$("#course-bin").on("pageshow" , function() {
+  console.log("display course bin");
+   getCourseBin(true)
+});
+
+$("#auto-schedule").click( function(e) {
   e.preventDefault();
   $('#home').addClass('auto-schedule');
   $.mobile.changePage('#home', {allowSamePageTransition: true});
@@ -148,6 +153,17 @@ $(document).on('pagecreate', '#search', function() {
   });
 });
 
+$(document).on('pagecreate', '#course-bin', function() {
+  $('#confirm-remove-section').click(function() {
+    sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/storage/unschedule_section', {section_id: $('#popup-remove-section-tile > div').data('section-id')},
+      function(data) {
+        $('#remove-section-popup').popup('close');    
+      }
+    );
+  });
+});
+
 /***
  * Functions
  ***/
@@ -160,14 +176,25 @@ function convertMilitaryTime(time_string) {
   return hrs + ':' + mins + ' ' + amPm;
 }
 
-function getCourseBin() {
-  sendAuthenticatedRequest(
-    'GET', url: REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
-    function(data) {
-      current_classes = data.scheduled;
-      showClassCal(data);
-    }
-  );
+function getCourseBin(display) {
+  if (display) {
+    sendAuthenticatedRequest(
+      'GET', REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
+      function(data) {
+        current_classes = data.scheduled;
+        displayCourseBin();
+      }
+    );
+  } else {
+    sendAuthenticatedRequest(
+      'GET', REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
+      function(data) {
+        current_classes = data.scheduled;
+        showClassCal(data);
+        console.log(data);
+      }
+    );
+  }
 }
 
 //Takes an array
@@ -278,7 +305,6 @@ function changeCombination(j) {
 }
 
 function createSectionTile(section) {
-  showSection(section);
   var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
@@ -301,6 +327,33 @@ function createSectionTile(section) {
     $('#popup-section-tile').empty()
     $('#popup-section-tile').append(sectionTile.clone());
     popup.popup('open');
+  });
+  return sectionTile;
+}
+
+function createCourseBinTile(section) {
+  var sectionTile = $('<div>').addClass('section-tile')
+  .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
+  .append($('<div>').addClass('section-tile-info')
+    .append($('<p>').addClass('section-tile-name').text(section.course_code))
+    .append($('<p>').addClass('section-tile-type').text(section.type))
+    .append($('<p>').addClass('section-tile-code').text(section.section_code))
+    .append($('<p>').addClass('section-tile-location').text(section.location))
+    .append($('<p>').addClass('section-tile-instructor').text(section.instructor)))
+  .append($('<div>').addClass('section-tile-time')
+    .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
+                         (convertMilitaryTime(section.begin_time) + '-' +
+                          convertMilitaryTime(section.end_time))))
+    .append($('<p>').text(section.day)));
+
+  sectionTile.click(function(e) {
+    e.stopPropagation();
+    var popup = $('#remove-section-popup').popup();
+    $('#popup-remove-section-course').text(section.course_code);
+    $('#popup-remove-section-tile').empty()
+    $('#popup-remove-section-tile').append(sectionTile.clone());
+    popup.popup('open');
+    console.log($('#popup-remove-section-tile > div').data('section-id'));
   });
   return sectionTile;
 }
@@ -411,6 +464,15 @@ function createCourseTile(course) {
     $(this).children('.course-info').slideToggle('fast');
   });
   return courseTile;
+};
+
+function convertMilitaryTime(time_string) {
+  var cIndex = time_string.indexOf(':');
+  var hrs = parseInt(time_string.substring(0, cIndex));
+  var amPm = hrs > 11 ? 'PM' : 'AM';
+  hrs = ((hrs + 11) % 12) + 1;
+  var mins = time_string.substring(cIndex + 1, cIndex + 3);
+  return hrs + ':' + mins + ' ' + amPm;
 }
 
 function sendAuthenticatedRequest(type, url, data, success) {
@@ -430,3 +492,11 @@ function sendAuthenticatedRequest(type, url, data, success) {
     }
   });
 }
+
+function displayCourseBin(classes) {
+  $('#course-display').empty();
+  for (var i = 0; i < current_classes.length; i++) {
+    $('#course-display').append(createCourseBinTile(current_classes[i]));
+  }
+}
+
