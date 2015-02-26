@@ -98,6 +98,7 @@ Query.prototype.executeQuery = function(query_string, term, username, parameters
 Query.prototype.executeSearch = function(queries, term, user, callback) {
   var coursesDef = $.Deferred();
   var sectionsDef = $.Deferred();
+  var self = this;
   var coursesQuery = function() {
     var courses = [];
     if(queries.courses === undefined) {
@@ -116,7 +117,6 @@ Query.prototype.executeSearch = function(queries, term, user, callback) {
   }
   var sectionsQuery = function() {
     var sections = [];
-    var self = this;
     if(queries.sections === undefined) {
       sectionsDef.resolve(sections);
     } else {

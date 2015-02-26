@@ -76,7 +76,7 @@ $('#home').on('pageshow', function() {
 
 $("#course-bin").on("pageshow" , function() {
   console.log("display course bin");
-   getCourseBin(true)
+  getCourseBin(true)
 });
 
 $("#auto-schedule").click( function(e) {
@@ -99,7 +99,7 @@ $("#auto-schedule").click( function(e) {
   );
 });
 
-$('#logout').click(function(e){
+$('#logout').click(function(e) {
   e.preventDefault();
   localStorage.removeItem('bearer_token');
   $.mobile.changePage('#login', {allowSamePageTransition: true});
