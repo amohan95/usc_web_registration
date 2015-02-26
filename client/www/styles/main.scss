@@ -390,6 +390,11 @@ table {
   float: right;
 }
 
+.conflict-alert {
+  margin: 0 auto;
+  color: red;
+}
+
 #popup-section-tile p {
   font-size: 16px;
 }
@@ -418,6 +423,7 @@ table {
   width: 30px;
   padding-right: 20px;
 }
+
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {

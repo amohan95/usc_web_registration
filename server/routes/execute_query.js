@@ -3,13 +3,13 @@ var router = express.Router();
 var passport = require('passport');
 var Query = require('../search/query').Query;
 
-router.post('/execute_query', function(req, res, next) {
+router.post('/execute_query', passport.authenticate('bearer'), function(req, res, next) {
   var body = req.body;
   if(body.query_string === undefined || body.term === undefined || body.parameters === undefined) {
     res.send({success: false});
   } else {
     var query = new Query();
-    query.executeQuery(body.query_string, body.term, body.parameters, function(data) {
+    query.executeQuery(body.query_string, body.term, req.user.username, body.parameters, function(data) {
       res.send(data);
     });
   }

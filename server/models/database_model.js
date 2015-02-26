@@ -36,46 +36,14 @@ DatabaseModel.prototype.scheduleSection = function(username, section_id, callbac
         callback({success: false});
         return;
       }
-      var $ = require('jquery-deferred');
-      var addSection = function(section) {
-        var defSched = $.Deferred();
-        var defReg = $.Deferred();
-        var checkScheduled = function() {
-          if(!user.scheduled_sections.length) {
-            defSched.resolve();
-          }
-          user.scheduled_sections.forEach(function(sec_id, index, arr) {
-            if(sec_id.toString() === section._id.toString()) {
-              defSched.reject();
-            }
-            if(index === arr.length - 1) {
-              defSched.resolve();
-            }
-          });
-          return defSched.promise();
-        }
-        var checkRegistered = function() {
-          if(!user.registered_sections.length) {
-            defReg.resolve();
-          }
-          user.registered_sections.forEach(function(sec_id, index, arr) {
-            if(sec_id.toString() === section._id.toString()) {
-              defReg.reject();
-            }
-            if(index === arr.length - 1) {
-              defReg.resolve();
-            }
-          });
-          return defReg.promise();
-        }
-        $.when(checkScheduled(section), checkRegistered(section)).then(function() {
+      user.hasSection(section.section_id, function(has) {
+        if(!has) {
           user.scheduled_sections.push(section);
           user.save(callback({success: true}));
-        }, function() {
+        } else {
           callback({success: false});
-        });
-      }
-      addSection(section);
+        }
+      });
     });
   });
 }

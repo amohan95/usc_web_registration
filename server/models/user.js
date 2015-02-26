@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
+var $ = require('jquery-deferred');
 var Section = require('./section').Section;
 var Course = require('./course').Course;
 var AutoSchedule = require('./auto_schedule').AutoSchedule;
@@ -35,15 +36,15 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.getBlockedTimes = function(callback) {
-  this.populate('registered_sections scheduled_sections', function(err, self) {
+  var self = this;
+  this.populate('registered_sections').populate('scheduled_sections', function(err, doc) {
     var blocked = {};
-    self.registered_sections.forEach(function(section) {
+    doc.registered_sections.forEach(function(section) {
       section.setConflict(blocked);
     });
-    self.scheduled_sections.forEach(function(section) {
+    doc.scheduled_sections.forEach(function(section) {
       section.setConflict(blocked);
     });
-    console.log('BLOCKED: ' + blocked);
     callback(blocked);
   });
 }
@@ -85,6 +86,45 @@ UserSchema.statics.getUserCourseData = function(user, term_code, callback) {
   } else {
     getRegistered();
   }
+}
+
+UserSchema.methods.hasSection = function(section_id, callback) {
+  var self = this;
+  self.populate('scheduled_sections')
+      .populate('registered_sections', function(err, data) {
+    var defSched = $.Deferred();
+    var defReg = $.Deferred();
+    var checkScheduled = function() {
+      if(!self.scheduled_sections.length) {
+        defSched.resolve();
+      }
+      self.scheduled_sections.forEach(function(section, index, arr) {
+        if(section_id === section.section_id) {
+          defSched.reject();
+        }
+        if(index === arr.length - 1) {
+          defSched.resolve();
+        }
+      });
+      return defSched.promise();
+    }
+    var checkRegistered = function() {
+      if(!self.registered_sections.length) {
+        defReg.resolve();
+      }
+      self.registered_sections.forEach(function(section, index, arr) {
+        if(section_id === section.section_id) {
+          defReg.reject();
+        }
+        if(index === arr.length - 1) {
+          defReg.resolve();
+        }
+      });
+      return defReg.promise();
+    }
+    $.when(checkScheduled(), checkRegistered()).then(function() { callback(false); },
+      function() { callback(true); });
+  });
 }
 
 var SALT_WORK_FACTOR = 10;

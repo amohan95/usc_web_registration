@@ -478,6 +478,10 @@ table {
   text-align: center;
   float: right; }
 
+.conflict-alert {
+  margin: 0 auto;
+  background-color: red; }
+
 #popup-section-tile p {
   font-size: 16px; }
 

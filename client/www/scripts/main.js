@@ -200,7 +200,6 @@ function createCourseTile(course) {
 
 function createSectionTile(section) {
   showSection(section);
-  console.log(section.conflict);
   var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
@@ -214,7 +213,7 @@ function createSectionTile(section) {
                           convertMilitaryTime(section.end_time))))
     .append($('<p>').text(section.day))
     .append((section.conflict ?
-    "<btn class='ui-btn ui-shadow ui-corner-all ui-icon-alert ui-btn-icon-notext'>Conflict</btn>" : '')));
+    "<btn class='ui-btn ui-shadow ui-corner-all ui-icon-alert ui-btn-icon-notext conflict-alert'>Conflict</btn>" : '')));
 
   sectionTile.click(function(e) {
     e.stopPropagation();
@@ -262,6 +261,9 @@ function executeSearch(query_string) {
       type: 'POST',
       url: REMOTE_URL + '/search/execute_query/',
       data: {query_string: query_string, term: '20151', parameters: parameters},
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
+      },
       success: function(data) {
         prevQuery = null;
         if(data.success) {
@@ -274,11 +276,18 @@ function executeSearch(query_string) {
           if(data.sections.length < 500) {
             $('#section-results-count').text(data.sections.length);
             addSections(data.sections, sectionArea);
+            sectionArea.listview('refresh');
           } else {
             $('#section-results-count').text('Too Many!');
           }
         }
         $('.loading').remove();
+      },
+      statusCode: {
+        401: function() {
+          localStorage.removeItem('bearer_token');
+          $.mobile.changePage('#login', {allowSamePageTransition: true});
+        }
       }
     });
   }
