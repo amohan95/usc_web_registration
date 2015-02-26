@@ -449,7 +449,12 @@ table {
 
 .ui-listview > .ui-li-static {
   white-space: normal;
-  list-style-type: none; }
+  list-style-type: none;
+  width: 80%;
+  margin: 10px auto;
+  box-shadow: 2px 2px 5px #888888;
+  background-color: white;
+  border-bottom: #FFCC00 solid 3px; }
 
 .course-tile > .ui-btn-right {
   margin-right: 10px;
@@ -473,6 +478,9 @@ table {
 .section-tile-info {
   display: inline-block; }
 
+.section-tile-instructor {
+  margin: 0; }
+
 .section-tile-time {
   display: inline-block;
   text-align: center;
@@ -480,7 +488,7 @@ table {
 
 .conflict-alert {
   margin: 0 auto;
-  background-color: red; }
+  color: red; }
 
 #popup-section-tile p {
   font-size: 16px; }
@@ -506,6 +514,9 @@ table {
 .menu-icon {
   width: 30px;
   padding-right: 30px; }
+
+.ui-collapsible-inset.ui-collapsible-themed-content .ui-collapsible-content {
+  background-color: #f9f9f9; }
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {

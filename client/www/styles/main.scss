@@ -354,6 +354,11 @@ table {
 .ui-listview>.ui-li-static {
   white-space: normal;
   list-style-type: none;
+  width: 80%;
+  margin: 10px auto;
+  box-shadow: 2px 2px 5px #888888;
+  background-color: white;
+  border-bottom: #FFCC00 solid 3px;
 }
 
 .course-tile > .ui-btn-right {
@@ -382,6 +387,10 @@ table {
 
 .section-tile-info {
   display: inline-block;
+}
+
+.section-tile-instructor {
+  margin: 0;
 }
 
 .section-tile-time {
@@ -422,6 +431,10 @@ table {
 .menu-icon {
   width: 30px;
   padding-right: 30px;
+}
+
+.ui-collapsible-inset.ui-collapsible-themed-content .ui-collapsible-content {
+  background-color: rgb(249, 249, 249);
 }
 
 

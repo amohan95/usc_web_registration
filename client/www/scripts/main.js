@@ -310,15 +310,15 @@ function createSectionTile(section) {
   .append($('<div>').addClass('section-tile-info')
     .append($('<p>').addClass('section-tile-type').text(section.type))
     .append($('<p>').addClass('section-tile-code').text(section.section_code))
-    .append($('<p>').addClass('section-tile-location').text(section.location))
-    .append($('<p>').addClass('section-tile-instructor').text(section.instructor)))
+    .append($('<p>').addClass('section-tile-location').text(section.location)))
   .append($('<div>').addClass('section-tile-time')
     .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
                          (convertMilitaryTime(section.begin_time) + '-' +
                           convertMilitaryTime(section.end_time))))
     .append($('<p>').text(section.day))
     .append((section.conflict ?
-    "<btn class='ui-btn ui-shadow ui-corner-all ui-icon-alert ui-btn-icon-notext conflict-alert'>Conflict</btn>" : '')));
+    "<btn class='ui-btn ui-shadow ui-corner-all ui-icon-alert ui-btn-icon-notext conflict-alert'>Conflict</btn>" : '')))
+  .append($('<p>').addClass('section-tile-instructor').text(section.instructor));
 
   sectionTile.click(function(e) {
     e.stopPropagation();
@@ -338,13 +338,13 @@ function createCourseBinTile(section) {
     .append($('<p>').addClass('section-tile-name').text(section.course_code))
     .append($('<p>').addClass('section-tile-type').text(section.type))
     .append($('<p>').addClass('section-tile-code').text(section.section_code))
-    .append($('<p>').addClass('section-tile-location').text(section.location))
-    .append($('<p>').addClass('section-tile-instructor').text(section.instructor)))
+    .append($('<p>').addClass('section-tile-location').text(section.location)))
   .append($('<div>').addClass('section-tile-time')
     .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
                          (convertMilitaryTime(section.begin_time) + '-' +
                           convertMilitaryTime(section.end_time))))
-    .append($('<p>').text(section.day)));
+    .append($('<p>').text(section.day)))
+  .append($('<p>').addClass('section-tile-instructor').text(section.instructor));
 
   sectionTile.click(function(e) {
     e.stopPropagation();
