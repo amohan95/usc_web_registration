@@ -20,4 +20,15 @@ router.post('/logout', passport.authenticate('local'), function(req, res, next) 
 	});
 });
 
+router.post('/set_registration_id', passport.authenticate('bearer'), function(req, res, next) {
+	if (req.body.registration_id === undefined) {
+		res.send({success: false});
+	} else {
+		req.user.registration_id = req.body.registration_id;
+		req.user.save(function() {
+			res.send({success: true});
+		});
+	}
+});
+
 module.exports = router;

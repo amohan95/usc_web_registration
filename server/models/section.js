@@ -4,6 +4,7 @@ var util = require('util');
 var Term = require('./term').Term;
 var Course = require('./course').Course;
 var Session = require('./session').Session;
+var PushNotifier = require('../lib/push_notifier').PushNotifier;
 
 var SectionSchema = new mongoose.Schema({
 	term: {
@@ -39,13 +40,37 @@ var SectionSchema = new mongoose.Schema({
 	publish: Boolean
 });
 
-SectionSchema.pre('save', function(next) {
-	if (this.isModified('number_registered') || this.isModified('number_seats')) {
-		User.find({scheduled_sections: this}).select('registration_id').exec(function(err, reg_ids) {
-			console.log(reg_ids);
-		});
-	}
+SectionSchema.post( 'init', function() {
+  this._old_number_registered = this.number_registered;
+	this._old_number_seats = this.number_seats;
 });
+
+SectionSchema.pre('save', function(next) {
+	var User = require('./user').User;
+	if ((this.isModified('number_registered') || this.isModified('number_seats')) &&
+	     this.number_seats - this.number_registered > 0 &&
+			 this._old_number_seats - this._old_number_registered <= 0) {
+		this.notifyUsersWithScheduledSection();
+	}
+	next();
+});
+
+SectionSchema.methods.notifyUsersWithScheduledSection = function() {
+	var User = require('./user').User;
+	var self = this;
+	User.aggregate([
+		{$match: {scheduled_sections: {$in: [this._id]}}},
+		{$group: {_id: null, reg_ids: {$push: '$registration_id'}}}
+	], function(err, agg) {
+		PushNotifier.sendPushNotification(
+			'[' + self.course_code + '] New seat available!',
+		  'You can now register for a seat in ' + self.course_code + ' section ' + self.section_code,
+			agg[0].reg_ids,
+			function(err, result) {
+				console.log(result);
+		});
+	});
+}
 
 SectionSchema.statics.getNumericalTime = function(time_string) {
 	var s = time_string.split(':');

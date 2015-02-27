@@ -34,7 +34,16 @@ var registrationError = function(error) {
 };
 
 function notificationReceived(e) {
-  alert(e);
+  switch(e.event) {
+    case 'registered':
+      sendAuthenticatedRequest('POST', REMOTE_URL + '/authentication/set_registration_id', {registration_id: e.regid});
+      break;
+    case 'message':
+      console.log(e.message);
+      break;
+    default:
+      break;
+  }
 }
 
 var pushNotification;
