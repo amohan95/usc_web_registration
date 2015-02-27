@@ -7,7 +7,7 @@ router.get('/get_user_sections', passport.authenticate('bearer'), function(req, 
   if(req.query.term === undefined) {
     res.send({success: false});
   } else {
-    db.getUserSections(req.user.username, req.query.term, function(data) {
+    db.getUserSections(req.user, req.query.term, function(data) {
       res.send(data);
     });
   }
@@ -17,7 +17,17 @@ router.post('/schedule_section', passport.authenticate('bearer'), function(req, 
   if(req.body.section_id === undefined) {
     res.send({success: false});
   } else {
-    db.scheduleSection(req.user.username, req.body.section_id, function(data) {
+    db.scheduleSection(req.user, req.body.section_id, function(data) {
+      res.send(data);
+    });
+  }
+});
+
+router.post('/schedule_sections', passport.authenticate('bearer'), function(req, res, next) {
+  if(req.body.section_ids === undefined) {
+    res.send({success: false});
+  } else {
+    db.scheduleSections(req.user, req.body.section_ids, function(data) {
       res.send(data);
     });
   }
@@ -26,10 +36,9 @@ router.post('/schedule_section', passport.authenticate('bearer'), function(req, 
 router.post('/unschedule_section', passport.authenticate('bearer'), function(req, res, next) {
   console.log(req.body);
   if(req.body.section_id === undefined) {
-    console.log("fjsdklfjs");
     res.send({success: false});
   } else {
-    db.unscheduleSection(req.user.username, req.body.section_id, function(data) {
+    db.unscheduleSection(req.user, req.body.section_id, function(data) {
       res.send(data);
     });
   }
@@ -39,7 +48,7 @@ router.post('/register_sections', passport.authenticate('bearer'), function(req,
   if(req.body.section_ids === undefined) {
     res.send({success: false});
   } else {
-    db.registerSections(req.user.username, req.body.section_ids, function(data) {
+    db.registerSections(req.user, req.body.section_ids, function(data) {
       res.send(data);
     });
   }
@@ -49,7 +58,7 @@ router.post('/unregister_sections', passport.authenticate('bearer'), function(re
   if(req.body.section_ids === undefined) {
     res.send({success: false});
   } else {
-    db.unregisterSections(req.user.username, req.body.section_ids, function(data) {
+    db.unregisterSections(req.user, req.body.section_ids, function(data) {
       res.send(data);
     });
   }

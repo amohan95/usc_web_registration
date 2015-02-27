@@ -21,7 +21,7 @@
  * Constants
  ***/
 // var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
-//var REMOTE_URL = 'http://10.0.2.2:8000';
+// var REMOTE_URL = 'http://10.0.2.2:8000';
 var REMOTE_URL = 'http://localhost:8000';
 
 /***
@@ -55,9 +55,10 @@ document.addEventListener('deviceready', function(e) {
 /***
  * DOM Event Handling
  ***/
+ var current_classes = {};
 $(document).ready(function () {
   $(window).resize(function(){
-    $("#class-display").empty();
+    $("#class-display .section").remove();
     for (var i = 0; i < current_classes.length; i++) {
       showSection(current_classes[i]);
     }
@@ -65,7 +66,7 @@ $(document).ready(function () {
   $('#home-menu').click(function() {
     $('#combination-title').text('');
     $('#home').removeClass('auto-schedule');
-    $("#class-display").empty();
+    $("#class-display .section").remove();
     getCourseBin(false);
   });
 });
@@ -88,6 +89,33 @@ $(document).on('pagecontainercreate', function() {
       closeMenu();
     }
   });
+  $('#auto-schedule').click(function(e) {
+    e.preventDefault();
+    $('#home').addClass('auto-schedule');
+    $.mobile.changePage('#home', {allowSamePageTransition: true});
+    $('#combination-title').text('');
+    $('#combination-list').empty();
+    sendAuthenticatedRequest(
+      'GET', REMOTE_URL + '/auto_schedule/build_combinations/', {},
+      function(data) {
+        if (Object.keys(data.section_map).length == 0) {
+          $('#combination-title').text('Add at least one course to your auto-schedule bin');
+        } else {
+          sessionStorage.setItem('section_map', JSON.stringify(data.section_map));
+          sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
+          sessionStorage.setItem('num_combinations', data.combinations.length);
+          displayCombination(getCurrentCombinationIndex());
+        }
+      }
+    );
+  });
+  $('#logout').click(function(e) {
+    e.preventDefault();
+    localStorage.removeItem('bearer_token');
+    $.post(REMOTE_URL + '/authentication/logout', function(data) {
+      $.mobile.changePage('#login', {allowSamePageTransition: true});
+    });
+  });
 });
 
 $(document).on('pagecontainerbeforechange', redirectLogin);
@@ -103,58 +131,37 @@ $(document).on('pagecreate', '#login', function() {
   });
 });
 
-$('#home').on('pageshow', function() {
+$('#home').on('pagecreate', function() {
   if(!$('#home').hasClass('auto-schedule')) {
     getCourseBin(false);
   }
-});
-
-$('#auto-schedule').click(function(e) {
-  e.preventDefault();
-  $('#home').addClass('auto-schedule');
-  $.mobile.changePage('#home', {allowSamePageTransition: true});
-  $('#combination-title').text('');
-  $('#combination-list').empty();
-  sendAuthenticatedRequest(
-    'GET', REMOTE_URL + '/auto_schedule/build_combinations/', {},
-    function(data) {
-      if (Object.keys(data.section_map).length == 0) {
-        $('#combination-title').text('Add at least one course to your auto-schedule bin');
-      } else {
-        sessionStorage.setItem('section_map', JSON.stringify(data.section_map));
-        sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
-        displayCombination(0);
+  $('#schedule-auto-schedule').click(function() {
+    sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
+      function(data) {
+        $.mobile.changePage('#home', {allowSamePageTransition: true});
       }
-    }
-  );
-});
-
-$('#logout').click(function(e) {
-  e.preventDefault();
-  localStorage.removeItem('bearer_token');
-  $.post(REMOTE_URL + '/authentication/logout', function(data) {
-    $.mobile.changePage('#login', {allowSamePageTransition: true});
+    );
   });
-});
+  $(document).on('swipeleft', '.auto-schedule', function(e) {
+    changeCombination(1);
+  });
 
-$(document).on('swipeleft', '.auto-schedule', function(e) {
-  changeCombination(1);
-});
+  $(document).on('swiperight', '.auto-schedule', function(e) {
+    changeCombination(-1);
+  });
 
-$(document).on('swiperight', '.auto-schedule', function(e) {
-  changeCombination(-1);
-});
-
-$(document).on('keydown', '.auto-schedule', function(e) {
-  e.preventDefault();
-  switch(e.which) {
-    case 37:
-      changeCombination(-1);
-      break;
-    case 39:
-      changeCombination(1);
-      break;
-  }
+  $(document).on('keydown', '.auto-schedule', function(e) {
+    e.preventDefault();
+    switch(e.which) {
+      case 37:
+        changeCombination(-1);
+        break;
+      case 39:
+        changeCombination(1);
+        break;
+    }
+  });
 });
 
 $(document).on('pagecreate', '#search', function() {
@@ -231,7 +238,7 @@ function getCourseBin(display) {
 
 //Takes an array
 function showClassCal(data) {
-  $("#class-display").empty();
+  $("#class-display .section").remove();
   var classes = data.scheduled;
   for (var i = 0; i < classes.length; i++) {
     showSection(classes[i]);
@@ -272,10 +279,10 @@ function displayClass(day, data) {
   var duration = calculateClassTime(data);
   var cell = $("#cal-table tr:nth-child("+time+") td:nth-child("+day+")");
   var offset = cell.position();
-  var width = cell.width() + 1;
-  var height = duration*(cell.height()+1) + duration -1;
-  var top = offset.top+1;
-  var left = offset.left+1;
+  var width = cell.width();
+  var height = duration*(cell.height()) + duration -1;
+  var top = offset.top;
+  var left = offset.left;
   if(halftime == 30) {
     top += (cell.height()+1)/2;
   }
@@ -308,32 +315,48 @@ var redirectLogin = function(e, data) {
 };
 
 function displayCombination(i) {
-  if (sessionStorage.getItem('section_map') && sessionStorage.getItem('combinations')) {
+  var current_combination = getCombination(i);
+  if (sessionStorage.getItem('section_map') && current_combination) {
     var section_map = JSON.parse(sessionStorage.getItem('section_map'));
-    var combinations = JSON.parse(sessionStorage.getItem('combinations'));
+    var num_combinations = getNumCombinations();
     if (i < 0) {
       i = 0;
-    } else if (i >= combinations.length) {
+    } else if (i >= num_combinations) {
       i = combinations.length - 1;
     }
     if (i >= 0) {
       $('#combination-list').empty();
       sessionStorage.setItem('current_combination', i);
-      $('#combination-title').text('Combination ' + (i + 1) + ' of ' + combinations.length);
-      $("#class-display").empty();
+      $('#combination-title').text('Combination ' + (i + 1) + ' of ' + num_combinations);
+      $("#class-display .section").remove();
       current_classes = [];
-      for (var j = 0; j < combinations[i].length; ++j) {
-        showSection(section_map[combinations[i][j]]);
-        current_classes.push(section_map[combinations[i][j]]);
+      for (var j = 0; j < current_combination.length; ++j) {
+        showSection(section_map[current_combination[j]]);
+        current_classes.push(section_map[current_combination[j]]);
       }
-      console.log(current_classes);
     }
   }
 }
 
 function changeCombination(j) {
-  var i = parseInt(sessionStorage.getItem('current_combination')) || 0;
+  var i = getCurrentCombinationIndex();
   displayCombination(i + j);
+}
+
+function getCurrentCombinationIndex() {
+  return parseInt(sessionStorage.getItem('current_combination')) || 0;
+}
+
+function getNumCombinations() {
+  return parseInt(sessionStorage.getItem('num_combinations')) || 0;
+}
+
+function getCombination(i) {
+  if (sessionStorage.getItem('combinations')) {
+    return JSON.parse(sessionStorage.getItem('combinations'))[i];
+  } else {
+    return undefined;
+  }
 }
 
 function createSectionTile(section) {

@@ -6,82 +6,61 @@ var User = require('./user').User;
 
 function DatabaseModel() { }
 
-DatabaseModel.prototype.getUserSections = function getUserSections(username, term_code, callback) {
-  var getSections = function(user) {
-    User.getUserCourseData(user, term_code, function(data) {
-      callback(data);
-    });
-  };
-
-  User.findOne({username: username}, function(err, user) {
-    if(user == null) {
-      user = new User({ username: username });
-      user.save(function(err, u) {
-        if(err) {
-          callback({success: false});
-        } else {
-          getSections(user);
-        }
-      });
-    } else {
-      getSections(user);
-    }
+DatabaseModel.prototype.getUserSections = function getUserSections(user, term_code, callback) {
+  User.getUserCourseData(user, term_code, function(data) {
+    callback(data);
   });
 }
 
-DatabaseModel.prototype.scheduleSection = function(username, section_id, callback) {
+DatabaseModel.prototype.scheduleSection = function(user, section_id, callback) {
   Section.findOne({section_id: section_id}, function(err, section) {
-    User.findOne({username: username}, function(e, user) {
-      if(user === null || section === null) {
+    user.hasSection(section.section_id, function(has) {
+      if(!has) {
+        user.scheduled_sections.push(section);
+        user.save(callback({success: true}));
+      } else {
         callback({success: false});
-        return;
       }
-      user.hasSection(section.section_id, function(has) {
-        if(!has) {
-          user.scheduled_sections.push(section);
-          user.save(callback({success: true}));
-        } else {
-          callback({success: false});
-        }
-      });
     });
   });
 }
 
-DatabaseModel.prototype.unscheduleSection = function(username, section_id, callback) {
-  User.findOne({username: username}).populate('scheduled_sections').exec(function(err, user) {
-    var removed = false;
-    for (var i = 0; i < user.scheduled_sections.length; ++i) {
-      if(user.scheduled_sections[i].section_id == section_id) {
-        user.scheduled_sections.splice(i, 1);
-        removed = true
-        break;
-      }
-    }
-    user.save(callback({success: removed}));
+DatabaseModel.prototype.scheduleSections = function(user, section_ids, callback) {
+  Section.find({section_id: {$in: section_ids}}, function(err, sections) {
+    var new_sections = sections.filter(function(i) {return user.scheduled_sections.indexOf(i) < 0;});
+    user.scheduled_sections = user.scheduled_sections.concat(new_sections);
+    user.save(callback({success: new_sections.length > 0}));
   });
 }
 
-DatabaseModel.prototype.registerSections = function(username, section_ids, callback) {
-  User.findOne({username: username}).populate('scheduled_sections').exec(function(err, user) {
-    for(var i = user.scheduled_sections.length - 1; i >= 0; --i) {
-      if(section_ids.indexOf(user.scheduled_sections[i].section_id) >= 0) {
-        user.registered_sections.push(user.scheduled_sections.splice(i, 1)[0]);
-      }
+DatabaseModel.prototype.unscheduleSection = function(user, section_id, callback) {
+  var removed = false;
+  for (var i = 0; i < user.scheduled_sections.length; ++i) {
+    if(user.scheduled_sections[i].section_id == section_id) {
+      user.scheduled_sections.splice(i, 1);
+      removed = true
+      break;
     }
-    user.save(callback({success: true}));
-  });
+  }
+  user.save(callback({success: removed}));
 }
 
-DatabaseModel.prototype.unregisterSections = function(username, section_ids, callback) {
-  User.findOne({username: username}).populate('registered_sections').exec(function(err, user) {
-    for (var i = user.registered_sections.length - 1; i >= 0; --i) {
-      if(section_ids.indexOf(user.registered_sections[i].section_id) >= 0) {
-        user.scheduled_sections.push(user.registered_sections.splice(i, 1)[0]);
-      }
+DatabaseModel.prototype.registerSections = function(user, section_ids, callback) {
+  for(var i = user.scheduled_sections.length - 1; i >= 0; --i) {
+    if(section_ids.indexOf(user.scheduled_sections[i].section_id) >= 0) {
+      user.registered_sections.push(user.scheduled_sections.splice(i, 1)[0]);
     }
-    user.save(callback({success: true}));
-  });
+  }
+  user.save(callback({success: true}));
+}
+
+DatabaseModel.prototype.unregisterSections = function(user, section_ids, callback) {
+  for (var i = user.registered_sections.length - 1; i >= 0; --i) {
+    if(section_ids.indexOf(user.registered_sections[i].section_id) >= 0) {
+      user.scheduled_sections.push(user.registered_sections.splice(i, 1)[0]);
+    }
+  }
+  user.save(callback({success: true}));
 }
 
 module.exports = {
