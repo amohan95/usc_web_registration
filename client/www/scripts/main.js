@@ -111,10 +111,12 @@ $(document).on('pagecontainercreate', function() {
   });
   $('#logout').click(function(e) {
     e.preventDefault();
-    localStorage.removeItem('bearer_token');
-    $.post(REMOTE_URL + '/authentication/logout', function(data) {
-      $.mobile.changePage('#login', {allowSamePageTransition: true});
-    });
+    sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/authentication/logout', {},
+      function(data) {
+        localStorage.removeItem('bearer_token');
+        $.mobile.changePage('#login', {allowSamePageTransition: true});
+      });
   });
   $(document).on('swipeleft', '.auto-schedule', function(e) {
     changeCombination(1);

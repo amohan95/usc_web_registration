@@ -11,8 +11,8 @@ router.post('/login', passport.authenticate('local'), function(req, res, next) {
 	});
 });
 
-router.post('/logout', passport.authenticate('local'), function(req, res, next) {
-	Token.find({user: req.user}).sort({day: -1}).limit(1).exec(function(err, token) {
+router.post('/logout', passport.authenticate('bearer'), function(req, res, next) {
+	Token.findOne({user: req.user}).sort({day: -1}).exec(function(err, token) {
 		token.expiration = Date.now;
 		token.save(function() {
 			res.send({success: true});
