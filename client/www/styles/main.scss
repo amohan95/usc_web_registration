@@ -477,7 +477,7 @@ table {
 }
 
 #class-display {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -534,7 +534,7 @@ table {
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
   .ui-mobile-viewport {
-    margin: 0; 
+    margin: 0;
   }
   .app-bar {
     position: relative;

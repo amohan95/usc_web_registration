@@ -55,7 +55,7 @@ document.addEventListener('deviceready', function(e) {
 /***
  * DOM Event Handling
  ***/
- var current_classes = {};
+ var current_classes = [];
 $(document).ready(function () {
   $(window).resize(function(){
     $("#class-display .section").remove();
@@ -66,7 +66,7 @@ $(document).ready(function () {
   $('#home-menu').click(function() {
     $('#combination-title').text('');
     $('#home').removeClass('auto-schedule');
-    $("#class-display").empty();
+    $('#class-display .section').remove();
     getCourseBin(false);
   });
 });
@@ -79,7 +79,6 @@ $(document).on('pagecontainercreate', function() {
   };
   $('.page-content').off('click').click(closeMenu);
   $('.menu').off('click').click(function() {
-    console.log("menu button");
     $('.page-content').toggleClass('open');
     $('.app-bar').toggleClass('open');
     $('.navdrawer-container').toggleClass('open');
@@ -117,6 +116,23 @@ $(document).on('pagecontainercreate', function() {
       $.mobile.changePage('#login', {allowSamePageTransition: true});
     });
   });
+  $(document).on('swipeleft', '.auto-schedule', function(e) {
+    changeCombination(1);
+  });
+  $(document).on('swiperight', '.auto-schedule', function(e) {
+    changeCombination(-1);
+  });
+  $(document).on('keydown', '.auto-schedule', function(e) {
+    e.preventDefault();
+    switch(e.which) {
+      case 37:
+        changeCombination(-1);
+        break;
+      case 39:
+        changeCombination(1);
+        break;
+    }
+  });
 });
 
 $(document).on('pagecontainerbeforechange', redirectLogin);
@@ -139,60 +155,27 @@ $('#home').on('pagecreate', function() {
   } else {
     $('#top-text').empty().text('Auto Schedule');
   }
+  $('#schedule-auto-schedule').click(function(e) {
+    e.preventDefault();
+    sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
+      function(data) {
+        // UPDATE CALENDAR DISPLAY?
+      });
+  });
+  $('#register-sections').click(function(e) {
+    e.preventDefault();
+    sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/storage/register_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
+      function(data) {
+        // UPDATE CALENDAR DISPLAY?
+      });
+  });
 });
 
 $("#course-bin").on("pageshow" , function() {
   getCourseBin(true)
 });
-
-$("#auto-schedule").click( function(e) {
-  e.preventDefault();
-  $('#home').addClass('auto-schedule');
-  $.mobile.changePage('#home', {allowSamePageTransition: true});
-  $('#combination-title').text('');
-  $('#combination-list').empty();
-  sendAuthenticatedRequest(
-    'GET', REMOTE_URL + '/auto_schedule/build_combinations/', {},
-    function(data) {
-      if (Object.keys(data.section_map).length == 0) {
-        $("#class-display").empty();
-        $('#combination-title').text('Add at least one course to your auto-schedule bin');
-      } else {
-        sessionStorage.setItem('section_map', JSON.stringify(data.section_map));
-        sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
-        displayCombination(0);
-      }
-    }
-  );
-});
-
-$('#schedule-auto-schedule').click(function() {
-  sendAuthenticatedRequest(
-    'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
-    function(data) {
-      $.mobile.changePage('#home', {allowSamePageTransition: true});
-    });
-});
-
-  $(document).on('swipeleft', '.auto-schedule', function(e) {
-    changeCombination(1);
-  });
-
-  $(document).on('swiperight', '.auto-schedule', function(e) {
-    changeCombination(-1);
-  });
-
-  $(document).on('keydown', '.auto-schedule', function(e) {
-    e.preventDefault();
-    switch(e.which) {
-      case 37:
-        changeCombination(-1);
-        break;
-      case 39:
-        changeCombination(1);
-        break;
-    }
-  });
 
 $(document).on('pagecreate', '#search', function() {
   $('#back-btn').click(function() {
@@ -278,7 +261,6 @@ function getCourseBin(display) {
       function(data) {
         current_classes = data.scheduled;
         showClassCal(data);
-        console.log(data);
       }
     );
   }
@@ -329,7 +311,7 @@ function displayClass(day, data) {
   var offset = cell.position();
   var width = cell.width() + 1;
   var height = duration*(cell.height()+1) + duration -1;
-  var top = offset.top+1-60;
+  var top = offset.top+1;
   var left = offset.left+1;
   if(halftime == 30) {
     top += (cell.height()+1)/2;
@@ -456,7 +438,6 @@ function createCourseBinTile(section) {
     $('#popup-remove-section-tile').empty()
     $('#popup-remove-section-tile').append(sectionTile.clone());
     popup.popup('open');
-    console.log($('#popup-remove-section-tile > div').data('section-id'));
   });
   return sectionTile;
 }

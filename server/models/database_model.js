@@ -33,21 +33,19 @@ DatabaseModel.prototype.scheduleSections = function(user, section_ids, callback)
   });
 }
 
-DatabaseModel.prototype.registerSections = function(user, section_ids, callback) {
+DatabaseModel.prototype.registerSections = function(user, callback) {
   user.populate('scheduled_sections', function(err, user) {
     var rejected_sections = [];
     for(var i = user.scheduled_sections.length - 1; i >= 0; --i) {
-      if(section_ids.indexOf(user.scheduled_sections[i].section_id) >= 0) {
-        var section = user.scheduled_sections[i];
-        if(section.number_registered < section.number_seats) {
-          user.scheduled_sections.splice(i, 1);
-          section.number_registered++;
-          section.save(function() {
-            user.registered_sections.push(section);
-          });
-        } else {
-          rejected_sections.push(section);
-        }
+      var section = user.scheduled_sections[i];
+      if(section.number_registered < section.number_seats) {
+        user.registered_sections.push(user.scheduled_sections.splice(i, 1)[0]);
+        section.number_registered++;
+        section.save(function() {
+          user.registered_sections.push(section);
+        });
+      } else {
+        rejected_sections.push(section);
       }
     }
     user.save(callback({success: true, rejected: rejected_sections}));
@@ -64,15 +62,6 @@ DatabaseModel.prototype.unscheduleSection = function(user, section_id, callback)
     }
   }
   user.save(callback({success: removed}));
-}
-
-DatabaseModel.prototype.registerSections = function(user, section_ids, callback) {
-  for(var i = user.scheduled_sections.length - 1; i >= 0; --i) {
-    if(section_ids.indexOf(user.scheduled_sections[i].section_id) >= 0) {
-      user.registered_sections.push(user.scheduled_sections.splice(i, 1)[0]);
-    }
-  }
-  user.save(callback({success: true}));
 }
 
 DatabaseModel.prototype.unregisterSections = function(user, section_ids, callback) {

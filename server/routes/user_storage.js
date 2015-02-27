@@ -45,13 +45,9 @@ router.post('/unschedule_section', passport.authenticate('bearer'), function(req
 });
 
 router.post('/register_sections', passport.authenticate('bearer'), function(req, res, next) {
-  if(req.body.section_ids === undefined) {
-    res.send({success: false});
-  } else {
-    db.registerSections(req.user, req.body.section_ids, function(data) {
-      res.send(data);
-    });
-  }
+  db.registerSections(req.user, function(data) {
+    res.send(data);
+  });
 });
 
 router.post('/unregister_sections', passport.authenticate('bearer'), function(req, res, next) {
