@@ -409,7 +409,7 @@ table {
 }
 
 #class-display {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -436,7 +436,6 @@ table {
 .ui-collapsible-inset.ui-collapsible-themed-content .ui-collapsible-content {
   background-color: rgb(249, 249, 249);
 }
-
 
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
