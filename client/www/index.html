@@ -37,7 +37,6 @@
         <li id="home-menu"><a href="#home"><img class="menu-icon" src="images/calendar.svg" />Home</a></li>
         <li id="course-bin-btn"><a href="#course-bin"><img class="menu-icon" src="images/bin.png" />Course Bin</a></li>
         <li id="auto-schedule"><a href="#"><img class="menu-icon" src="images/auto-schedule.svg" />Auto Schedule</a></li>
-        <li id="export-calendar"><a href="#export-calendar-page">Export Calendar to Google</a></li>
         <li id="logout"><a href="#"><img class="menu-icon" src="images/logout-icon.svg" />Logout</a></li>
       </ul>
     </nav>
@@ -220,7 +219,6 @@
         </div>
         <div class="page-content">
           <div class="top-pad"></div>
-          <div class="ui-field-contain">
           <div id="search-settings-container" style="display:none;">
             <div data-role="fieldcontain" id="search-options">
               <fieldset class="ui-grid-a">
@@ -252,8 +250,8 @@
               </fieldset>
             </div>
           </div>
+          <div style="margin: 10px;"><h7>Results:</h7></div>
           <div id="search-results">
-            <h7>Results:</h7>
             <div data-role="collapsible" data-mini="true" data-collapsed-icon="carat-r" data-expanded-icon="carat-d">
               <h3>Courses<span id="course-results-count" class="ui-btn-up-c ui-btn-corner-all custom-count-pos">0</span></h3>
               <ul data-role="listview" id="course-results" data-mini="true"></ul>
@@ -308,9 +306,6 @@
               <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
           </div>
         </div>
-      </div>
-      <div data-role="page" id="export-calendar-page">
-        <a id="export-calendar" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Export Calendar</a>
       </div>
     </main>
 
