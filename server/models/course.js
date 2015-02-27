@@ -50,6 +50,13 @@ CourseSchema.methods.retrieve = function retrieve(term_code, course_id, callback
 	});
 };
 
+CourseSchema.methods.checkIfPublish = function() {
+	for (var i = this.sections.length - 1; i >= 0; --i) {
+		if(this.sections[i].publish) return true;
+	}
+	return false;
+}
+
 CourseSchema.methods.populateFromJSON = function(body, term_code, callback) {
 	var Section = require('./section').Section;
 	var self = this;

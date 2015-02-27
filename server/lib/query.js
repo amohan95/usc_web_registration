@@ -104,9 +104,11 @@ Query.prototype.executeSearch = function(queries, term, user, callback) {
     if(queries.courses === undefined) {
       coursesDef.resolve(courses);
     } else {
-      queries.courses.populate('effective_term', 'term_code -_id').exec(function(err, docs) {
+      queries.courses.populate('effective_term', 'term_code -_id')
+      .populate('sections', 'publish').exec(function(err, docs) {
         docs.forEach(function(course) {
-          if(course.effective_term !== null && course.effective_term.term_code === term) {
+          if(course.effective_term !== null && course.effective_term.term_code === term
+             && course.checkIfPublish()) {
             courses.push(course);
           }
         });
