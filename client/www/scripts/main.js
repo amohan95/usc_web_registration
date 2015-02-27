@@ -49,7 +49,9 @@ function notificationReceived(e) {
 var pushNotification;
 document.addEventListener('deviceready', function(e) {
   pushNotification = window.plugins.pushNotification;
-  pushNotification.register(registrationSuccess, registrationError, {senderID: '225225239291', ecb: 'notificationReceived'});
+  if (device.platform == 'android' || device.platform == 'Android') {
+    pushNotification.register(registrationSuccess, registrationError, {senderID: '225225239291', ecb: 'notificationReceived'});
+  }
 }, true);
 
 /***
@@ -105,6 +107,28 @@ $(document).on('pagecontainercreate', function() {
           sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
           sessionStorage.setItem('num_combinations', data.combinations.length);
           displayCombination(getCurrentCombinationIndex());
+          var courses = {};
+          for (var key in data.section_map) {
+            var course_code = data.section_map[key].course_code;
+            if (courses.hasOwnProperty(course_code)) {
+              courses[course_code].push(data.section_map[key]);
+            } else {
+              courses[course_code] = [data.section_map[key]];
+            }
+          }
+          for (var key in courses) {
+            var sections = $('<ul>').addClass('sections');
+            addSections(courses[key], sections);
+            var course = $('<li>').text(key).click(function(e) {
+              if(!$(this).hasClass('expanded')) {
+                $(this).addClass('expanded');
+              } else {
+                $(this).removeClass('expanded');
+              }
+              $(this).children('.sections').slideToggle('fast');
+            }).append(sections);
+            $('#auto-schedule-courses').append(course);
+          }
         }
       }
     );
@@ -475,14 +499,9 @@ function executeSearch(query_string) {
                            .addClass('loading');
     courseArea.append(loader.clone());
     sectionArea.append(loader.clone());
-    prevQuery = $.ajax({
-      type: 'POST',
-      url: REMOTE_URL + '/search/execute_query/',
-      data: {query_string: query_string, term: '20151', parameters: parameters},
-      beforeSend: function(xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
-      },
-      success: function(data) {
+    prevQuery = sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/search/execute_query/', {query_string: query_string, term: '20151', parameters: parameters},
+      function(data) {
         prevQuery = null;
         if(data.success) {
           if(data.courses.length < 500) {
@@ -500,14 +519,8 @@ function executeSearch(query_string) {
           }
         }
         $('.loading').remove();
-      },
-      statusCode: {
-        401: function() {
-          localStorage.removeItem('bearer_token');
-          $.mobile.changePage('#login', {allowSamePageTransition: true});
-        }
       }
-    });
+    );
   }
 }
 

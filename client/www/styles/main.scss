@@ -409,7 +409,7 @@ table {
 }
 
 #search-settings-container {
-  margin: 10px; 
+  margin: 10px;
 }
 
 .course-tile > .ui-btn-right {
@@ -523,6 +523,15 @@ table {
   position: absolute;
 }
 
+#auto-schedule-info {
+  display: none;
+}
+
+.auto-schedule {
+  #auto-schedule-info {
+    display: block;
+  }
+}
 
 /** Smaller Screens **/
 @media all and (max-width: 365px) {

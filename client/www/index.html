@@ -198,8 +198,14 @@
               </div>
             </div>
           </div>
-          <div><p id="combination-title"></p></div>
-          <p><a href="#" id="schedule-auto-schedule">Add Combination to Course Bin</a></p>
+          <div id="auto-schedule-info">
+            <div><p id="combination-title"></p></div>
+            <p><a href="#" id="schedule-auto-schedule">Add Combination to Course Bin</a></p>
+            <div data-role="collapsible" data-mini="true">
+              <h3>Courses</h3>
+              <ul data-role="listview" id="auto-schedule-courses" data-mini="true"></ul>
+            </div>
+          </div>
           <p><a href="#" id="register-sections">Register Sectiosn</a></p>
         </div>
 
@@ -266,7 +272,7 @@
           </div>
         </div>
         <div id="autoschedule-popup" data-role="popup" class="ui-content">
-          <p>Autoschedule course <span id="autoschedule-popup-title"></span>?</p>
+          <p>Auto-Schedule course <span id="autoschedule-popup-title"></span>?</p>
           <div style="text-align:center;">
             <a id="confirm-add-autoschedule" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
             <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
