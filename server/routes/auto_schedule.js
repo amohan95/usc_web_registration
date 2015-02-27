@@ -24,37 +24,37 @@ var populateAutoSchedule = function (req, res, next) {
 
 router.post('/add_course', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
 	req.user.auto_schedule.addCourse(req.body.course_id, function() {
-		res.sendStatus(200);
+		res.send({success: true});
 	});
 });
 
 router.post('/remove_course', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
 	req.user.auto_schedule.removeCourse(req.body.course_id, function() {
-		res.sendStatus(200);
+		res.send({success: true});
 	});
 });
 
 router.post('/add_included_section', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
-	req.user.auto_schedule.addIncludedSection(req.body.course_id, req.body.section_id, function() {
-		res.sendStatus(200);
+	req.user.auto_schedule.addIncludedSection(req.body.section_id, function() {
+		res.send({success: true});
 	});
 });
 
 router.post('/remove_included_section', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
-	req.user.auto_schedule.removeIncludedSection(req.body.course_id, req.body.section_id, function() {
-		res.sendStatus(200);
+	req.user.auto_schedule.removeIncludedSection(req.body.section_id, function() {
+		res.send({success: true});
 	});
 });
 
 router.post('/add_excluded_section', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
 	req.user.auto_schedule.addExcludedSection(req.body.section_id, function() {
-		res.sendStatus(200);
+		res.send({success: true});
 	});
 });
 
 router.post('/remove_excluded_section', passport.authenticate('bearer'),  populateAutoSchedule, function(req, res, next) {
 	req.user.auto_schedule.removeExcludedSection(req.body.section_id, function() {
-		res.sendStatus(200);
+		res.send({success: true});
 	});
 });
 

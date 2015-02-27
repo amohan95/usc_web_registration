@@ -35,30 +35,41 @@ AutoScheduleSchema.methods.removeCourse = function(course, cb) {
 	}
 }
 
-AutoScheduleSchema.methods.addIncludedSection = function(course_id, section_id, cb) {
-	if (!this.include.hasOwnProperty(course_id)) {
-		this.include[course_id] = {};
-	}
-	this.include[course_id][section_id] = true;
-	this.save(cb);
+AutoScheduleSchema.methods.addIncludedSection = function(section_id, cb) {
+	var self = this;
+	Section.findOne({section_id: section_id}).populate('course course_id').exec(function(err, section) {
+		if (!self.include.hasOwnProperty(section.course.course_id)) {
+			self.include[section.course.course_id] = {};
+		}
+		self.include[section.course.course_id][section.type] = section.section_id;
+		self.markModified('include');
+		self.save(cb);
+	});
 }
 
-AutoScheduleSchema.methods.removeIncludedSection = function(course_id, section_id, cb) {
-	if (this.include.hasOwnProperty(course_id) && this.include[course_id].hasOwnProperty(section_id)) {
-		delete this.include[course_id][section_id];
-		this.save(cb);
-	} else {
-		cb();
-	}
+AutoScheduleSchema.methods.removeIncludedSection = function(section_id, cb) {
+	var self = this;
+	Section.findOne({section_id: section_id}).populate('course course_id').exec(function(err, section) {
+		if (self.include.hasOwnProperty(section.course.course_id) && self.include[section.course.course_id].hasOwnProperty(section.type) &&
+			  self.include[section.course.course_id][section.type] == section.section_id) {
+			delete self.include[section.course.course_id][section.section_id];
+			self.markModified('include');
+			self.save(cb);
+		} else {
+			cb();
+		}
+	});
 }
 
 AutoScheduleSchema.methods.addExcludedSection = function(section_id, cb) {
 	this.exclude[section_id] = true;
+	this.markModified('exclude');
 	this.save(cb);
 }
 
 AutoScheduleSchema.methods.removeExcludedSection = function(section_id, cb) {
 	delete this.exclude[section_id];
+	this.markModified('exclude');
 	this.save(cb);
 }
 
@@ -68,7 +79,9 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 	var section_groups = [];
 	Course.find({'course_id': { $in: this.courses}}).populate({path: 'sections', options: {sort: 'section_code'}}).exec(function(err, courses) {
 		self.section_map = {};
+		self.course_map = {};
 		courses.forEach(function(course) {
+			self.course_map[course.course_code] = course;
 			var sections = {};
 			course.sections.forEach(function(section) {
 				self.section_map[section.section_id] = section;
@@ -105,7 +118,6 @@ AutoScheduleSchema.methods.buildGraph = function(callback) {
 				}
 			}
 		}
-		console.log(self.courses);
 		callback();
 	});
 };
@@ -118,16 +130,17 @@ AutoScheduleSchema.methods.buildCombinations = function(blocked, max_combination
 	}
 	return {
 		section_map: this.section_map || {},
+		course_map: this.course_map || {},
 		combinations: combinations,
 		all_possible: all_possible
 	};
 };
 
 AutoScheduleSchema.methods._buildCombinations = function(current, blocked, combination, combinations, max_combinations) {
-	if (current.publish && !this.exclude.hasOwnProperty(current.section_id) &&
+	if (current.publish && !this.exclude[current.section_id] &&
 			    !current.conflictsWith(blocked) &&
-			    (!this.include.hasOwnProperty(current.course.course_id) ||
-			    		this.include[current.course.course_id].hasOwnProperty(current.section_id))) {
+			    (this.include[this.course_map[current.course_code].course_id] === undefined || this.include[this.course_map[current.course_code].course_id][current.type] === undefined ||
+			    	this.include[this.course_map[current.course_code].course_id][current.type] == current.section_id)) {
 		var comb = combination.slice();
 		comb.push(current.section_id);
 		if (this.graph.hasOwnProperty(current)) {
