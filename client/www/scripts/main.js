@@ -206,6 +206,10 @@ $(document).on('pagecreate', '#search', function() {
     executeSearch($(this).val());
   });
 
+  $('#change-settings').click(function() {
+    $('#search-settings-container').slideToggle('fast');
+  });
+
   $('#search-options input').on('change', function() {
     executeSearch($('#search-field').val());
   });

@@ -214,15 +214,14 @@
             <button id="back-btn"><img src="images/back_arrow.svg" alt="Back"></button>
             <section class="app-bar-actions">
             <input type="search" name="search-field" id="search-field" value="" data-mini="true" placeholder="Search">
-            <a href="#search"><button class="search"><img src="images/settings.svg" alt="Search"></button></a>
+            <button class="search" id="change-settings"><img src="images/settings.svg" alt="Search"></button>
             </section>
           </div>
         </div>
         <div class="page-content">
           <div class="top-pad"></div>
           <div class="ui-field-contain">
-          <div data-role="collapsible" data-collapsed-icon="gear" data-expanded-icon="gear" data-mini="true">
-            <h4>Search Options</h4>
+          <div id="search-settings-container" style="display:none;">
             <div data-role="fieldcontain" id="search-options">
               <fieldset class="ui-grid-a">
                 <h7>Search Courses and Sections By:</h7>
