@@ -64,12 +64,22 @@ DatabaseModel.prototype.unscheduleSection = function(username, section_id, callb
 
 DatabaseModel.prototype.registerSections = function(username, section_ids, callback) {
   User.findOne({username: username}).populate('scheduled_sections').exec(function(err, user) {
+    var rejected_sections = [];
     for(var i = user.scheduled_sections.length - 1; i >= 0; --i) {
       if(section_ids.indexOf(user.scheduled_sections[i].section_id) >= 0) {
-        user.registered_sections.push(user.scheduled_sections.splice(i, 1)[0]);
+        var section = user.scheduled_sections[i];
+        if(section.number_registered < section.number_seats) {
+          user.scheduled_sections.splice(i, 1);
+          section.number_registered++;
+          section.save(function() {
+            user.registered_sections.push(section);
+          });
+        } else {
+          rejected_sections.push(section);
+        }
       }
     }
-    user.save(callback({success: true}));
+    user.save(callback({success: true, rejected: rejected_sections}));
   });
 }
 
@@ -77,7 +87,11 @@ DatabaseModel.prototype.unregisterSections = function(username, section_ids, cal
   User.findOne({username: username}).populate('registered_sections').exec(function(err, user) {
     for (var i = user.registered_sections.length - 1; i >= 0; --i) {
       if(section_ids.indexOf(user.registered_sections[i].section_id) >= 0) {
-        user.scheduled_sections.push(user.registered_sections.splice(i, 1)[0]);
+        var section = user.registered_sections.splice(i, 1)[0];
+        section.number_registered--;
+        section.save(function() {
+          user.scheduled_sections.push(section);
+        });
       }
     }
     user.save(callback({success: true}));

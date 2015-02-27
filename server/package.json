@@ -25,6 +25,8 @@
     "passport-local": "^1.0.0",
     "q": "~1.1.2",
     "request": "~2.53.0",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "googleapis": "~1.1.4",
+    "passport-google-oauth": "~0.1.5"
   }
 }

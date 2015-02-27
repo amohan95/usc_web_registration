@@ -86,10 +86,11 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', express.static(__dirname + '/../client/www'));
-app.use('/storage', require('./routes/user_storage'));
-app.use('/search', require('./routes/execute_query'));
-app.use('/auto_schedule', require('./routes/auto_schedule'));
 app.use('/authentication', require('./routes/authentication'));
+app.use('/auto_schedule', require('./routes/auto_schedule'));
+app.use('/google_cal', require('./routes/export_calendar'));
+app.use('/search', require('./routes/execute_query'));
+app.use('/storage', require('./routes/user_storage'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
