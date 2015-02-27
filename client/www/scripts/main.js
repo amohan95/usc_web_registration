@@ -57,12 +57,13 @@ document.addEventListener('deviceready', function(e) {
 /***
  * DOM Event Handling
  ***/
- var current_classes = [];
+ var scheduled_classes = [];
+ var registered_classes = [];
 $(document).ready(function () {
-  $(window).resize(function(){
+  $(window).resize(function() {
     $("#class-display .section").remove();
-    for (var i = 0; i < current_classes.length; i++) {
-      showSection(current_classes[i]);
+    for (var i = 0; i < scheduled_classes.length; i++) {
+      showSection(scheduled_classes[i]);
     }
   });
   $('#home-menu').click(function() {
@@ -192,9 +193,9 @@ $('#home').on('pagecreate', function() {
   $('#register-sections').click(function(e) {
     e.preventDefault();
     sendAuthenticatedRequest(
-      'POST', REMOTE_URL + '/storage/register_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
+      'POST', REMOTE_URL + '/storage/register_sections',
       function(data) {
-        // UPDATE CALENDAR DISPLAY?
+        
       });
   });
 });
@@ -245,11 +246,21 @@ $(document).on('pagecreate', '#search', function() {
 $(document).on('pagecreate', '#course-bin', function() {
   $('.menu').removeClass('ui-btn').removeClass('ui-shadow').removeClass('ui-corner-all');
   $('.search').removeClass('ui-btn').removeClass('ui-shadow').removeClass('ui-corner-all');
-  $('#confirm-remove-section').click(function() {
+  $('#confirm-unschedule-section').click(function() {
     sendAuthenticatedRequest(
-      'POST', REMOTE_URL + '/storage/unschedule_section', {section_id: $('#popup-remove-section-tile > div').data('section-id')},
+      'POST', REMOTE_URL + '/storage/unschedule_section', {section_id: $('#popup-unschedule-section-tile > div').data('section-id')},
       function(data) {
-        $('#remove-section-popup').popup('close');
+        $('#unschedule-section-popup').popup('close');
+        getCourseBin(true);
+      }
+    );
+  });
+  $('#confirm-unregister-section').click(function() {
+    sendAuthenticatedRequest(
+      'POST', REMOTE_URL + '/storage/unregister_sections', {course_code: $('#popup-unregister-section-tile > div').data('course-code')},
+      function(data) {
+        $('#unregister-section-popup').popup('close');
+        getCourseBin(true);
       }
     );
   });
@@ -272,12 +283,13 @@ function convertMilitaryTime(time_string) {
   return hrs + ':' + mins + ' ' + amPm;
 }
 
-function getCourseBin(display) {
-  if (display) {
+function getCourseBin(use_bin) {
+  if (use_bin) {
     sendAuthenticatedRequest(
       'GET', REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
       function(data) {
-        current_classes = data.scheduled;
+        scheduled_classes = data.scheduled;
+        registered_classes = data.registered;
         displayCourseBin();
       }
     );
@@ -285,7 +297,8 @@ function getCourseBin(display) {
     sendAuthenticatedRequest(
       'GET', REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
       function(data) {
-        current_classes = data.scheduled;
+        scheduled_classes = data.scheduled;
+        registered_classes = data.registered;
         showClassCal(data);
       }
     );
@@ -295,31 +308,35 @@ function getCourseBin(display) {
 //Takes an array
 function showClassCal(data) {
   $("#class-display .section").remove();
-  var classes = data.scheduled;
-  for (var i = 0; i < classes.length; i++) {
-    showSection(classes[i]);
+  var scheduled = data.scheduled;
+  for (var i = 0; i < scheduled.length; i++) {
+    showSection(scheduled[i], 'scheduled');
+  }
+  var registered = data.registered;
+  for (var i = 0; i < registered.length; ++i) {
+    showSection(registered[i], 'registered');
   }
 }
 
 //Takes a section
-function showSection(data) {
+function showSection(data, type) {
   if(data.begin_time != "TBA") {
     var day = data.day;
     while (day.length > 0) {
       if ( day[0] == 'M') {
-        displayClass(2, data);
+        displayClass(2, data, type);
         day = day.substring(1,day.length);
       } else if ( day[0] == 'T') {
-        displayClass(3, data);
+        displayClass(3, data, type);
         day = day.substring(1,day.length);
       } else if ( day[0] == 'W') {
-        displayClass(4, data);
+        displayClass(4, data, type);
         day = day.substring(1,day.length);
       } else if ( day[0] == 'H') {
-        displayClass(5, data);
+        displayClass(5, data, type);
         day = day.substring(1,day.length);
       }else if ( day[0] == 'F') {
-        displayClass(6, data);
+        displayClass(6, data, type);
         day = day.substring(1,day.length);
       } else {
         break;
@@ -329,11 +346,11 @@ function showSection(data) {
 }
 
 //Calculates position of class and displays it
-function displayClass(day, data) {
+function displayClass(day, data, type) {
   var time = parseInt(data.begin_time.substring(0,2))-5;
   var halftime = parseInt(data.begin_time.substring(3,5));
   var duration = calculateClassTime(data);
-  var cell = $("#cal-table tr:nth-child("+time+") td:nth-child("+day+")");
+  var cell = $("#cal-table tr:nth-child("+time+") td:nth-child(" + day + ")");
   var offset = cell.position();
   var width = cell.width() + 1;
   var height = duration*(cell.height()+1) + duration -1;
@@ -342,7 +359,10 @@ function displayClass(day, data) {
   if(halftime == 30) {
     top += (cell.height()+1)/2;
   }
-  $("#class-display").append($("<div>").attr('class', 'section').css("width",width).css("height",height).offset({top:top, left:left}).text(data.course_code));
+  $("#class-display").append($("<div>").addClass('section').addClass('section-' + type)
+    .css("width",width).css("height",height)
+    .offset({top:top, left:left})
+    .text(data.course_code + '\n' + data.section_code));
 }
 
 //Returns class duration
@@ -385,10 +405,10 @@ function displayCombination(i) {
       sessionStorage.setItem('current_combination', i);
       $('#combination-title').text('Combination ' + (i + 1) + ' of ' + num_combinations);
       $("#class-display .section").remove();
-      current_classes = [];
+      scheduled_classes = [];
       for (var j = 0; j < current_combination.length; ++j) {
         showSection(section_map[current_combination[j]]);
-        current_classes.push(section_map[current_combination[j]]);
+        scheduled_classes.push(section_map[current_combination[j]]);
       }
     }
   }
@@ -442,7 +462,7 @@ function createSectionTile(section) {
   return sectionTile;
 }
 
-function createCourseBinTile(section) {
+function createCourseBinTile(section, type) {
   var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
@@ -459,10 +479,10 @@ function createCourseBinTile(section) {
 
   sectionTile.click(function(e) {
     e.stopPropagation();
-    var popup = $('#remove-section-popup').popup();
-    $('#popup-remove-section-course').text(section.course_code);
-    $('#popup-remove-section-tile').empty()
-    $('#popup-remove-section-tile').append(sectionTile.clone());
+    var popup = $('#un' + type + '-section-popup').popup();
+    $('#popup-un' + type + '-section-course').text(section.course_code);
+    $('#popup-un' + type + '-section-tile').empty()
+    $('#popup-un' + type + '-section-tile').append(sectionTile.clone());
     popup.popup('open');
   });
   return sectionTile;
@@ -592,8 +612,14 @@ function sendAuthenticatedRequest(type, url, data, success) {
 }
 
 function displayCourseBin() {
-  $('#course-display').empty();
-  for (var i = 0; i < current_classes.length; i++) {
-    $('#course-display').append(createCourseBinTile(current_classes[i]));
+  var scheduledArea = $('#course-display-scheduled');
+  var registeredArea = $('#course-display-registered');
+  scheduledArea.empty();
+  registeredArea.empty();
+  for (var i = 0; i < scheduled_classes.length; i++) {
+    scheduledArea.append(createCourseBinTile(scheduled_classes[i], 'schedule'));
+  }
+  for(var i = 0; i < registered_classes.length; ++i) {
+    registeredArea.append(createCourseBinTile(registered_classes[i], 'register'));
   }
 }

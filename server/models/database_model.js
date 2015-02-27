@@ -54,23 +54,27 @@ DatabaseModel.prototype.registerSections = function(user, callback) {
 
 DatabaseModel.prototype.unscheduleSection = function(user, section_id, callback) {
   var removed = false;
-  for (var i = 0; i < user.scheduled_sections.length; ++i) {
-    if(user.scheduled_sections[i].section_id == section_id) {
-      user.scheduled_sections.splice(i, 1);
-      removed = true
-      break;
+  user.populate('scheduled_sections', function(err, user) {
+    for (var i = 0; i < user.scheduled_sections.length; ++i) {
+      if(user.scheduled_sections[i].section_id == section_id) {
+        user.scheduled_sections.splice(i, 1);
+        removed = true
+        break;
+      }
     }
-  }
-  user.save(callback({success: removed}));
+    user.save(callback({success: removed}));
+  });
 }
 
-DatabaseModel.prototype.unregisterSections = function(user, section_ids, callback) {
-  for (var i = user.registered_sections.length - 1; i >= 0; --i) {
-    if(section_ids.indexOf(user.registered_sections[i].section_id) >= 0) {
-      user.scheduled_sections.push(user.registered_sections.splice(i, 1)[0]);
+DatabaseModel.prototype.unregisterSections = function(user, course_code, callback) {
+  user.populate('registered_sections', function(err, user) {
+    for(var i = user.registered_sections.length - 1; i >= 0; --i) {
+      if(user.registered_sections[i].course_code === course_code) {
+        user.scheduled_sections.push(user.registered_sections.splice(i, 1)[0]);
+      }
     }
-  }
-  user.save(callback({success: true}));
+    user.save(callback({success: true}));
+  });
 }
 
 module.exports = {

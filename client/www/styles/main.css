@@ -561,8 +561,13 @@ table {
   width: 100%;
   height: 100%; }
 
+.section-scheduled {
+  background-color: #FFCC00; }
+
+.section-registered {
+  background-color: #A3C00F; }
+
 .section {
-  background-color: #FFCC00;
   position: absolute;
   font-size: 10px;
   text-align: center;

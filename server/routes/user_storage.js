@@ -51,10 +51,10 @@ router.post('/register_sections', passport.authenticate('bearer'), function(req,
 });
 
 router.post('/unregister_sections', passport.authenticate('bearer'), function(req, res, next) {
-  if(req.body.section_ids === undefined) {
+  if(req.body.course_code === undefined) {
     res.send({success: false});
   } else {
-    db.unregisterSections(req.user, req.body.section_ids, function(data) {
+    db.unregisterSections(req.user, req.body.course_code, function(data) {
       res.send(data);
     });
   }

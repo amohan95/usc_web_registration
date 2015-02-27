@@ -206,7 +206,7 @@
               <ul data-role="listview" id="auto-schedule-courses" data-mini="true"></ul>
             </div>
           </div>
-          <p><a href="#" id="register-sections">Register Sectiosn</a></p>
+          <p><a href="#" id="register-sections">Register Sections</a></p>
         </div>
 
       </div>
@@ -269,7 +269,6 @@
               <ul data-role="listview" id="section-results" data-mini="true"></ul>
             </div>
           </div>
-          </div>
         </div>
         <div id="autoschedule-popup" data-role="popup" class="ui-content">
           <p>Auto-Schedule course <span id="autoschedule-popup-title"></span>?</p>
@@ -308,11 +307,22 @@
         </div>
         <div class="page-content">
           <div class="top-pad"></div>
-          <div id="course-display"></div>
-          <div id="remove-section-popup" data-role="popup" class="ui-content">
-            <p>Remove this section for <span id="popup-remove-section-course"></span>?</p>
-            <div id="popup-remove-section-tile"></div>
-            <a id="confirm-remove-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
+          <div id="course-display">
+            <h4 style="margin-left: 10px;"> Scheduled Sections: </h4>
+            <div id="course-display-scheduled"></div>
+            <h4 style="margin-left: 10px;"> Registered Sections: </h4>
+            <div id="course-display-registered"></div>
+          </div>
+          <div id="unschedule-section-popup" data-role="popup" class="ui-content">
+            <p>Unschedule section for <span id="popup-unschedule-section-course"></span>?</p>
+            <div id="popup-unschedule-section-tile"></div>
+            <a id="confirm-unschedule-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
+              <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
+          </div>
+          <div id="unregister-section-popup" data-role="popup" class="ui-content">
+            <p>Unregister all sections for <span id="popup-unregister-section-course"></span>?</p>
+            <div id="popup-unregister-section-tile"></div>
+            <a id="confirm-unregister-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
               <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
           </div>
         </div>
