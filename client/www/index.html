@@ -198,7 +198,9 @@
             </div>
           </div>
           <div><p id="combination-title"></p></div>
+          <div><a href="#" id="schedule-auto-schedule">Add Combination to Course Bin</a></div>
         </div>
+
       </div>
 <!--       <div data-role="page" id="auto-schedule">
         <h3 id="combination-title"></h3>
@@ -309,11 +311,18 @@
       </div>
     </main>
 
-    <script src="scripts/jquery-2.1.3.min.js"></script>
-    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
-    <!-- build:js scripts/main.min.js -->
-    <script src="scripts/main.js"></script>
-    <!-- endbuild -->
+    <script type="text/javascript" src="scripts/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript">
+      var phonegap = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+      if (phonegap) {
+        $.ajaxSetup({async:false});
+        $.getScript('PushNotification.js');
+        $.getScript('scripts/cordova.js');
+        $.ajaxSetup({async:true});
+      }
+    </script>
+    <script type="text/javascript" src="scripts/main.js"></script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>

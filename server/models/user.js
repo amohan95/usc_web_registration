@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var bcrypt = require('bcrypt');
-var crypto = require('crypto');
 var $ = require('jquery-deferred');
 var Section = require('./section').Section;
 var Course = require('./course').Course;
@@ -18,7 +17,7 @@ var UserSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  token: {
+  registration_id: {
     type: String
   },
   scheduled_sections: [{
@@ -147,11 +146,6 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     cb(null, isMatch);
   });
 };
-
-UserSchema.methods.generateBearerToken = function(cb) {
-  this.token = crypto.randomBytes(32).toString('base64');
-  this.save(cb);
-}
 
 var User = mongoose.model('User', UserSchema);
 
