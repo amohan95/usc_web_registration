@@ -31,18 +31,9 @@
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <div data-role="header" class="app-bar promote-layer">
-      <div id="top" class="app-bar-container">
-        <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
-        <h1 id="top-text" class="logo">USC <strong>Web Registration</strong></h1>
-        <section class="app-bar-actions">
-        <!-- Put App Bar Buttons Here -->
-        <a href="#search"><button class="search"><img src="images/search.svg" alt="Search"></button></a>
-        </section>
-      </div>
-    </div>
     <nav class="navdrawer-container promote-layer">
       <ul>
+<!--         <li><span id="menu-header">rwillard</span></li> -->
         <li id="home-menu"><a href="#home"><img class="menu-icon" src="images/calendar.svg" />Home</a></li>
         <li id="course-bin-btn"><a href="#course-bin"><img class="menu-icon" src="images/bin.png" />Course Bin</a></li>
         <li id="auto-schedule"><a href="#"><img class="menu-icon" src="images/auto-schedule.svg" />Auto Schedule</a></li>
@@ -52,9 +43,21 @@
     </nav>
     <main>
       <div data-role="page" id="home">
-        <div id="calendar">
-          <div id="days">
-            <div id="class-display">
+        <div class="app-bar promote-layer">
+          <div id="top" class="app-bar-container">
+            <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
+            <h1 class="top-text" class="logo">USC <strong>Web Registration</strong></h1>
+            <section class="app-bar-actions">
+            <!-- Put App Bar Buttons Here -->
+            <a href="#search"><button class="search"><img src="images/search.svg" alt="Search"></button></a>
+            </section>
+          </div>
+        </div>
+        <div class="page-content">
+          <div class="top-pad"></div>
+          <div id="class-display"></div>
+          <div id="calendar">
+            <div id="days">
               <table id="cal-table">
                 <tr>
                   <td class="day-title" id="top-right"></th>
@@ -65,7 +68,7 @@
                   <td class="day-title"><p>Fri</p></td>
                 </tr>
                 <tr>
-                  <th class="time-label">7am</th>
+                  <th class="time-label">7 AM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -73,7 +76,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">8am</th>
+                  <th class="time-label">8 AM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -81,7 +84,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">9am</th>
+                  <th class="time-label">9 AM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -89,7 +92,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">10am</th>
+                  <th class="time-label">10 AM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -97,7 +100,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">11am</th>
+                  <th class="time-label">11 AM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -105,7 +108,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">12pm</th>
+                  <th class="time-label">12 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -113,7 +116,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">1pm</th>
+                  <th class="time-label">1 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -121,7 +124,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">2pm</th>
+                  <th class="time-label">2 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -129,7 +132,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">3pm</th>
+                  <th class="time-label">3 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -137,7 +140,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">4pm</th>
+                  <th class="time-label">4 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -145,7 +148,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">5pm</th>
+                  <th class="time-label">5 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -153,7 +156,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">6pm</th>
+                  <th class="time-label">6 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -161,7 +164,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">7pm</th>
+                  <th class="time-label">7 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -169,7 +172,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">8pm</th>
+                  <th class="time-label">8 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -177,7 +180,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label">9pm</th>
+                  <th class="time-label">9 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -185,7 +188,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <th class="time-label" id="last-time">10pm</th>
+                  <th class="time-label" id="last-time">10 PM</th>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -195,9 +198,10 @@
               </table>
             </div>
           </div>
+          <div><p id="combination-title"></p></div>
+          <div><a href="#" id="schedule-auto-schedule">Add Combination to Course Bin</a></div>
         </div>
-        <div><p id="combination-title"></p></div>
-        <div><a href="#" id="schedule-auto-schedule">Add Combination to Course Bin</a></div>
+
       </div>
 <!--       <div data-role="page" id="auto-schedule">
         <h3 id="combination-title"></h3>
@@ -205,8 +209,18 @@
         </ul>
       </div> -->
       <div data-role="page" id="search">
-        <div class="ui-field-contain">
-          <input type="search" name="search-field" id="search-field" value="" data-mini="true" placeholder="Search">
+        <div class="app-bar promote-layer">
+          <div id="top" class="app-bar-container">
+            <button id="back-btn"><img src="images/back_arrow.svg" alt="Back"></button>
+            <section class="app-bar-actions">
+            <input type="search" name="search-field" id="search-field" value="" data-mini="true" placeholder="Search">
+            <a href="#search"><button class="search"><img src="images/settings.svg" alt="Search"></button></a>
+            </section>
+          </div>
+        </div>
+        <div class="page-content">
+          <div class="top-pad"></div>
+          <div class="ui-field-contain">
           <div data-role="collapsible" data-collapsed-icon="gear" data-expanded-icon="gear" data-mini="true">
             <h4>Search Options</h4>
             <div data-role="fieldcontain" id="search-options">
@@ -250,6 +264,7 @@
               <ul data-role="listview" id="section-results" data-mini="true"></ul>
             </div>
           </div>
+          </div>
         </div>
         <div id="autoschedule-popup" data-role="popup" class="ui-content">
           <p>Autoschedule course <span id="autoschedule-popup-title"></span>?</p>
@@ -266,19 +281,33 @@
         </div>
       </div>
       <div data-role="page" id="login">
-        <form method="post" data-ajax="false">
+        <p id="login-title">USC Web Registration</p>
+        <form id="login-form" method="post" data-ajax="false">
           <i>Username: </i><input type="text" name="username"/></br>
           <i>Password: </i><input type="password" name="password"/></br>
           <input type="submit" value="Login"/>
         </form>
       </div>
       <div data-role="page" id="course-bin">
-        <div id="course-display"></div>
-        <div id="remove-section-popup" data-role="popup" class="ui-content">
-          <p>Remove this section for <span id="popup-remove-section-course"></span>?</p>
-          <div id="popup-remove-section-tile"></div>
-          <a id="confirm-remove-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
-            <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
+        <div class="app-bar promote-layer">
+          <div class="app-bar-container">
+            <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
+            <h1 class="top-text" class="logo">Course Bin</h1>
+            <section class="app-bar-actions">
+            <!-- Put App Bar Buttons Here -->
+            <a href="#search"><button class="search"><img src="images/search.svg" alt="Search"></button></a>
+            </section>
+          </div>
+        </div>
+        <div class="page-content">
+          <div class="top-pad"></div>
+          <div id="course-display"></div>
+          <div id="remove-section-popup" data-role="popup" class="ui-content">
+            <p>Remove this section for <span id="popup-remove-section-course"></span>?</p>
+            <div id="popup-remove-section-tile"></div>
+            <a id="confirm-remove-section" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-check">Confirm</a>
+              <a data-rel="back" class="ui-btn ui-corner-all ui-btn-inline ui-btn-a ui-btn-icon-left ui-icon-delete">Cancel</a>
+          </div>
         </div>
       </div>
       <div data-role="page" id="export-calendar-page">
