@@ -41,7 +41,7 @@ body.open {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #990000;
+  background-color: #e52e24;
   overflow: hidden;
   z-index: 1;
 }
@@ -275,6 +275,7 @@ body {
 #search-field-outer2 {
   width: 100%;
   padding-right: 60px;
+  padding-left: 60px;
 }
 
 #search-field {
@@ -304,6 +305,7 @@ body {
   color: white;
   font-weight: normal;
   padding-right: 60px;
+  padding-left: 60px;
 }
 #calendar {
   height: 85%;
@@ -444,6 +446,13 @@ table {
   margin: 10px;
 }
 
+.menu-btn {
+  width: 60px;
+  float: left;
+  position: absolute;
+  z-index: 4;
+}
+
 #course-display .section-tile {
   width: 80%;
   margin: 10px auto;
@@ -533,6 +542,13 @@ table {
   }
 }
 
+#back-btn {
+  width: 60px;
+  float: left;
+  position: absolute;
+  z-index: 4;
+}
+
 /** Smaller Screens **/
 @media all and (max-width: 365px) {
   .top-text {
@@ -562,7 +578,7 @@ table {
     max-width: 864px;
     padding: 0 16px;
     box-sizing: border-box;
-    background-color: #990000;
+    background-color: #e52e24;
   }
 
   .app-bar .logo {

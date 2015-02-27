@@ -44,7 +44,7 @@
       <div data-role="page" id="home">
         <div class="app-bar promote-layer">
           <div id="top" class="app-bar-container">
-            <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
+            <button class="menu menu-btn"><img src="images/hamburger.svg" alt="Menu"></button>
             <h1 class="top-text" class="logo">USC <strong>Web Registration</strong></h1>
             <section class="app-bar-actions">
             <!-- Put App Bar Buttons Here -->
@@ -61,9 +61,9 @@
                   <tr>
                     <td class="day-title" id="top-right"></th>
                     <td class="day-title"><p>Mon</p></td>
-                    <td class="day-title"><p>Tues</p></td>
+                    <td class="day-title"><p>Tue</p></td>
                     <td class="day-title"><p>Wed</p></td>
-                    <td class="day-title"><p>Thurs</p></td>
+                    <td class="day-title"><p>Thur</p></td>
                     <td class="day-title"><p>Fri</p></td>
                   </tr>
                   <tr>
@@ -286,17 +286,19 @@
         </div>
       </div>
       <div data-role="page" id="login">
-        <p id="login-title">USC Web Registration</p>
-        <form id="login-form" method="post" data-ajax="false">
-          <i>Username: </i><input type="text" name="username"/></br>
-          <i>Password: </i><input type="password" name="password"/></br>
-          <input type="submit" value="Login"/>
-        </form>
+        <div class="page-content">
+          <p id="login-title">USC Web Registration</p>
+          <form id="login-form" method="post" data-ajax="false">
+            <i>Username: </i><input type="text" name="username"/></br>
+            <i>Password: </i><input type="password" name="password"/></br>
+            <input type="submit" value="Login"/>
+          </form>
+        </div>
       </div>
       <div data-role="page" id="course-bin">
         <div class="app-bar promote-layer">
           <div class="app-bar-container">
-            <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
+            <button class="menu menu-btn"><img src="images/hamburger.svg" alt="Menu"></button>
             <h1 class="top-text" class="logo">Course Bin</h1>
             <section class="app-bar-actions">
             <!-- Put App Bar Buttons Here -->
