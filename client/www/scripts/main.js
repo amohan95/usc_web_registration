@@ -475,7 +475,7 @@ function getCombination(i) {
 }
 
 function createSectionTile(section) {
-  var sectionTile = $('<div>').addClass('section-tile')
+  var sectionTile = $('<div>').addClass('section-tile').addClass(section.conflict ? 'section-tile-conflict' : '')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
     .append($('<p>').append($('<span>').addClass('section-tile-type').text(section.type)
@@ -486,8 +486,7 @@ function createSectionTile(section) {
                          (convertMilitaryTime(section.begin_time) + '-' + '\n' +
                           convertMilitaryTime(section.end_time))))
     .append($('<p>').text(section.day))
-    .append((section.conflict ?
-    "<btn class='ui-btn ui-shadow ui-corner-all ui-icon-alert ui-btn-icon-notext conflict-alert'>Conflict</btn>" : '')))
+    .append($('<p>').text(section.number_registered ? section.number_registered + '/' + section.number_seats : '')))
   .append($('<p>').addClass('section-tile-instructor').text(section.instructor));
 
   sectionTile.click(function(e) {
