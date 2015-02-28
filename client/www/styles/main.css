@@ -544,6 +544,10 @@ table {
   border-bottom: #FFCC00 solid 3px;
   padding: 10px; }
 
+.loading > img {
+  margin: 15px auto;
+  display: block !important; }
+
 .section-tile-info {
   display: inline-block; }
 
