@@ -118,13 +118,13 @@ $(document).on('pagecontainercreate', function() {
         $.mobile.changePage('#login', {allowSamePageTransition: true});
       });
   });
-  $(document).on('swipeleft', '.auto-schedule', function(e) {
+  $(document).on('swipeleft', '.auto-schedule #calendar', function(e) {
     changeCombination(1);
   });
-  $(document).on('swiperight', '.auto-schedule', function(e) {
+  $(document).on('swiperight', '.auto-schedule #calendar', function(e) {
     changeCombination(-1);
   });
-  $(document).on('keydown', '.auto-schedule', function(e) {
+  $(document).on('keydown', '.auto-schedule #calendar', function(e) {
     e.preventDefault();
     switch(e.which) {
       case 37:
@@ -536,11 +536,15 @@ function executeSearch(query_string) {
   if(prevQuery !== null) {
     prevQuery.abort();
   }
-  if(query_string.length > 1) {
-    var parameters = {};
-    $.each($("#search-options input:checked"), function(key, option) {
-      parameters[option.value] = true;
-    });
+
+  var parameters = {};
+  $.each($("#search-options input:checked"), function(key, option) {
+    parameters[option.value] = true;
+  });
+  if(Object.keys(parameters).length == 0) {
+    parameters.default = true;
+  }
+  if(query_string.length > 0) {
     var courseArea = $("#course-results");
     var sectionArea = $("#section-results");
     courseArea.empty();
@@ -571,6 +575,10 @@ function executeSearch(query_string) {
         $('.loading').remove();
       }
     );
+  } else {
+    $('.loading').remove();
+    $('#course-results-count').text('0');
+    $('#section-results-count').text('0');
   }
 }
 
@@ -661,6 +669,7 @@ function retrieveAutoSchedule() {
   sendAuthenticatedRequest(
     'GET', REMOTE_URL + '/auto_schedule/build_combinations/', {},
     function(data) {
+      sessionStorage.getItem('current_combination', 0);
       displayAutoSchedule(data);
     }
   );
