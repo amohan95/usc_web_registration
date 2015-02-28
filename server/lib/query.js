@@ -139,7 +139,8 @@ Query.prototype.executeSearch = function(queries, term, user, callback) {
 Query.prototype.getSectionsForCourse = function(course_id, username, callback) {
   var sections = [];
   var self = this;
-  User.findOne({username: username}).populate('registered_sections scheduled_sections')
+  User.findOne({username: username}).populate('registered_sections')
+  .populate('scheduled_sections')
     .exec(function(err, user) {
     Course.findOne({course_id: course_id}).populate('sections')
     .exec(function(err, doc) {

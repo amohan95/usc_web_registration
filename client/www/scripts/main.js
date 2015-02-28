@@ -20,6 +20,7 @@
 /***
  * Constants
 ***/
+
 var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 // var REMOTE_URL = 'http://10.0.2.2:8000';
 // var REMOTE_URL = 'http://localhost:8000';
@@ -176,17 +177,15 @@ $('#home').on('pagecreate', function() {
       'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
       function(data) {
         $.mobile.changePage('#home', {allowSamePageTransition: true});
-        getCourseBin(false);
       }
     );
   });
   $('#register-sections').click(function(e) {
     e.preventDefault();
     sendAuthenticatedRequest(
-      'POST', REMOTE_URL + '/storage/register_sections',
+      'POST', REMOTE_URL + '/storage/register_sections', {},
       function(data) {
         $.mobile.changePage('#home', {allowSamePageTransition: true});
-        getCourseBin(false);
       }
     );
   });
@@ -632,7 +631,7 @@ function createCourseTile(course) {
   return courseTile;
 };
 
-function sendAuthenticatedRequest(type, url, data, success) {
+function sendAuthenticatedRequest(type, url, data, success, error) {
   return $.ajax({
     type: type,
     url: url,
@@ -641,6 +640,7 @@ function sendAuthenticatedRequest(type, url, data, success) {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('bearer_token'));
     },
     success: success,
+    error: error,
     statusCode: {
       401: function() {
         localStorage.removeItem('bearer_token');
