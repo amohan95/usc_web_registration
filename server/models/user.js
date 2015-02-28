@@ -38,10 +38,14 @@ UserSchema.methods.getBlockedTimes = function(callback) {
   this.populate('registered_sections').populate('scheduled_sections', function(err, doc) {
     var blocked = {};
     doc.registered_sections.forEach(function(section) {
-      section.setConflict(blocked);
+      Section.findOne(section, function(err, sec) {
+        sec.setConflict(blocked);
+      });
     });
     doc.scheduled_sections.forEach(function(section) {
-      section.setConflict(blocked);
+      Section.findOne(section, function(err, sec) {
+        sec.setConflict(blocked);
+      });
     });
     callback(blocked);
   });
