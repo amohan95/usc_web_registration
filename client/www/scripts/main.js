@@ -480,10 +480,11 @@ function getCombination(i) {
   }
 }
 
-function createSectionTile(section) {
+function createSectionTile(section, courseTitle) {
   var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
+    .append(courseTitle ? $('<p>').text(section.course_code) : '')
     .append($('<p>').append($('<span>').addClass('section-tile-type').text(section.type)
     .append($('<span>').addClass('section-tile-code').text("\t" + section.section_code))))
     .append($('<p>').addClass('section-tile-location').text(section.location)))
@@ -539,9 +540,9 @@ function addCourses(courses, courseArea) {
   courseArea.listview('refresh');
 }
 
-function addSections(sections, sectionArea) {
+function addSections(sections, sectionArea, courseTitle) {
   sections.forEach(function(section) {
-    sectionArea.append($('<li>').addClass(section.conflict ? 'section-tile-conflict' : '').append(createSectionTile(section)));
+    sectionArea.append($('<li>').addClass(section.conflict ? 'section-tile-conflict' : '').append(createSectionTile(section, courseTitle)));
   });
 }
 
@@ -580,7 +581,7 @@ function executeSearch(query_string) {
           }
           if(data.sections.length < 500) {
             $('#section-results-count').text(data.sections.length);
-            addSections(data.sections, sectionArea);
+            addSections(data.sections, sectionArea, true);
             sectionArea.listview('refresh');
           } else {
             $('#section-results-count').text('Too Many!');
@@ -624,7 +625,7 @@ function createCourseTile(course) {
         'POST', REMOTE_URL + '/search/get_sections_for_course/', {course_id: course.course_id},
         function(data) {
           if(data.success) {
-            addSections(data.sections, sectionList);
+            addSections(data.sections, sectionList, false);
           }
         }
       );
