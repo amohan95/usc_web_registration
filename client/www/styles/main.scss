@@ -473,6 +473,11 @@ table {
   display: inline-block;
 }
 
+.section-tile-info p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .section-tile-instructor {
   margin: 0;
 }
@@ -678,6 +683,11 @@ table {
 .ui-icon-forbidden:after {
   background-image: url('../images/forbidden.svg');
   background-color: transparent;
+}
+
+#course-display h4 {
+  font-weight: normal;
+  font-size: 18px;
 }
 
 /** Smaller Screens **/
