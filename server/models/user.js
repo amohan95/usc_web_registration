@@ -35,7 +35,6 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.getBlockedTimes = function(callback) {
-  var self = this;
   this.populate('registered_sections').populate('scheduled_sections', function(err, doc) {
     var blocked = {};
     doc.registered_sections.forEach(function(section) {

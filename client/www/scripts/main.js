@@ -95,11 +95,10 @@ $(document).on('pagecontainercreate', function() {
       closeMenu();
     }
   });
-  
+
   $('#auto-schedule').click(function(e) {
     $('#home').addClass('auto-schedule');
     $('#register-sections').hide();
-    $('#class-display .section').remove();
     $.mobile.changePage('#home', {allowSamePageTransition: true});
   });
 
@@ -172,6 +171,7 @@ $('#home').on('pagecreate', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
       function(data) {
+        $.mobile.changePage('#home', {allowSamePageTransition: true});
         getCourseBin(false);
       }
     );
@@ -181,6 +181,7 @@ $('#home').on('pagecreate', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/register_sections',
       function(data) {
+        $.mobile.changePage('#home', {allowSamePageTransition: true});
         getCourseBin(false);
       }
     );
@@ -380,8 +381,8 @@ function displayClass(day, data, type) {
   var offset = cell.position();
   var width = cell.width() + 1;
   var height = duration*(cell.height()+1) + duration -1;
-  var top = offset.top+1;
-  var left = offset.left+1;
+  var top = offset.top;
+  var left = offset.left;
   if(halftime == 30) {
     top += (cell.height()+1)/2;
   }
@@ -430,7 +431,7 @@ function displayCombination(i) {
     if (i >= 0) {
       sessionStorage.setItem('current_combination', i);
       $('#combination-title').text('Combination ' + (i + 1) + ' of ' + num_combinations);
-      $("#class-display .section").remove();
+      $("#class-display .section.section-auto-scheduled").remove();
       autoscheduled_classes = [];
       for (var j = 0; j < current_combination.length; ++j) {
         showSection(section_map[current_combination[j]], 'auto-scheduled');;
@@ -668,6 +669,7 @@ function retrieveAutoSchedule() {
   $('#home').addClass('auto-schedule');
   $('#combination-title').text('');
   $('#auto-schedule-courses').empty();
+  $("#class-display .section.section-auto-scheduled").remove();
   sendAuthenticatedRequest(
     'GET', REMOTE_URL + '/auto_schedule/build_combinations/', {},
     function(data) {
@@ -680,10 +682,17 @@ function retrieveAutoSchedule() {
 function displayAutoSchedule(data) {
   if (Object.keys(data.section_map).length == 0) {
     $('#combination-title').text('Add at least one course to your auto-schedule bin');
+    $('#schedule-auto-schedule').hide();
   } else {
     sessionStorage.setItem('section_map', JSON.stringify(data.section_map));
     sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
     sessionStorage.setItem('num_combinations', data.combinations.length);
+    if (data.combinations.length == 0) {
+      $('#combination-title').text('No valid combinations with your current schedule');
+      $('#schedule-auto-schedule').hide();
+    } else {
+      $('#schedule-auto-schedule').show();
+    }
     displayCombination(getCurrentCombinationIndex());
     var courses = {};
     for (var key in data.section_map) {
@@ -727,8 +736,10 @@ function displayAutoSchedule(data) {
       var course = $('<li>').text(key).click(function(e) {
         if(!$(this).hasClass('expanded')) {
           $(this).addClass('expanded');
+          sections.show();
         } else {
           $(this).removeClass('expanded');
+          sections.hide();
         }
         $(this).children('.sections').slideToggle('fast');
       }).append($('<a>').addClass('ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext').click(
@@ -739,6 +750,7 @@ function displayAutoSchedule(data) {
           $('#auto-schedule-remove-course-popup-title').text(key);
           popup.popup('open');
         })).append(sections);
+      sections.hide();
       $('#auto-schedule-courses').append(course);
     }
   }
