@@ -485,7 +485,12 @@ table {
 .section-tile-time {
   display: inline-block;
   text-align: center;
-  float: right;
+  position: absolute;
+  right: 10%;
+}
+
+.section-tile-time p {
+  margin-top: 5px;
 }
 
 .conflict-alert {
