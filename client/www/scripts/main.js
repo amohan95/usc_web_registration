@@ -75,12 +75,6 @@ $(document).ready(function () {
       }
     }
   });
-  $('#home-menu').click(function() {
-    $('#combination-title').text('');
-    $('#home').removeClass('auto-schedule');
-    $('#class-display .section').remove();
-    getCourseBin(false);
-  });
 });
 
 $(document).on('pagecontainercreate', function() {
@@ -101,10 +95,20 @@ $(document).on('pagecontainercreate', function() {
       closeMenu();
     }
   });
+  
   $('#auto-schedule').click(function(e) {
-    e.preventDefault();
-    retrieveAutoSchedule();
+    $('#home').addClass('auto-schedule');
+    $('#class-display .section').remove();
+    $.mobile.changePage('#home', {allowSamePageTransition: true});
   });
+
+  $('#home-menu').click(function() {
+    $('#combination-title').text('');
+    $('#home').removeClass('auto-schedule');
+    $('#class-display .section').remove();
+    $.mobile.changePage('#home', {allowSamePageTransition: true});
+  });
+
   $('#logout').click(function(e) {
     e.preventDefault();
     sendAuthenticatedRequest(
@@ -144,6 +148,14 @@ $(document).on('pagecreate', '#login', function() {
       }
     });
   });
+});
+
+$('#home').on('pageshow', function() {
+  if(!$('#home').hasClass('auto-schedule')) {
+    getCourseBin(false);
+  } else {
+    retrieveAutoSchedule();
+  }
 });
 
 $('#home').on('pagecreate', function() {
@@ -402,8 +414,8 @@ function displayCombination(i) {
     } else if (i >= num_combinations) {
       i = combinations.length - 1;
     }
+    $('#combination-list').empty();
     if (i >= 0) {
-      $('#combination-list').empty();
       sessionStorage.setItem('current_combination', i);
       $('#combination-title').text('Combination ' + (i + 1) + ' of ' + num_combinations);
       $("#class-display .section").remove();
@@ -634,7 +646,6 @@ function displayCourseBin() {
 
 function retrieveAutoSchedule() {
   $('#home').addClass('auto-schedule');
-  $.mobile.changePage('#home', {allowSamePageTransition: true});
   $('#combination-title').text('');
   $('#auto-schedule-courses').empty();
   sendAuthenticatedRequest(
