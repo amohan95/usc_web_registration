@@ -15,11 +15,7 @@
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
-html,
-button,
-input,
-select,
-textarea {
+html, button, input, select, textarea {
   color: #222; }
 
 body {
@@ -118,8 +114,7 @@ textarea[contenteditable] {
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
  */
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
   clip: auto;
   height: auto;
   margin: 0;
@@ -137,8 +132,7 @@ textarea[contenteditable] {
  * Clearfix helper
  * Used to contain floats: h5bp.com/q
  */
-.clearfix::before,
-.clearfix::after {
+.clearfix::before, .clearfix::after {
   content: "";
   display: table; }
 
@@ -150,17 +144,12 @@ textarea[contenteditable] {
    Theses examples override the primary ('mobile first') styles.
    Modify as content requires.
    ========================================================================== */
-@media only screen and (min-width: 800px) {
-  /* Style adjustments for viewports that meet the condition */ }
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
-  /* Style adjustments for viewports that meet the condition */ }
 /*
  * Visual Style Guide styles
  * Remove if you prefer to use a CSS library, like Bootstrap
  */
 /*@import 'components/components';*/
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -200,9 +189,7 @@ body.open {
   flex-direction: row;
   margin: 0 auto; }
 
-.app-bar.open,
-.app-bar.open ~ main,
-.page-content.open {
+.app-bar.open, .app-bar.open ~ main, .page-content.open {
   -webkit-transform: translate(280px, 0);
   transform: translate(280px, 0); }
 
@@ -272,10 +259,7 @@ body.open {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden; }
 
-.base,
-p,
-ul,
-ol {
+.base, p, ul, ol {
   font-size: 19px; }
 
 .navdrawer-container {
@@ -296,15 +280,11 @@ ol {
   -webkit-transform: translate(0, 0);
   transform: translate(0, 0); }
 
-.app-bar,
-.navdrawer-container.opened,
-.page-content,
-main {
+.app-bar, .navdrawer-container.opened, .page-content, main {
   -webkit-transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out; }
 
-.navdrawer-container h4,
-.navdrawer-container ul li a {
+.navdrawer-container h4, .navdrawer-container ul li a {
   height: 60px;
   padding: 17px 20px;
   line-height: 1.4; }
@@ -427,7 +407,7 @@ body {
   padding: 0;
   padding-right: 10px;
   width: 12%;
-  min-width: 10px;
+  min-width: 30px;
   text-align: right;
   margin-top: 0;
   border: none;
@@ -738,23 +718,18 @@ table {
 @media all and (max-width: 365px) {
   .top-text {
     font-size: 15px; }
-
   .section {
     font-size: 9px; } }
+
 /** Larger Screens - desktops and tablets **/
 @media all and (min-width: 990px) {
   .ui-mobile-viewport {
     margin: 0; }
-
   .app-bar {
     position: relative; }
-
-  .app-bar.open,
-  .app-bar.open ~ main,
-  .page-content.open {
+  .app-bar.open, .app-bar.open ~ main, .page-content.open {
     -webkit-transform: translate(0px, 0);
     transform: translate(0px, 0); }
-
   .app-bar-container {
     display: block;
     height: 60px;
@@ -762,26 +737,21 @@ table {
     padding: 0 16px;
     box-sizing: border-box;
     background-color: #e52e24; }
-
   .app-bar .logo {
     float: left;
     margin: 0;
     padding: 0;
     font-size: 46px; }
-
   .app-bar-actions {
     float: right; }
-
   .app-bar::after {
     content: ' ';
     display: block;
     height: 0;
     overflow: hidden;
     clear: both; }
-
   button.menu {
     display: none; }
-
   .navdrawer-container {
     position: relative;
     width: 100%;
@@ -792,10 +762,8 @@ table {
     -webkit-transition: none;
     transition: none;
     overflow-y: auto; }
-
   .navdrawer-container h4 {
     display: none; }
-
   .navdrawer-container ul {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -805,64 +773,64 @@ table {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row; }
-
   .navdrawer-container ul li {
     border: none; }
-
   main {
     padding-top: 0;
     min-height: initial; }
-
   .page-content {
     max-width: 864px;
     margin: 0 auto;
     position: relative; }
-
   body {
     overflow-y: scroll; }
-
   .section {
     font-size: 14px; } }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 300;
   src: url(../fonts/RobotoCondensed-Light.eot);
-  src: local("Roboto Condensed Light"), local("RobotoCondensed-Light"), url(../fonts/RobotoCondensed-Light.eot) format("embedded-opentype"), url(/fonts/RobotoCondensed-Light.woff) format("woff"); }
+  src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url(../fonts/RobotoCondensed-Light.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-Light.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 400;
   src: url(../fonts/RobotoCondensed-Regular.eot);
-  src: local("Roboto Condensed Regular"), local("RobotoCondensed-Regular"), url(../fonts/RobotoCondensed-Regular.eot) format("embedded-opentype"), url(../fonts/RobotoCondensed-Regular.woff) format("woff"); }
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(../fonts/RobotoCondensed-Regular.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-Regular.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 700;
   src: url(../fonts/RobotoCondensed-Bold.eot);
-  src: local("Roboto Condensed Regular"), local("RobotoCondensed-Bold"), url(../fonts/RobotoCondensed-Bold.eot) format("embedded-opentype"), url(../fonts/RobotoCondensed-Bold.woff) format("woff"); }
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Bold'), url(../fonts/RobotoCondensed-Bold.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-Bold.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 300;
   src: url(../fonts/RobotoCondensed-LightItalic.eot);
-  src: local("Roboto Condensed Light Italic"), local("RobotoCondensed-LightItalic"), url(../fonts/RobotoCondensed-LightItalic.eot) format("embedded-opentype"), url(../fonts/RobotoCondensed-LightItalic.woff) format("woff"); }
+  src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url(../fonts/RobotoCondensed-LightItalic.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-LightItalic.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 400;
   src: url(../fonts/RobotoCondensed-Italic.eot);
-  src: local("Roboto Condensed Italic"), local("RobotoCondensed-Italic"), url(../fonts/RobotoCondensed-Italic.eot) format("embedded-opentype"), url(../fonts/RobotoCondensed-Italic.woff) format("woff"); }
+  src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url(../fonts/RobotoCondensed-Italic.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-Italic.woff) format('woff'); }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: italic;
   font-weight: 700;
   src: url(../fonts/RobotoCondensed-BoldItalic.eot);
-  src: local("Roboto Condensed Bold Italic"), local("RobotoCondensed-BoldItalic"), url(../fonts/RobotoCondensed-BoldItalic.eot) format("embedded-opentype"), url(../fonts/RobotoCondensed-BoldItalic.woff) format("woff"); }
+  src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url(../fonts/RobotoCondensed-BoldItalic.eot) format('embedded-opentype'), url(../fonts/RobotoCondensed-BoldItalic.woff) format('woff'); }
+
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 400;
   src: url(../fonts/Raleway-Regular.ttf); }
-
-/*# sourceMappingURL=main.css.map */
