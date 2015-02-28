@@ -474,6 +474,10 @@ table {
   display: block !important;
 }
 
+.ui-icon-loading {
+  background: url(../images/ajax-loader.gif);
+}
+
 .section-tile-info {
   display: inline-block;
 }

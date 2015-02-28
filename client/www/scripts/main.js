@@ -252,18 +252,22 @@ $(document).on('pagecreate', '#search', function() {
   });
 
   $('#confirm-add-autoschedule').click(function() {
+    showLoading()
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/auto_schedule/add_course/', {course_id: $('#autoschedule-popup').data('course-id')},
       function(data) {
+        hideLoading();
         $('#autoschedule-popup').popup('close');
       }
     );
   });
 
   $('#confirm-schedule-section').click(function() {
+    showLoading();
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/schedule_section/', {section_id: $('#popup-section-tile > div').data('section-id')},
       function(data) {
+        hideLoading();
         $('#schedule-section-popup').popup('close');
       }
     );
@@ -274,18 +278,22 @@ $(document).on('pagecreate', '#course-bin', function() {
   $('.menu').removeClass('ui-btn').removeClass('ui-shadow').removeClass('ui-corner-all');
   $('.search').removeClass('ui-btn').removeClass('ui-shadow').removeClass('ui-corner-all');
   $('#confirm-unschedule-section').click(function() {
+    showLoading();
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/unschedule_section', {section_id: $('#popup-unschedule-section-tile > div').data('section-id')},
       function(data) {
+        hideLoading();
         $('#unschedule-section-popup').popup('close');
         getCourseBin(true);
       }
     );
   });
   $('#confirm-unregister-section').click(function() {
+    showLoading();
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/unregister_sections', {course_code: $('#popup-unregister-section-tile > div').data('course-code')},
       function(data) {
+        hideLoading();
         $('#unregister-section-popup').popup('close');
         getCourseBin(true);
       }
@@ -313,14 +321,21 @@ function convertMilitaryTime(time_string) {
   return hrs + ':' + mins + ' ' + amPm;
 }
 
-function getCourseBin(use_bin) {
+function showLoading() {
   $.mobile.loading('show', {
     theme: $.mobile.loader.prototype.options.theme,
     text: '',
     textVisible: false,
     textonly: false
   });
+}
 
+function hideLoading() {
+  $.mobile.loading('hide');
+}
+
+function getCourseBin(use_bin) {
+  showLoading();
   if (use_bin) {
     sendAuthenticatedRequest(
       'GET', REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
