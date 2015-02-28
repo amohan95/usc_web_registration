@@ -19,7 +19,7 @@
 
 /***
  * Constants
- ***/
+***/
 // var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 // var REMOTE_URL = 'http://10.0.2.2:8000';
 var REMOTE_URL = 'http://localhost:8000';
@@ -697,7 +697,17 @@ function displayAutoSchedule(data) {
     for (var key in courses) {
       var sections = $('<ul>').addClass('sections');
       courses[key].forEach(function(section) {
-        sections.append($('<li>').text(section.section_code).append($('<a>').addClass('ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext').click(
+        var lab = '';
+        if (section.type == "Lab") {
+          lab = " Lab";
+        }
+        console.log(section.section_code);
+        console.log(section.begin_time);
+        console.log(section.end_time);
+        sections.append($('<li>').append($('<p>').text(section.section_code + lab + "\n" + (section.begin_time === 'TBA' ? 'TBA' :
+                          section.begin_time == null ? '' :
+                         (convertMilitaryTime(section.begin_time) + '-' +
+                          convertMilitaryTime(section.end_time))) + "\n" + section.day)).append($('<a>').addClass('ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext').click(
           function(e) {
             e.stopPropagation();
             var popup = $('#auto-schedule-include-section-popup').popup();
