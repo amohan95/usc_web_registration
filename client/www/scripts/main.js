@@ -20,9 +20,9 @@
 /***
  * Constants
  ***/
-// var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 // var REMOTE_URL = 'http://10.0.2.2:8000';
-var REMOTE_URL = 'http://localhost:8000';
+// var REMOTE_URL = 'http://localhost:8000';
 
 /***
  * PushPlugin
@@ -373,27 +373,27 @@ function displayClass(day, data, type) {
   if(halftime == 30) {
     top += (cell.height()+1)/2;
   }
+  var lab = "";
+  if (data.type == "Lab") {
+    lab = "L";
+  }
   $("#class-display").append($("<div>").addClass('section').addClass('section-' + type)
     .css("width",width).css("height",height)
     .offset({top:top, left:left})
-    .text(data.course_code + (data.type ? '\n' + data.type : '') + '\n' + data.section_code));
+    .text(data.course_code + lab + '\n' + data.section_code));
 }
 
 //Returns class duration
 function calculateClassTime(data) {
   var starttime = parseInt(data.begin_time.substring(0,2))-5;
   var starthalftime = parseInt(data.begin_time.substring(3,5));
-  if(starthalftime == 30) {
-    starttime += .5;
-  }
+    starttime += starthalftime/60.0;
   var endtime = parseInt(data.end_time.substring(0,2))-5;
   var endhalftime = parseInt(data.end_time.substring(3,5));
-  if(endhalftime == 20) {
-    endtime += .5;
-  } else if(endhalftime == 50) {
-    endtime += 1;
+    endtime += endhalftime/60.0;
+  if (endhalftime == '20' || endhalftime == '50') {
+    endtime += .1;
   }
-
   return endtime - starttime;
 }
 

@@ -308,7 +308,7 @@ body {
   padding-left: 60px;
 }
 #calendar {
-  height: 85%;
+  height: 75%;
   width: 100%;
   margin: 20px auto;
   margin-bottom: 0;
@@ -403,7 +403,7 @@ table {
 .ui-listview>.ui-li-static {
   white-space: normal;
   list-style-type: none;
-  width: 80%;
+  width: 90%;
   margin: 10px auto;
   box-shadow: 2px 2px 5px #888888;
   background-color: white;
@@ -422,6 +422,8 @@ table {
 .course-tile-title {
   display: inline-block;
   width: 90%;
+  padding: 20px;
+  border-bottom: #FFCC00 solid 1px;
 }
 
 .course-tile-code {
@@ -432,18 +434,23 @@ table {
   text-align: left;
 }
 
+.course-li {
+  padding: 0 !important;
+}
+
 .section-list {
   list-style-type: none;
-  padding: 10px;
+  padding: 0;
 }
 
 .section-list li {
-  border-bottom: 1px solid black;
-  background: #f9f9f9;
+  border-bottom: 1px solid #9C9898;
+  background: white;
 }
 
 .section-tile {
-  margin: 10px;
+  margin: 15px;
+  min-height: 90px;
 }
 
 .menu-btn {
@@ -496,11 +503,11 @@ table {
 }
 
 .section-registered {
-  background-color: #A3C00F;
+  background-color: #4cd964;
 }
 
 .section-auto-scheduled {
-  background-color: #69D0F5;
+  background-color: #5ac8fa;
 }
 
 .section {
@@ -564,10 +571,69 @@ table {
   z-index: 4;
 }
 
+.ui-collapsible-inset .ui-collapsible-heading .ui-btn {
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.ui-btn.ui-checkbox-on::after {
+  background-color: #FFCC00;
+}
+
+.ui-btn.ui-checkbox-on {
+  border: none;
+  font-weight: normal;
+  font-size: 15px;
+  background-color: #f9f9f9;
+}
+
+.ui-btn.ui-checkbox-off {
+  border: none;
+  font-weight: normal;
+  font-size: 15px;
+  background-color: #f9f9f9;
+}
+
+.ui-block-a, .ui-block-b {
+  margin-top: 5px;
+}
+
+.ui-collapsible-heading {
+  border-radius: 0;
+}
+
+.ui-collapsible-inset .ui-collapsible-heading .ui-btn {
+  background-color: transparent;
+}
+
+#search h7 {
+  font-size: 18px;
+}
+
+.btn-special {
+  text-decoration: none;
+  color: black !important;
+  font-weight: normal !important;
+  border-radius: 3px;
+  border: solid 1px #e52e24;
+  padding: 10px;
+}
+
+.btn-special:active {
+  background-color: #CCCCCC;
+}
+
+.center-text {
+  text-align: center;
+}
+
 /** Smaller Screens **/
 @media all and (max-width: 365px) {
   .top-text {
     font-size: 15px;
+  }
+  .section {
+    font-size: 9px;
   }
 }
 
