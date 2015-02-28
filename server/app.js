@@ -58,10 +58,10 @@ passport.use(new BearerStrategy({}, function(token, done) {
 
 var User = require('./models/user').User;
 User.findOne({username: 'admin'}, function(err, user) {
-    if (!user) {
-      user = new User({username: 'admin', password: 'password'});
-      user.save();
-    }
+  if (!user) {
+    user = new User({username: 'admin', password: 'password'});
+    user.save();
+  }
 });
 
 var app = express();
