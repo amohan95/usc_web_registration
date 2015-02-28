@@ -707,16 +707,13 @@ function displayAutoSchedule(data) {
         if (section.type == "Lab") {
           lab = " Lab";
         }
-        console.log(section.section_code);
-        console.log(section.begin_time);
-        console.log(section.end_time);
-        sections.append($('<li>').append($('<p>').text(section.section_code + lab + "\n" + (section.begin_time === 'TBA' ? 'TBA':
+        sections.append($('<li>').data('course-id', data.course_map[key].course_id).append($('<p>').text(section.section_code + lab + "\n" + (section.begin_time === 'TBA' ? 'TBA':
                          (convertMilitaryTime(section.begin_time) + '-' +
                           convertMilitaryTime(section.end_time))) + "\n" + section.day)).append($('<a>').addClass('ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext').click(
           function(e) {
             e.stopPropagation();
             var popup = $('#auto-schedule-include-section-popup').popup();
-            popup.data('course-id', data.course_map[key].course_id);
+            popup.data('course-id', $(this).parent().data('course_id'));
             popup.data('section-id', section.section_id);
             $('#auto-schedule-include-section-popup-title').text(section.section_code);
             popup.popup('open');
@@ -729,7 +726,7 @@ function displayAutoSchedule(data) {
               popup.popup('open');
             })));
       });
-      var course = $('<li>').text(key).click(function(e) {
+      var course = $('<li>').data('course-id', data.course_map[key].course_id).data('course-code', key).text(key).click(function(e) {
         if(!$(this).hasClass('expanded')) {
           $(this).addClass('expanded');
           sections.show();
@@ -742,8 +739,8 @@ function displayAutoSchedule(data) {
         function(e) {
           e.stopPropagation();
           var popup = $('#auto-schedule-remove-course-popup').popup();
-          popup.data('course-id', data.course_map[key].course_id);
-          $('#auto-schedule-remove-course-popup-title').text(key);
+          popup.data('course-id', $(this).parent().data('course-id'));
+          $('#auto-schedule-remove-course-popup-title').text($(this).parent().data('course-code'));
           popup.popup('open');
         })).append(sections);
       sections.hide();
