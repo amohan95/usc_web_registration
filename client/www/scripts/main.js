@@ -170,15 +170,16 @@ $('#home').on('pagecreate', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
       function(data) {
-        // UPDATE CALENDAR DISPLAY?
-      });
+        getCourseBin(false);
+      }
+    );
   });
   $('#register-sections').click(function(e) {
     e.preventDefault();
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/register_sections',
       function(data) {
-        
+        getCourseBin(false);
       }
     );
   });
@@ -298,6 +299,13 @@ function convertMilitaryTime(time_string) {
 }
 
 function getCourseBin(use_bin) {
+  $.mobile.loading('show', {
+    theme: $.mobile.loader.prototype.options.theme,
+    text: '',
+    textVisible: false,
+    textonly: false
+  });
+
   if (use_bin) {
     sendAuthenticatedRequest(
       'GET', REMOTE_URL + '/storage/get_user_sections/', {term: '20151'},
@@ -305,6 +313,7 @@ function getCourseBin(use_bin) {
         scheduled_classes = data.scheduled;
         registered_classes = data.registered;
         displayCourseBin();
+        $.mobile.loading('hide');
       }
     );
   } else {
@@ -314,6 +323,7 @@ function getCourseBin(use_bin) {
         scheduled_classes = data.scheduled;
         registered_classes = data.registered;
         showClassCal(data);
+        $.mobile.loading('hide');
       }
     );
   }
