@@ -558,7 +558,7 @@ function executeSearch(query_string) {
   if(Object.keys(parameters).length == 0) {
     parameters.default = true;
   }
-  if(query_string.length > 0) {
+  if(query_string.length > 1) {
     var courseArea = $("#course-results");
     var sectionArea = $("#section-results");
     courseArea.empty();
