@@ -382,7 +382,7 @@ function displayClass(day, data, type) {
   var width = cell.width() + 1;
   var height = duration*(cell.height()+1) + duration -1;
   var top = offset.top;
-  var left = offset.left;
+  var left = offset.left +1;
   if(halftime == 30) {
     top += (cell.height()+1)/2;
   }
