@@ -662,10 +662,11 @@ table {
   font-weight: normal !important;
   border-radius: 3px;
   border: solid 1px #e52e24;
-  padding: 10px; }
+  padding: 10px;
+  background-color: white; }
 
 .btn-special:active {
-  background-color: #CCCCCC; }
+  background-color: inherit; }
 
 .center-text {
   text-align: center; }

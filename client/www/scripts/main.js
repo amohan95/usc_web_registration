@@ -20,9 +20,9 @@
 /***
  * Constants
  ***/
-var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+// var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 // var REMOTE_URL = 'http://10.0.2.2:8000';
-// var REMOTE_URL = 'http://localhost:8000';
+var REMOTE_URL = 'http://localhost:8000';
 
 /***
  * PushPlugin
@@ -98,6 +98,7 @@ $(document).on('pagecontainercreate', function() {
   
   $('#auto-schedule').click(function(e) {
     $('#home').addClass('auto-schedule');
+    $('#register-sections').hide();
     $('#class-display .section').remove();
     $.mobile.changePage('#home', {allowSamePageTransition: true});
   });
@@ -105,6 +106,7 @@ $(document).on('pagecontainercreate', function() {
   $('#home-menu').click(function() {
     $('#combination-title').text('');
     $('#home').removeClass('auto-schedule');
+    $('#register-sections').show();
     $('#class-display .section').remove();
     $.mobile.changePage('#home', {allowSamePageTransition: true});
   });
@@ -415,6 +417,7 @@ var redirectLogin = function(e, data) {
 };
 
 function displayCombination(i) {
+  console.log("displaying combination");
   var current_combination = getCombination(i);
   if (sessionStorage.getItem('section_map') && current_combination) {
     var section_map = JSON.parse(sessionStorage.getItem('section_map'));
@@ -431,7 +434,7 @@ function displayCombination(i) {
       $("#class-display .section").remove();
       autoscheduled_classes = [];
       for (var j = 0; j < current_combination.length; ++j) {
-        showSection(section_map[current_combination[j]], 'auto-scheduled');
+        showSection(section_map[current_combination[j]], 'auto-scheduled');;
         autoscheduled_classes.push(section_map[current_combination[j]]);
       }
       for (var i = 0; i < scheduled_classes.length; i++) {
