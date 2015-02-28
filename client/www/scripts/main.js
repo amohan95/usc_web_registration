@@ -171,6 +171,7 @@ $('#home').on('pagecreate', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
       function(data) {
+        $.mobile.changePage('#home', {allowSamePageTransition: true});
         getCourseBin(false);
       }
     );
@@ -180,6 +181,7 @@ $('#home').on('pagecreate', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/register_sections',
       function(data) {
+        $.mobile.changePage('#home', {allowSamePageTransition: true});
         getCourseBin(false);
       }
     );
