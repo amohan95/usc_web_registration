@@ -176,7 +176,13 @@ $('#home').on('pagecreate', function() {
     sendAuthenticatedRequest(
       'POST', REMOTE_URL + '/storage/schedule_sections', {section_ids: getCombination(getCurrentCombinationIndex())},
       function(data) {
-        $.mobile.changePage('#home', {allowSamePageTransition: true});
+        sendAuthenticatedRequest(
+          'POST', REMOTE_URL + '/auto_schedule/clear_courses', {},
+          function(data) {
+            $('#home').removeClass('auto-schedule');
+            $.mobile.changePage('#home', {allowSamePageTransition: true});
+          }
+        );
       }
     );
   });

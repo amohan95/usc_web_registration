@@ -66,4 +66,11 @@ router.get('/build_combinations', passport.authenticate('bearer'),  populateAuto
 	});
 });
 
+router.post('/clear_courses', passport.authenticate('bearer'), populateAutoSchedule, function(req, res, next) {
+	req.user.auto_schedule.courses = [];
+	req.user.auto_schedule.save(function(){
+		res.send({success: true});
+	});
+});
+
 module.exports = router;
