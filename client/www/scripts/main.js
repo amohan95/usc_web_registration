@@ -417,7 +417,6 @@ var redirectLogin = function(e, data) {
 };
 
 function displayCombination(i) {
-  console.log("displaying combination");
   var current_combination = getCombination(i);
   if (sessionStorage.getItem('section_map') && current_combination) {
     var section_map = JSON.parse(sessionStorage.getItem('section_map'));
@@ -672,7 +671,7 @@ function retrieveAutoSchedule() {
   sendAuthenticatedRequest(
     'GET', REMOTE_URL + '/auto_schedule/build_combinations/', {},
     function(data) {
-      sessionStorage.getItem('current_combination', 0);
+      sessionStorage.setItem('current_combination', 0);
       displayAutoSchedule(data);
     }
   );
