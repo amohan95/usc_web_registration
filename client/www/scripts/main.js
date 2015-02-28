@@ -293,6 +293,9 @@ $(document).on('pagecreate', '#home', function() {
  * Functions
  ***/
 function convertMilitaryTime(time_string) {
+  if(time_string == null) {
+    return "";
+  }
   var cIndex = time_string.indexOf(':');
   var hrs = parseInt(time_string.substring(0, cIndex));
   var amPm = hrs > 11 ? 'PM' : 'AM';
@@ -625,15 +628,6 @@ function createCourseTile(course) {
   return courseTile;
 };
 
-function convertMilitaryTime(time_string) {
-  var cIndex = time_string.indexOf(':');
-  var hrs = parseInt(time_string.substring(0, cIndex));
-  var amPm = hrs > 11 ? 'PM' : 'AM';
-  hrs = ((hrs + 11) % 12) + 1;
-  var mins = time_string.substring(cIndex + 1, cIndex + 3);
-  return hrs + ':' + mins + ' ' + amPm;
-}
-
 function sendAuthenticatedRequest(type, url, data, success) {
   return $.ajax({
     type: type,
@@ -713,8 +707,7 @@ function displayAutoSchedule(data) {
         console.log(section.section_code);
         console.log(section.begin_time);
         console.log(section.end_time);
-        sections.append($('<li>').append($('<p>').text(section.section_code + lab + "\n" + (section.begin_time === 'TBA' ? 'TBA' :
-                          section.begin_time == null ? '' :
+        sections.append($('<li>').append($('<p>').text(section.section_code + lab + "\n" + (section.begin_time === 'TBA' ? 'TBA':
                          (convertMilitaryTime(section.begin_time) + '-' +
                           convertMilitaryTime(section.end_time))) + "\n" + section.day)).append($('<a>').addClass('ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext').click(
           function(e) {
