@@ -680,12 +680,16 @@ function retrieveAutoSchedule() {
 function displayAutoSchedule(data) {
   if (Object.keys(data.section_map).length == 0) {
     $('#combination-title').text('Add at least one course to your auto-schedule bin');
+    $('#schedule-auto-schedule').hide();
   } else {
     sessionStorage.setItem('section_map', JSON.stringify(data.section_map));
     sessionStorage.setItem('combinations', JSON.stringify(data.combinations));
     sessionStorage.setItem('num_combinations', data.combinations.length);
     if (data.combinations.length == 0) {
       $('#combination-title').text('No valid combinations with your current schedule');
+      $('#schedule-auto-schedule').hide();
+    } else {
+      $('#schedule-auto-schedule').show();
     }
     displayCombination(getCurrentCombinationIndex());
     var courses = {};
