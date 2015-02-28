@@ -475,7 +475,7 @@ function getCombination(i) {
 }
 
 function createSectionTile(section) {
-  var sectionTile = $('<div>').addClass('section-tile').addClass(section.conflict ? 'section-tile-conflict' : '')
+  var sectionTile = $('<div>').addClass('section-tile')
   .attr('data-section-id', section.section_id).attr('data-course-code', section.course_code)
   .append($('<div>').addClass('section-tile-info')
     .append($('<p>').append($('<span>').addClass('section-tile-type').text(section.type)
@@ -535,7 +535,7 @@ function addCourses(courses, courseArea) {
 
 function addSections(sections, sectionArea) {
   sections.forEach(function(section) {
-    sectionArea.append($('<li>').append(createSectionTile(section)));
+    sectionArea.append($('<li>').addClass(section.conflict ? 'section-tile-conflict' : '').append(createSectionTile(section)));
   });
 }
 

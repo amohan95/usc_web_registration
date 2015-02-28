@@ -527,7 +527,7 @@ table {
   background: white; }
 
 .section-tile {
-  margin: 15px;
+  padding: 15px;
   min-height: 90px; }
 
 .menu-btn {
@@ -568,7 +568,7 @@ table {
   color: red; }
 
 .section-tile-conflict {
-  background-color: #D1D1D1; }
+  background-color: #D1D1D1 !important; }
 
 #popup-section-tile p {
   font-size: 16px; }
