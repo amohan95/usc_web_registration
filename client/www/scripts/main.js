@@ -20,9 +20,10 @@
 /***
  * Constants
 ***/
-// var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+
+var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 // var REMOTE_URL = 'http://10.0.2.2:8000';
-var REMOTE_URL = 'http://localhost:8000';
+// var REMOTE_URL = 'http://localhost:8000';
 
 /***
  * PushPlugin
