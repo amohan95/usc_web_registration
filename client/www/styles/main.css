@@ -722,6 +722,30 @@ table {
   font-weight: normal;
   font-size: 18px; }
 
+#login .page-content {
+  background-color: white; }
+
+#login {
+  text-shadow: none;
+  color: #e52e24; }
+
+#login-title {
+  padding-top: 30%;
+  color: #e52e24;
+  font-size: 40px;
+  font-family: 'Raleway';
+  margin-bottom: 0; }
+
+#web-reg-title {
+  color: #FFCC00;
+  text-align: center;
+  margin-top: 5px; }
+
+#login-btn .ui-btn {
+  font-weight: normal;
+  background-color: white;
+  border-color: #e52e24; }
+
 /** Smaller Screens **/
 @media all and (max-width: 365px) {
   .top-text {
