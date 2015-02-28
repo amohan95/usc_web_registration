@@ -20,9 +20,9 @@
 /***
  * Constants
 ***/
-// var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
+var REMOTE_URL = 'https://safe-hollows-1871.herokuapp.com';
 // var REMOTE_URL = 'http://10.0.2.2:8000';
-var REMOTE_URL = 'http://localhost:8000';
+// var REMOTE_URL = 'http://localhost:8000';
 
 /***
  * PushPlugin
@@ -119,6 +119,10 @@ $(document).on('pagecontainercreate', function() {
         $.mobile.changePage('#login', {allowSamePageTransition: true});
       });
   });
+  $.event.special.swipe.scrollSupressionThreshold = 10; // More than this horizontal displacement, and we will suppress scrolling.
+  $.event.special.swipe.horizontalDistanceThreshold = 30; // Swipe horizontal displacement must be more than this.
+  $.event.special.swipe.durationThreshold = 500;  // More time than this, and it isn't a swipe.
+  $.event.special.swipe.verticalDistanceThreshold = 75; 
   $(document).on('swipeleft', '.auto-schedule #calendar', function(e) {
     changeCombination(1);
   });
@@ -480,7 +484,7 @@ function createSectionTile(section) {
     .append($('<p>').addClass('section-tile-location').text(section.location)))
   .append($('<div>').addClass('section-tile-time')
     .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
-                         (convertMilitaryTime(section.begin_time) + '-' +
+                         (convertMilitaryTime(section.begin_time) + '-' + '\n' +
                           convertMilitaryTime(section.end_time))))
     .append($('<p>').text(section.day))
     .append((section.conflict ?
@@ -507,8 +511,8 @@ function createCourseBinTile(section, type) {
     .append($('<p>').addClass('section-tile-code').text(section.section_code))
     .append($('<p>').addClass('section-tile-location').text(section.location)))
   .append($('<div>').addClass('section-tile-time')
-    .append($('<p>').text(section.begin_time === 'TBA' ? 'TBA' :
-                         (convertMilitaryTime(section.begin_time) + '-' +
+    .append($('<p>').html(section.begin_time === 'TBA' ? 'TBA' :
+                         (convertMilitaryTime(section.begin_time) + '-' + '<br/>' +
                           convertMilitaryTime(section.end_time))))
     .append($('<p>').text(section.day)))
   .append($('<p>').addClass('section-tile-instructor').text(section.instructor));
